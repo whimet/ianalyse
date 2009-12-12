@@ -36,6 +36,7 @@
     font-size:12px;
     height:39px;
     padding-left:6px;
+    _width:300px;
 }
 .userbox .inner {
     -moz-background-clip:border;
