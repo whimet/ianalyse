@@ -178,6 +178,7 @@ class TopNStatistics :
         element1.values =  [passed, failed]
         element1.type = "pie"
         element1.alpha = 0.6
+        element1.animate = False
         element1.angle = 35
         element1.tip = '#val# of #total#<br>#percent# of 100%';
         element1.colours = ['#1C9E05','#FF368D']
