@@ -200,7 +200,7 @@ class TopNStatistics :
         
 
         chart.elements = [element]
-        chart.y_axis = { "min": 0, "max": max_time + 10, "steps": 50}
+        chart.y_axis = { "min": 0, "max": max_time + 10, "steps": max_time / 10}
         chart.x_axis = {"labels" : {"labels" : labels, "visible-steps": 2, "rotate": 90}}
         return chart.create()
 
@@ -252,7 +252,7 @@ class TopNStatistics :
         chart.elements = [element]
         all_percentage = []
 
-        chart.y_axis   = { "min": 0, "max": max_time + 10, "steps": 50,  "labels" : {"steps" : 20}}
+        chart.y_axis   = { "min": 0, "max": max_time + 10, "steps": max_time / 10}
         chart.x_axis   = { "min": min_date, "max": max_date, "steps": 86400,
                            "labels": { "text": "#date:l jS, M Y#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
         chart.title    = { "text": "Build time over time."}
