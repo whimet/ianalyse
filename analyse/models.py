@@ -2,10 +2,9 @@ from django.db import connection, models,settings
 import string
 from datetime import datetime, timedelta
 import os
-import util.datetimeutils
+from util.datetimeutils import *
 from analyse.openFlashChart import Chart
 import re
-import util.datetimeutils
 import analyse.ordered_dic
 from analyse.config import Config, Configs
 
@@ -34,7 +33,7 @@ class Build(models.Model):
         return self.name + " << " + str(self.is_passed) + " << " + str(self.start_time) + "\n"
 
     def day_of_start(self):
-        return util.datetimeutils.begining_of_the_day(self.start_time)
+        return begining_of_the_day(self.start_time)
 
     @staticmethod
     def from_xml(input):
@@ -139,16 +138,28 @@ class Build(models.Model):
         return
 
     def need_attention(self):
-        now = datetime.now()
-        if self.last_pass != None and now - self.last_pass > timedelta(hours=24):
+        if self.is_last_pass_old():
             return True
         
-        if self.last_build != None and now - self.last_build > timedelta(hours=24):
+        if self.is_last_build_old():
             return True
         
         return False
+    
+    def is_last_pass_old(self):
+        now = datetime.now()
+        return self.last_pass != None and now - self.last_pass > timedelta(hours=24)
         
+    def is_last_build_old(self):
+        now = datetime.now()
+        return self.last_build != None and now - self.last_build > timedelta(hours=24)
 
+    def last_build_t(self):
+        return time_delta_as_str(datetime.now() - self.last_build)
+
+    def last_pass_t(self):
+        return time_delta_as_str(datetime.now() - self.last_pass)
+        
 class TopNStatistics :
     def __init__(self, project_id=None, builds = list()):
         self.project_id = project_id
@@ -265,6 +276,20 @@ class Builds:
     def __len__(self):
         return len(self.builds)
 
+    def __iter__(self):
+       return self.builds.__iter__()
+
+    def __getitem__(self, index):
+        return self.builds.__getitem__(index)
+
+    
+    def last(self):
+        size = len(self.builds)
+        if size == 0 :
+            return None
+        else :
+            return self.builds[size - 1]
+
     def append(self, build):
         self.builds.append(build)
         
@@ -291,7 +316,7 @@ class Builds:
         max_date = None;
 
         for day_of_start in grped_builds.order() :
-            timestamp = int(util.datetimeutils.to_unix_timestamp(day_of_start));
+            timestamp = int(to_unix_timestamp(day_of_start));
             pass_rate = grped_builds[day_of_start].pass_rate()
             arry.append({"x" : timestamp, "y" : pass_rate * 100})
             if min_date == None or timestamp < min_date:
@@ -308,7 +333,7 @@ class Builds:
         max_date = None;
         max_time = None
         for build in self.builds :
-            timestamp = int(util.datetimeutils.to_unix_timestamp(build.start_time));
+            timestamp = int(to_unix_timestamp(build.start_time));
             arry.append({"x" : timestamp, "y" : build.build_time})
             if min_date == None or timestamp < min_date:
                 min_date = timestamp;
@@ -326,7 +351,7 @@ class Builds:
         labels = []
         max_time = None
         for build in self.builds :
-            timestamp = int(util.datetimeutils.to_unix_timestamp(build.start_time));
+            timestamp = int(to_unix_timestamp(build.start_time));
             color = None;
             if build.is_passed:
                 color = '#1C9E05'
@@ -371,7 +396,7 @@ class Builds:
             pattern = "log.*.xml"
 
         Build.objects.all().delete()
-           
+        builds_obj = Builds()  
         builds = list();
            
         for eachfile in Builds.filter(config.logdir(), required_builds):
@@ -385,7 +410,8 @@ class Builds:
                     print e
                     pass
 
-        return builds;
+        builds_obj.builds = builds
+        return builds_obj;
 
     @staticmethod  
     def select_values_from(config, pattern, required_builds):

@@ -12,6 +12,20 @@ def more_attention_icon(builds, config):
     else :
         return ""    
     
+def last_build_span(builds):
+    build = builds.last()
+    if build.is_last_build_old():
+        return '<span style="color:red;font-weight:bold">' + build.last_build_t() + "</span>"
+    else :
+        return '<span>' + build.last_build_t() + "</span>"
+            
+def last_pass_span(builds):
+    build = builds.last()
+    if build.is_last_pass_old():
+        return '<span style="color:red;font-weight:bold">' + build.last_pass_t() + "</span>"
+    else :
+        return '<span>' + build.last_pass_t()  + "</span>"   
+    
 def build_status_icon(builds, config):
     "Display the icon for whether the build pass or not"
     build = builds.get(config)
@@ -36,18 +50,11 @@ def build_status_class(builds, config):
     else :
         return 'now_failed'
 
-def from_pass_build(builds, config):
-    "Display the time between this build the last passed build"
-    return 'hha'
-
-def from_last_build(builds, config):
-    "Display the time between this build the last build"
-    return 'hha'
 
 register.simple_tag(build_status_icon)
-register.simple_tag(from_pass_build)
-register.simple_tag(from_last_build)
 register.simple_tag(build_status_class)
 register.simple_tag(more_attention_icon)
+register.simple_tag(last_pass_span)
+register.simple_tag(last_build_span)
 
 

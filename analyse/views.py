@@ -48,9 +48,12 @@ def show(request):
     if not config.has_result() :
         return redirect('setup.html?id=' + urlquote(project_id))
 
+    builds = Builds.create_builds(config, None, config.builds())
     over_all_result = {
         "project_id" : project_id,
+        "builds" : builds
     }
+
     Build.view_all(project_id, over_all_result)                                                                  
     return render_to_response('analyse/show.html', Context(over_all_result), context_instance = RequestContext(request))
 
