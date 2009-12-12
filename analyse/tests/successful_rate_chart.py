@@ -4,7 +4,7 @@ import os
 from django.conf import settings
 from datetime import datetime
 import django.test.testcases
-import	cjson
+import json
 from analyse.tests.testutil import TestUtils
 
 class SuccessfulRateChartTests(TestCase):
@@ -19,8 +19,7 @@ class SuccessfulRateChartTests(TestCase):
         
         ndaysStat = TopNStatistics('connectfour4', builds)
         json_str = ndaysStat.successful_rate()
-        json_obj = cjson.decode(json_str)
-
+        json_obj = json.loads(json_str)
 
         self.assertEqual(2, len(json_obj['elements'][0]['values']));
 

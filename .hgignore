@@ -6,3 +6,5 @@ syntax: glob
 *.pyc
 *.bak
 results
+**/._*
+._*
