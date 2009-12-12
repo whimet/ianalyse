@@ -450,7 +450,7 @@ class Builds:
         writer.writerows(arrays)
 
     @staticmethod
-    def latest_builds(configs = Configs()):
+    def latest_builds(configs):
         builds = {}
         for config in configs.items() :
             builds[config[0]] = Build.from_file(config[1].latest_log())

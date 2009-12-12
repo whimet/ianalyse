@@ -28,6 +28,7 @@ def last_pass_span(builds):
     
 def build_status_icon(builds, config):
     "Display the icon for whether the build pass or not"
+
     build = builds.get(config)
 
     if build == None:
