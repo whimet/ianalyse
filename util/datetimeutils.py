@@ -23,6 +23,20 @@ def cctimestamp_to_unix_timestamp(cctimestamp) :
     ccdate = datetime.strptime(cctimestamp, "%Y%m%d%H%M%S")
     return to_unix_timestamp(ccdate)
 
+def time_delta_as_str(timedelta_param):
+    if timedelta_param > timedelta(days=30):
+        return "More than 1 month"
+    
+    if timedelta_param >= timedelta(hours=24):
+        return str(timedelta_param.days) + " Days"
+
+    if timedelta_param < timedelta(hours=24) and timedelta_param > timedelta(hours=1):
+        return str(timedelta_param.seconds / 3600) + " Hours"
+    
+    if timedelta_param < timedelta(hours=1):
+        return "Less than 1 hour"
+
+
 def evaluate_time_to_seconds(time_str) :
     left = re.compile('\(')
     right = re.compile('\)')
