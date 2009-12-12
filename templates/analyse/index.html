@@ -1,0 +1,38 @@
+{% extends "analyse/layout.html" %}
+
+{% block title %}ianalyse - Take a closer look at your project{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" src="{{ MEDIA_URL }}/js/swfobject.js"></script>
+<link href="{{ MEDIA_URL }}/css/dashboard.css" media="screen" rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block content %}
+{% load builds_tag %}
+
+<div id="preview_container">
+	<ul class="previews">
+		{% for item in configs.items %}
+			<li class="preview">
+				{% if item.1.has_result %}
+				  	<b id="total_pass_rate_{{item.0}}"></b>				
+					<script type="text/javascript">
+					    swfobject.embedSWF(
+					            "{{ MEDIA_URL }}/swf/open-flash-chart.swf", "total_pass_rate_{{item.0}}", "150", "150",
+					            "9.0.0", "expressInstall.swf",
+					    {"data-file":"/results/{{item.0}}/pass_rate.txt"}
+					            );
+					</script>
+
+				{% else %}
+					<span class="miss_data">
+						Missing Data 
+						<a href="/analyse/setup.html?id={{item.0}}">Reslove it NOW!</a>
+					</span>
+				{% endif %}
+				{% build_status_icon builds item.0 %}
+				<a class="name " href="/analyse/show.html?id={{item.0}}">{{item.0}}</a>
+			</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endblock %}

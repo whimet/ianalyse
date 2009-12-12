@@ -1,0 +1,54 @@
+{% extends "analyse/layout.html" %}
+
+{% block title %}ianalyse - Take a closer look at your project{% endblock %}
+
+{% block extrahead %}
+<link href="{{ MEDIA_URL }}/css/setup.css" media="screen" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+<div class="site">
+	<div class="collab" id="issues">
+		<div class="menu">
+		  <div class="create">      
+		    	<form  id="generate_all_reports" action="generate.html" method="post">
+				     <input  name="submit" type="submit" value="Generate ALL!" onclick="javascript:alert('NOT IMPLEMENTED, USE \n\n[Generate this report NOW!]\n\n for each project instead');return false;"/>
+				</form>
+		  </div>
+		  <ul>
+			{% for item in configs.items %}
+		  			<li {%ifequal item.0 current.id %} class="filter_selected" {%endifequal%}>
+						<a  href="/analyse/setup.html?id={{item.0}}">{{item.0}}</a>
+					</li>
+			{% endfor %}
+	      </ul>
+		</div>
+
+	    <div class="display">
+		    		<div class="admin">
+						<ul>
+						  	<li><span class="label">Location:</span>
+								{{current.abspath}}
+								<a href="javascript:alert('not implemented, edit on the file system please.')">(Edit)</a>
+							</li>
+							<li><span class="label">Status:</span>
+								<span class="status {%ifequal current.status 'OK' %}ok{%endifequal%}">{{current.status}}
+								{%ifnotequal current.status 'OK' %}<a href="/analyse/help.html#faq">(?)</a>{%endifnotequal%}</span>
+						    	<form  id="generate_reports" action="generate.html" method="post">
+								           <input  name="id"     type="hidden"  value="{{current.id}}"/>
+								           <input  name="submit" type="submit" value="Generate this report NOW!"/>
+								</form>
+						    </li>
+						</ul>
+		            </div>
+
+	    	    	<div class="conf">
+						<pre>
+{{current.content}}
+						</pre>
+	    	   		</div>
+			<a class="how" href="/analyse/help.html">How to configure it?</a>
+		</div>
+	</div>
+</div>
+{% endblock %}

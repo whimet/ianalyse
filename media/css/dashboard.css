@@ -1,0 +1,61 @@
+#preview_container {
+    border-top:5px solid #DDDDDD;
+    overflow:hidden;
+    padding:2em 0 2.5em;    
+}
+
+#preview_container h2 {
+    margin-bottom:0.5em;
+    border:0 none !important;
+}
+
+#preview_container .preview {
+    margin-left  : 10px;
+    margin-right : 10px;
+    width  : 150px;
+    height : 150px;
+}
+
+#preview_container .previews {
+    list-style-type:none;
+    margin:0 auto;
+    text-align:center;
+    width:68em;
+}
+
+#preview_container .previews .preview {
+    float:left;
+    margin:0 1em 2em 0;
+    text-align:center;
+    width:200px;
+    border: 1px solid white;
+}
+
+.preview .name {
+    height: 25px;
+    display : block;
+    text-align : center;
+}
+
+.miss_data {
+    color:red;
+    font-weight:bold;
+    display:block;
+    height:150px;
+    text-align:middle;
+    margin-left:10px;
+    margin-right:10px;
+}
+
+.miss_data  a {
+    margin-top:10px;
+    display:block;
+}
+
+.now_passed {
+    background:transparent url(/media/css/img/now_passed.png) no-repeat scroll 5px 0;
+}
+
+.now_failed {
+    background:transparent url(/media/css/img/now_failed.png) no-repeat scroll 5px 0;
+}
