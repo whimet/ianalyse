@@ -31,6 +31,17 @@
     border: 1px solid white;
 }
 
+
+#preview_container .previews .description {
+    float:left;
+    margin:0 1em 2em 0;
+    text-align:center;
+    width:150px;
+    border: 1px solid white;
+    background-color:#DDDDDD;
+}
+
+
 .preview .name {
     height: 25px;
     display : block;

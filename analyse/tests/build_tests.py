@@ -3,7 +3,7 @@ from django.test import TestCase
 from analyse.models import Build
 import os
 from django.conf import settings
-from datetime import datetime
+from datetime import datetime, timedelta
 from analyse.tests.testutil import TestUtils
 from analyse.config import Config, Configs
 
@@ -56,3 +56,33 @@ class BuildTest(TestCase):
         self.assertEquals('1 minute(s) 0 second(s)', values[2])
         self.assertEquals('build.1', values[1])
         self.assertEquals(None, values[3])
+    
+    
+    def testUserShouldPayMoreAttentionIfLastBuildHappend24HoursAgo(self):
+        build = Build()
+        twenty_five_hours_ago = datetime.now() - timedelta(hours=25)
+        build.last_build = twenty_five_hours_ago
+        self.assertEquals(True, build.need_attention())
+
+    def testUserShouldFeelSafeIfLastBuildHappendLessThan24HoursAgo(self):
+        build = Build()
+        twenty_three_hours_ago = datetime.now() - timedelta(hours=23)
+        build.last_build = twenty_three_hours_ago
+        self.assertEquals(False, build.need_attention())
+    
+    def testUserShouldPayMoreAttentionIfLastPassedBuildHappend24HoursAgo(self):
+        build = Build()
+        twenty_five_hours_ago = datetime.now() - timedelta(hours=25)
+        build.last_pass = twenty_five_hours_ago
+        self.assertEquals(True, build.need_attention())
+
+    
+    def testUserShouldFeelSafeIfLastPassedBuildHappendLessThan23HoursAgo(self):
+       build = Build()
+       twenty_three_hours_ago = datetime.now() - timedelta(hours=23)
+       build.last_pass = twenty_three_hours_ago
+       self.assertEquals(False, build.need_attention())
+
+        
+        
+    

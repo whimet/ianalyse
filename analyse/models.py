@@ -1,6 +1,6 @@
 from django.db import connection, models,settings
 import string
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import util.datetimeutils
 from analyse.openFlashChart import Chart
@@ -137,6 +137,17 @@ class Build(models.Model):
         results["started_build_at"] = Build.started_build_at(project_id)
         results["last_built_at"] = Build.last_built_at(project_id)
         return
+
+    def need_attention(self):
+        now = datetime.now()
+        if self.last_pass != None and now - self.last_pass > timedelta(hours=24):
+            return True
+        
+        if self.last_build != None and now - self.last_build > timedelta(hours=24):
+            return True
+        
+        return False
+        
 
 class TopNStatistics :
     def __init__(self, project_id=None, builds = list()):

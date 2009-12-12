@@ -2,6 +2,16 @@ from django import template
 
 register = template.Library()
 
+def more_attention_icon(builds, config):
+    build = builds.get(config)
+    if build == None :
+        return ""
+
+    if build.need_attention() :
+        return '<img src="/media/css/img/attention_please.png" alt="latest build passed" title="latest build passed"/>'
+    else :
+        return ""    
+    
 def build_status_icon(builds, config):
     "Display the icon for whether the build pass or not"
     build = builds.get(config)
@@ -38,6 +48,6 @@ register.simple_tag(build_status_icon)
 register.simple_tag(from_pass_build)
 register.simple_tag(from_last_build)
 register.simple_tag(build_status_class)
-
+register.simple_tag(more_attention_icon)
 
 
