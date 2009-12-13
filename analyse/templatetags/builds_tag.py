@@ -8,23 +8,23 @@ def more_attention_icon(builds, config):
         return ""
 
     if build.need_attention() :
-        return '<img src="/media/css/img/attention_please.png" alt="latest build passed" title="latest build passed"/>'
+        return '<img id="warning_' + config + '" src="/media/css/img/attention_please.png" alt="latest build passed" title="latest build passed"/>'
     else :
         return ""    
     
 def last_build_span(builds):
     build = builds.last()
     if build.is_last_build_old():
-        return '<span style="color:red;font-weight:bold">' + build.last_build_t() + "</span>"
+        return '<span class="last_build_at" style="color:red;font-weight:bold">' + build.last_build_t() + "</span>"
     else :
-        return '<span>' + build.last_build_t() + "</span>"
+        return '<span class="last_build_at">' + build.last_build_t() + "</span>"
             
 def last_pass_span(builds):
     build = builds.last()
     if build.is_last_pass_old():
-        return '<span style="color:red;font-weight:bold">' + build.last_pass_t() + "</span>"
+        return '<span class="last_pass_at" style="color:red;font-weight:bold">' + build.last_pass_t() + "</span>"
     else :
-        return '<span>' + build.last_pass_t()  + "</span>"   
+        return '<span class="last_pass_at">' + build.last_pass_t()  + "</span>"   
     
 def build_status_icon(builds, config):
     "Display the icon for whether the build pass or not"
@@ -35,9 +35,9 @@ def build_status_icon(builds, config):
         return ''
 
     if build.is_passed :
-        return '<img src="/media/css/img/now_passed.png" alt="latest build passed" title="latest build passed"/>'
+        return '<img id="now_passed_' + config + '" src="/media/css/img/now_passed.png" alt="latest build passed" title="latest build passed"/>'
     else :
-        return '<img src="/media/css/img/now_failed.png" alt="latest build failed" title="latest build failed"/>'
+        return '<img id="now_failed_' + config + '"src="/media/css/img/now_failed.png" alt="latest build failed" title="latest build failed"/>'
 
 def build_status_class(builds, config):
     "Display the icon for whether the build pass or not"

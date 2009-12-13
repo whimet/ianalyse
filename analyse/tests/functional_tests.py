@@ -1,6 +1,7 @@
 from django.test import TestCase
 from analyse.tests.testutil import TestUtils
 from django.test.client import Client
+import re
 
 class FunctionalTests(TestCase):
 
@@ -56,8 +57,6 @@ class FunctionalTests(TestCase):
         self.assertEquals(True, user.can_visit_resource())
         user.downloads_per_build_time_data()
         self.assertEquals(True, user.can_visit_resource())
-        
-
     
     def test_user_should_not_wait_for_re_generating_the_data_when_referesh_the_page(self):
        user = User()
@@ -74,7 +73,26 @@ class FunctionalTests(TestCase):
        user = User()
        user.open_home_page()
        self.assertContains(user.response, 'Missing Data')
+    
+    def test_user_should_be_able_to_find_which_project_might_go_wrong(self):
+        user = User()
+        user.generates_reports_for('connectfour4')
+        user.open_home_page()
+        self.assertEquals(True, user.noticed_warning_icon('connectfour4'))
         
+        user.open_show_page('connectfour4')
+        self.assertEquals('More than 1 month', user.found_last_build_happened_at())
+        self.assertEquals('More than 1 month', user.found_last_pass_happened_at())
+
+    def test_user_should_be_able_find_latest_status_for_each_project(self):
+        user = User()
+        user.generates_reports_for('connectfour4')
+        user.open_home_page()
+        self.assertEquals('failed', user.found_status_for('connectfour4'))
+        self.assertEquals('failed', user.found_status_for('cclive-release-jdk1.5'))
+        self.assertEquals('passed', user.found_status_for('acc-srv'))
+
+    
 class User :
     def __init__(self):
         self.client = Client()
@@ -116,4 +134,29 @@ class User :
     def can_visit_resource(self):
         code = self.response.status_code
         return code >= 200 and code < 300
-    
+
+    def found_status_for(self, project_id):
+        if self.response.content.find('id="now_passed_' + project_id + '"') > -1 :
+            return 'passed'
+        else:
+            return 'failed'
+
+    def noticed_warning_icon(self, project_id):
+        return self.response.content.find('id="warning_' + project_id + '"') > -1
+        
+    def found_last_pass_happened_at(self):
+        prog = re.compile('.*class="last_pass_at".*>(.*)</span>.*', re.M)
+        matched = prog.search(self.response.content)
+        if matched == None:
+            return ''
+        else:
+            return matched.group(1)
+
+    def found_last_build_happened_at(self):
+        prog = re.compile('.*class="last_build_at".*>(.*)</span>.*', re.M)
+        matched = prog.search(self.response.content)
+        if matched == None:
+            return ''
+        else:
+            return matched.group(1)
+
