@@ -2,17 +2,22 @@ from django.test import TestCase
 from analyse.tests.testutil import TestUtils
 from django.test.client import Client
 import re
+import os
 
 class FunctionalTests(TestCase):
 
     def setUp(self):
+        self.l3_support = None
         self.test_utils = TestUtils()
         self.test_utils.cleanup_results()
 
     def tearDown(self):
         self.test_utils.cleanup_results()
         self.test_utils.rename_bak_to_conf()
-
+        if self.l3_support != None:
+            os.remove(self.l3_support)
+            
+            
     def test_user_should_be_able_to_setup_the_application(self):
         user = User()
         user.open_home_page()
@@ -98,6 +103,24 @@ class FunctionalTests(TestCase):
         user = User()
         user.open_home_page()
         self.assertEquals('unknown', user.found_status_for('missing-logs'))
+    
+    def test_user_can_generate_all_logs(self):
+        user = User()
+        self.l3_support = self.test_utils.create_l3_support_config()
+        user.open_home_page()
+        self.assertContains(user.response, 'l3_support')
+        
+        user.open_show_page('l3_support')       
+        self.assertContains(user.response, 'MISSING REPORT')
+
+        user.generates_all_reports()
+
+        user.open_show_page('l3_support')
+
+        self.assertContains(user.response, '2 runs')
+        self.assertContains(user.response, '100.00%')
+        self.assertContains(user.response, '21600.0(s)')
+
         
 class User :
     def __init__(self):
@@ -121,6 +144,9 @@ class User :
     def generates_reports_for(self, id):
         self.response = self.client.post('/analyse/generate.html', {'id' : id}, follow=True)
         self.project_id = id
+    
+    def generates_all_reports(self):
+        self.response = self.client.post('/analyse/generate.html', {}, follow=True)
     
     def downloads_build_times_data(self):
         self.response = self.client.get('/results/' + self.project_id + '/build_times.txt')

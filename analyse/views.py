@@ -33,7 +33,12 @@ def generate(request) :
     configs = Configs()
     if (configs.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
-    cache.refresh(configs.find(request.POST['id']))
+
+    id = request.POST.get('id')
+    if id == None:
+        cache.populate()
+    else:
+        cache.refresh(configs.find(id))
     return redirect('index.html')
 
 def show(request):
