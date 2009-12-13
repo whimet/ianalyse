@@ -460,7 +460,11 @@ class ProjectGroup:
             self.projects[config] = builds
         
     def find(self, id):
-        return self.projects.get(id)
+        builds = self.projects.get(id)
+        if builds == None:
+            return Builds()
+        else:
+            return builds
     
     def latest_build_of(self, id):
         builds = self.find(id)
@@ -471,8 +475,11 @@ class ProjectGroup:
         pg = ProjectGroup()
         configs = Configs()
         for config in configs:
-            pg.append(config[1], Builds.create_builds(config[1], None, config[1].builds()))
-            Builds.gen_all_reports(config[1].id)
+            try:
+                pg.append(config[1], Builds.create_builds(config[1], None, config[1].builds()))
+                Builds.gen_all_reports(config[1].id)
+            except Exception, e:
+                pass
         return pg
     
     

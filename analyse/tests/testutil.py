@@ -73,5 +73,28 @@ class TestUtils:
                 os.rename(os.path.join(config_dir, file), os.path.join(config_dir, base_name + '.cfg'))
     
     
+
+    def create_config_file(self, file_name, content):
+        config_dir = os.path.join(settings.PROJECT_DIR, 'analyse/tests/configs/')
+        config = os.path.join(config_dir, file_name)
+        os.touch(config)
+        f = open(config, 'w')
+        f.write(content)
+        return config
+        
+    def create_missing_log_config(self):
+        content = '''
+        [Basic]
+        logdir: ./analyse/tests/fixtures/somewhere-does-not-exist
+        builds: 4
+
+        [CSV]
+        project name: //property[@name="projectname"]/@value
+        buid time: //build/@time
+        label: //property[@name='label']/@value
+        not exist: //something/@value
+        '''      
+        return self.create_config_file('missing_log.cfg', content)
+        
     
         

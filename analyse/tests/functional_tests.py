@@ -93,8 +93,9 @@ class FunctionalTests(TestCase):
         self.assertEquals('failed', user.found_status_for('connectfour4'))
         self.assertEquals('failed', user.found_status_for('cclive-release-jdk1.5'))
         self.assertEquals('passed', user.found_status_for('acc-srv'))
-
-    
+        
+        
+        
 class User :
     def __init__(self):
         self.client = Client()
