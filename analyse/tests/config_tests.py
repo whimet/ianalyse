@@ -72,3 +72,17 @@ class ConfigTests(TestCase):
     def testShouldReturnFalseIfAnyResultJsonGenerated(self):
         self.assertEquals(False, self.config.has_result())
         
+    def testShouldReturnTrueIfConfigIDAreSame(self):
+        config1 = Config("")
+        config1.id = 'id'
+        config2 = Config("")
+        config2.id = 'id'
+        self.assertEquals(True, config1 == config2)
+        
+    def testShouldReturnFalseIfConfigIDAreNotSame(self):
+        config1 = Config("")
+        config1.id = 'id1'
+        config2 = Config("")
+        config2.id = 'id2'
+        self.assertEquals(False, config1 == config2)
+        

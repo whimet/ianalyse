@@ -2,8 +2,11 @@ from django.template import Context, loader, RequestContext
 from django.shortcuts import render_to_response, redirect
 from django.http import HttpResponse
 from analyse.models import Builds, Build
+from analyse.cache import Cache
 from analyse.config import Config, Configs
 from django.utils.http import urlquote
+
+cache = Cache()
 
 def home(request):
     return redirect('index.html')
@@ -12,8 +15,8 @@ def index(request):
     configs = Configs()
     if (configs.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
-        
-    results = {'configs' : configs, 'builds' : Builds.latest_builds(Configs())}
+
+    results = {'configs' : configs, 'builds' : cache.get_latest_builds()}
     
     return render_to_response('analyse/index.html', Context(results), context_instance = RequestContext(request))
 
@@ -30,12 +33,7 @@ def generate(request) :
     configs = Configs()
     if (configs.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
-
-    config = configs.find(request.POST['id'])
-    over_all_result = {}
-    Builds.create_builds(config, None, config.builds())
-    Build.analyse_all(config.id, over_all_result)
-    Builds.create_csv(config.id)
+    cache.refresh(configs.find(request.POST['id']))
     return redirect('index.html')
 
 def show(request):
@@ -48,10 +46,9 @@ def show(request):
     if not config.has_result() :
         return redirect('setup.html?id=' + urlquote(project_id))
 
-    builds = Builds.create_builds(config, None, config.builds())
     over_all_result = {
         "project_id" : project_id,
-        "builds" : builds
+        "builds" : cache.find(project_id)
     }
 
     Build.view_all(project_id, over_all_result)                                                                  

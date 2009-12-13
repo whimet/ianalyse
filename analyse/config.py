@@ -40,6 +40,10 @@ class Configs:
         items.sort()
         return items
 
+    def get(self, key):
+        return self.configs.get(key)
+
+        
     def __iter__(self):
         items = self.configs.items()
         items.sort()
@@ -122,6 +126,9 @@ class Config:
         
     def __str__( self ):
         return 'the config file location is [' + self.config_file + ']'
-    
-        
-        
+            
+    def __eq__(self, other):
+        if self != None and other != None:
+            return self.id == other.id
+        else:
+            return False
