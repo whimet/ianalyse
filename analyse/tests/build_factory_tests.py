@@ -34,7 +34,13 @@ class BuildFactoryTest(TestCase):
           builds = Builds.create_builds(TestUtils().connectfour_config(), BuildFactoryTest.PATTERN, 2);
           self.assertEqual(2, len(Build.objects.all()))
             
-            
+    def test_should_not_remove_records_of_other_project(self):
+        self.assertEqual(0, len(Build.objects.all()))
+        builds = Builds.create_builds(TestUtils().connectfour_config(), BuildFactoryTest.PATTERN, 2);
+        builds = Builds.create_builds(TestUtils().cclive_config(), None, 2);        
+        self.assertEqual(4, len(Build.objects.all()))
+        
+        
     def testShouldNotThrowExceptionWhenProcessingXmlFile(self):
       try:
           builds = Builds.create_builds(TestUtils().cclive_config(), "log20080624064201Lbuild.70.xml", 2)
@@ -83,16 +89,6 @@ class BuildFactoryTest(TestCase):
         self.assertEquals(datetime(2008, 9, 24, 5, 25, 6), builds[0].start_time)
         self.assertEquals(datetime(2008, 9, 24, 6, 29, 41), builds[1].start_time)
 
-    def testShouldSelectValuesFromFiles(self) :
-        configs = Configs()
-
-        configs_dict = {
-            'connectfour' : TestUtils().connectfour_config(),
-            'cclive' : TestUtils().cclive_config()
-        }
-        configs.configs = configs_dict        
-        builds = Builds.latest_builds(configs)
-        self.assertEquals(2, len(builds))
 
 
 

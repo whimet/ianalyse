@@ -119,16 +119,6 @@ class Build(models.Model):
         return total[0]
 
     @staticmethod
-    def analyse_all(project_id, results):
-        Build.view_all(project_id, results)
-        stat = TopNStatistics(project_id = project_id, builds = Build.objects.order_by('start_time'))
-        stat.generate_pass_rate()
-        stat.generate_successful_rate()
-        stat.generate_build_times()
-        stat.generate_per_build_time()
-        return
-
-    @staticmethod
     def view_all(project_id, results):
         results["total_count"] = Build.total_count(project_id)
         results["avg_time"] = Build.avg_build_time(project_id)             
@@ -396,7 +386,7 @@ class Builds:
         if pattern == None :
             pattern = "log.*.xml"
 
-        Build.objects.all().delete()
+        Build.objects.filter(project_id = config.id).delete()
         builds_obj = Builds()  
         builds = list();
            
@@ -448,12 +438,52 @@ class Builds:
         writer = csv.writer(open(os.path.join(folder, project_id + '.csv'), 'w'), delimiter=',')
         writer.writerow(config.csv_keys())
         writer.writerows(arrays)
-
+    
     @staticmethod
-    def latest_builds(configs):
-        builds = {}
-        for config in configs.items() :
-            builds[config[0]] = Build.from_file(config[1].latest_log())
-        return builds
+    def gen_all_reports(project_id):
+        stat = TopNStatistics(project_id = project_id, builds = Build.objects.filter(project_id = project_id).order_by('start_time'))
+        stat.generate_pass_rate()
+        stat.generate_successful_rate()
+        stat.generate_build_times()
+        stat.generate_per_build_time()
+        Builds.create_csv(project_id)
+        return
 
+class ProjectGroup:
+    def __init__(self):
+        self.projects = {}
+    
+    def append(self, config, builds):
+        if isinstance(config, Config):
+            self.projects[config.id] = builds
+        else:
+            self.projects[config] = builds
+        
+    def find(self, id):
+        return self.projects.get(id)
+    
+    def latest_build_of(self, id):
+        builds = self.find(id)
+        return builds.last()
+
+    @staticmethod        
+    def create():
+        pg = ProjectGroup()
+        configs = Configs()
+        for config in configs:
+            pg.append(config[1], Builds.create_builds(config[1], None, config[1].builds()))
+            Builds.gen_all_reports(config[1].id)
+        return pg
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 

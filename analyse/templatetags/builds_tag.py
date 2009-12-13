@@ -2,16 +2,29 @@ from django import template
 
 register = template.Library()
 
-def more_attention_icon(builds, config):
-    build = builds.get(config)
+def more_attention_icon(project_groups, id):
+    build = project_groups.latest_build_of(id)
+    
     if build == None :
         return ""
 
     if build.need_attention() :
-        return '<img id="warning_' + config + '" src="/media/css/img/attention_please.png" alt="latest build passed" title="latest build passed"/>'
+        return '<img id="warning_' + id + '" src="/media/css/img/attention_please.png" alt="latest build passed" title="latest build passed"/>'
     else :
         return ""    
-    
+
+def build_status_icon(project_groups, id):
+    "Display the icon for whether the build pass or not"
+    build = project_groups.latest_build_of(id)
+
+    if build == None:
+        return ''
+
+    if build.is_passed :
+        return '<img id="now_passed_' + id + '" src="/media/css/img/now_passed.png" alt="latest build passed" title="latest build passed"/>'
+    else :
+        return '<img id="now_failed_' + id + '"src="/media/css/img/now_failed.png" alt="latest build failed" title="latest build failed"/>'
+
 def last_build_span(builds):
     build = builds.last()
     if build.is_last_build_old():
@@ -26,34 +39,9 @@ def last_pass_span(builds):
     else :
         return '<span class="last_pass_at">' + build.last_pass_t()  + "</span>"   
     
-def build_status_icon(builds, config):
-    "Display the icon for whether the build pass or not"
-
-    build = builds.get(config)
-
-    if build == None:
-        return ''
-
-    if build.is_passed :
-        return '<img id="now_passed_' + config + '" src="/media/css/img/now_passed.png" alt="latest build passed" title="latest build passed"/>'
-    else :
-        return '<img id="now_failed_' + config + '"src="/media/css/img/now_failed.png" alt="latest build failed" title="latest build failed"/>'
-
-def build_status_class(builds, config):
-    "Display the icon for whether the build pass or not"
-    build = builds.get(config)
-
-    if build == None:
-        return ''
-
-    if build.is_passed :
-        return 'now_passed'
-    else :
-        return 'now_failed'
 
 
 register.simple_tag(build_status_icon)
-register.simple_tag(build_status_class)
 register.simple_tag(more_attention_icon)
 register.simple_tag(last_pass_span)
 register.simple_tag(last_build_span)

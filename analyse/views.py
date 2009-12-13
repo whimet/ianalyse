@@ -16,7 +16,7 @@ def index(request):
     if (configs.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
 
-    results = {'configs' : configs, 'builds' : cache.get_latest_builds()}
+    results = {'configs' : configs, 'project_groups' : cache.get_project_group()}
     
     return render_to_response('analyse/index.html', Context(results), context_instance = RequestContext(request))
 
@@ -51,7 +51,7 @@ def show(request):
         "builds" : cache.find(project_id)
     }
 
-    Build.view_all(project_id, over_all_result)                                                                  
+    Build.view_all(project_id, over_all_result)
     return render_to_response('analyse/show.html', Context(over_all_result), context_instance = RequestContext(request))
 
 def help(request):

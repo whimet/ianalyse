@@ -49,6 +49,8 @@ class FunctionalTests(TestCase):
         user.open_show_page('cclive')
 
         self.assertContains(user.response, '4 runs')
+        self.assertContains(user.response, '0.00%')
+        self.assertContains(user.response, '399.5(s)')
         user.downloads_build_times_data()
         self.assertEquals(True, user.can_visit_resource())
         user.downloads_csv()
@@ -74,7 +76,7 @@ class FunctionalTests(TestCase):
        user.open_home_page()
        self.assertContains(user.response, 'Missing Data')
     
-    def test_user_should_be_able_to_find_which_project_might_go_wrong(self):
+    def test_user_can_find_which_project_might_go_wrong(self):
         user = User()
         user.generates_reports_for('connectfour4')
         user.open_home_page()
@@ -84,7 +86,7 @@ class FunctionalTests(TestCase):
         self.assertEquals('More than 1 month', user.found_last_build_happened_at())
         self.assertEquals('More than 1 month', user.found_last_pass_happened_at())
 
-    def test_user_should_be_able_find_latest_status_for_each_project(self):
+    def test_user_can_find_latest_status_for_each_project(self):
         user = User()
         user.generates_reports_for('connectfour4')
         user.open_home_page()
