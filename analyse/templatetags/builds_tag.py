@@ -18,12 +18,12 @@ def build_status_icon(project_groups, id):
     build = project_groups.latest_build_of(id)
 
     if build == None:
-        return ''
-
+        return '<img id="now_unknown_' + id + '" src="/media/css/img/now_unknown.png" alt="cannot find log" title="cannot find log"/>'
+        
     if build.is_passed :
         return '<img id="now_passed_' + id + '" src="/media/css/img/now_passed.png" alt="latest build passed" title="latest build passed"/>'
     else :
-        return '<img id="now_failed_' + id + '"src="/media/css/img/now_failed.png" alt="latest build failed" title="latest build failed"/>'
+        return '<img id="now_failed_' + id + '" src="/media/css/img/now_failed.png" alt="latest build failed" title="latest build failed"/>'
 
 def last_build_span(builds):
     build = builds.last()

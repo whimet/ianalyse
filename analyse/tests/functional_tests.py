@@ -91,10 +91,13 @@ class FunctionalTests(TestCase):
         user.generates_reports_for('connectfour4')
         user.open_home_page()
         self.assertEquals('failed', user.found_status_for('connectfour4'))
-        self.assertEquals('failed', user.found_status_for('cclive-release-jdk1.5'))
+        self.assertEquals('failed', user.found_status_for('cclive'))
         self.assertEquals('passed', user.found_status_for('acc-srv'))
         
-        
+    def test_user_can_be_noticed_if_the_logs_dir_is_incorrectly_defined(self):
+        user = User()
+        user.open_home_page()
+        self.assertEquals('unknown', user.found_status_for('missing-logs'))
         
 class User :
     def __init__(self):
@@ -141,8 +144,10 @@ class User :
     def found_status_for(self, project_id):
         if self.response.content.find('id="now_passed_' + project_id + '"') > -1 :
             return 'passed'
-        else:
+        elif self.response.content.find('id="now_failed_' + project_id + '"') > -1 :
             return 'failed'
+        elif self.response.content.find('id="now_unknown_' + project_id + '"') > -1 :
+            return 'unknown'
 
     def noticed_warning_icon(self, project_id):
         return self.response.content.find('id="warning_' + project_id + '"') > -1
