@@ -8,3 +8,6 @@ syntax: glob
 results
 **/._*
 ._*
+db/ianalyse
+**/.svn/*
+.svn
