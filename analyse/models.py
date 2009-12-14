@@ -366,8 +366,8 @@ class Builds:
         if len(self.builds) == 0:
             return 0
 
-        return self.pass_count() / len(self.builds)
-    
+        return float('%.2f' % (self.pass_count() / (len(self.builds) - 0.0)))
+
     def avg_runs(self):
         min = self.builds[0]
         max = self.builds[len(self.builds) - 1]

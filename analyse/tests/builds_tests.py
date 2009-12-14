@@ -8,6 +8,29 @@ import util.datetimeutils
 from analyse.tests.testutil import TestUtils
 
 class BuildsTest(TestCase):
+    FAILED_LOG_AT_OCT_11 = '''<cruisecontrol>
+      <modifications />
+      <info>
+        <property name="projectname" value="connectfour4" />
+        <property name="lastbuild" value="20091011000000" />
+        <property name="lastsuccessfulbuild" value="20091011000000" />
+        <property name="builddate" value="2009-10-11T09:39:22" />
+        <property name="cctimestamp" value="20091011173922" />
+        <property name="label" value="build.1" />
+        <property name="interval" value="300" />
+        <property name="lastbuildsuccessful" value="true" />
+        <property name="logdir" value="/Users/twer/Desktop/cruisecontrol-bin-2.8.2/logs/connectfour4" />
+        <property name="logfile" value="log20091011173922.xml" />
+      </info>
+      <build time="1 minute(s) 0 second(s)">
+        <target name="exec">
+          <task name="echo">
+            <message priority="info"><![CDATA[haha]]></message>
+          </task>
+        </target>
+      </build>
+    </cruisecontrol>'''
+    
     PASSED_LOG_AT_OCT_11 = '''<cruisecontrol>
   <modifications />
   <info>
@@ -104,6 +127,8 @@ class BuildsTest(TestCase):
         self.failed                   = Build.from_file(self.testutils.write_to_temp('FAILED_LOG.xml', BuildsTest.FAILED_LOG))
         self.passed_at_oct_11         = Build.from_file(self.testutils.write_to_temp('PASSED_LOG_AT_OCT_11.xml', BuildsTest.PASSED_LOG_AT_OCT_11))
         self.another_passed_at_oct_11 = Build.from_file(self.testutils.write_to_temp('ANOTHER_PASSED_LOG_AT_OCT_11.xml', BuildsTest.ANOTHER_PASSED_LOG_AT_OCT_11))
+        self.failed_at_oct_11 = Build.from_file(self.testutils.write_to_temp('FAILED_LOG_AT_OCT_11.xml', BuildsTest.FAILED_LOG_AT_OCT_11))        
+        
 
     def tearDown(self):
         self.testutils.cleantemp()
@@ -170,6 +195,14 @@ class BuildsTest(TestCase):
         self.assertEquals('2009-10-11 17:39:00', labels[1])
         self.assertEquals('2009-10-17 22:03:24', labels[2])
         self.assertEquals(60, max_time);
+
+
+    def test_should_calculate_pass_rate_by_day(self):
+        builds = Builds()
+        builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed_at_oct_11]
+
+        arry, min_date, max_date = builds.pass_rate_by_day()
+        self.assertEquals('67.0', str(arry[0]['y']))
 
 
     def testShouldCalcateAvgRunsPerDay(self):
