@@ -61,13 +61,13 @@ class BuildTest(TestCase):
     def testUserShouldPayMoreAttentionIfLastBuildHappend24HoursAgo(self):
         build = Build()
         twenty_five_hours_ago = datetime.now() - timedelta(hours=25)
-        build.last_build = twenty_five_hours_ago
+        build.start_time = twenty_five_hours_ago
         self.assertEquals(True, build.need_attention())
 
     def testUserShouldFeelSafeIfLastBuildHappendLessThan24HoursAgo(self):
         build = Build()
         twenty_three_hours_ago = datetime.now() - timedelta(hours=23)
-        build.last_build = twenty_three_hours_ago
+        build.start_time = twenty_three_hours_ago
         self.assertEquals(False, build.need_attention())
     
     def testUserShouldPayMoreAttentionIfLastPassedBuildHappend24HoursAgo(self):
@@ -75,14 +75,42 @@ class BuildTest(TestCase):
         twenty_five_hours_ago = datetime.now() - timedelta(hours=25)
         build.last_pass = twenty_five_hours_ago
         self.assertEquals(True, build.need_attention())
-
     
     def testUserShouldFeelSafeIfLastPassedBuildHappendLessThan23HoursAgo(self):
        build = Build()
        twenty_three_hours_ago = datetime.now() - timedelta(hours=23)
        build.last_pass = twenty_three_hours_ago
        self.assertEquals(False, build.need_attention())
+    
+    def test_should_return_this_build_date_if_current_build_passed(self):
+        build = Build()
+        build.is_passed  = True
+        build.last_pass  = datetime(2009, 10, 11, 20, 11, 49);
+        build.last_build = datetime(2009, 10, 12, 20, 11, 49);
+        build.start_time = datetime(2009, 10, 13, 20, 11, 49);
+        self.assertEquals(build.start_time, build.find_last_pass())
+        
+    def test_should_return_last_build_date_if_current_build_failed(self):
+        build = Build()
+        build.is_passed = False
+        build.last_pass = datetime(2009, 10, 11, 20, 11, 49);
+        build.last_build = datetime(2009, 10, 12, 20, 11, 49);
+        build.start_time = datetime(2009, 10, 13, 20, 11, 49);
+        self.assertEquals(build.last_pass, build.find_last_pass())
+        
+    def test_should_print_last_pass_time_if_current_build_is_broken(self):
+        build = Build()
+        build.is_passed = False
+        build.last_pass = datetime.now() - timedelta(hours=3) 
+        build.last_build = datetime.now() - timedelta(hours=2)
+        build.start_time = datetime.now() - timedelta(hours=1)
+        self.assertEquals('3 Hours', build.last_pass_t())
 
-        
-        
+    def test_should_print_start_time_if_current_build_is_passed(self):
+        build = Build()
+        build.is_passed = True
+        build.last_pass = datetime.now() - timedelta(hours=3) 
+        build.last_build = datetime.now() - timedelta(hours=2)
+        build.start_time = datetime.now() - timedelta(hours=1)
+        self.assertEquals('1 Hours', build.last_pass_t())
     

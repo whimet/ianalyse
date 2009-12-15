@@ -138,18 +138,25 @@ class Build(models.Model):
     
     def is_last_pass_old(self):
         now = datetime.now()
-        return self.last_pass != None and now - self.last_pass > timedelta(hours=24)
+        return self.find_last_pass() != None and now - self.find_last_pass() > timedelta(hours=24)
         
     def is_last_build_old(self):
         now = datetime.now()
-        return self.last_build != None and now - self.last_build > timedelta(hours=24)
+        return self.start_time != None and now - self.start_time > timedelta(hours=24)
 
     def last_build_t(self):
-        return time_delta_as_str(datetime.now() - self.last_build)
+        return time_delta_as_str(datetime.now() - self.start_time)
 
     def last_pass_t(self):
-        return time_delta_as_str(datetime.now() - self.last_pass)
-        
+        return time_delta_as_str(datetime.now() - self.find_last_pass())
+
+    def find_last_pass(self):
+        if self.is_passed :
+            return self.start_time
+        else:
+            return self.last_pass
+
+
 class TopNStatistics :
     def __init__(self, project_id=None, builds = list()):
         self.project_id = project_id
