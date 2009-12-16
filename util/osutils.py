@@ -14,6 +14,8 @@ def makedirs_p(path):
         os.makedirs(path)
 
 def rmdir_p(path):
+    if not os.path.exists(path):
+        return
     shutil.rmtree(path)
 
 def write_to_file(path, content):

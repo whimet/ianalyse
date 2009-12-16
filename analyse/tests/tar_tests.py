@@ -11,17 +11,19 @@ class TarTests(TestCase):
     def setUp(self):
         self.utils = TestUtils()
         self.configs = Configs()
+        os.rmdir_p(self.configs.results_dir())
+        os.rmdir_p(self.utils.temp_dir())
 
     def tearDown(self):
         os.rmdir_p(self.configs.results_dir())
         os.rmdir_p(self.utils.temp_dir())
          
     def test_should_generate_tar_file_with_all_csvs(self):
+        self.assertEquals(False, os.path.exists(os.path.join(self.configs.results_dir(), 'all.tar')))
         ProjectGroup.create()
 
         tar = Tar(self.configs)
 
-        self.assertEquals(False, os.path.exists(os.path.join(self.configs.results_dir(), 'all.tar')))
         tar.create()
         self.assertEquals(True, os.path.exists(os.path.join(self.configs.results_dir(), 'all.tar')))
         self.utils.extract_tar(os.path.join(self.configs.results_dir(), 'all.tar'), self.utils.temp_dir())

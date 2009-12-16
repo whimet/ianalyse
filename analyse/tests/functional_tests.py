@@ -12,33 +12,33 @@ class FunctionalTests(TestCase):
         self.test_utils.cleanup_results()
 
     def tearDown(self):
-        self.test_utils.cleanup_results()
-        self.test_utils.rename_bak_to_conf()
-        if self.l3_support != None:
-            os.remove(self.l3_support)
+       self.test_utils.cleanup_results()
+       self.test_utils.rename_bak_to_conf()
+       if self.l3_support != None:
+           os.remove(self.l3_support)
             
             
     def test_user_should_be_able_to_setup_the_application(self):
-        user = User()
-        user.open_home_page()
-        self.assertContains(user.response, 'Missing Data')
-        user.open_show_page('connectfour4')
-        self.assertContains(user.response, 'MISSING REPORT')
-        self.assertContains(user.response, user.found_config_file_location())
-        user.generates_reports_for('connectfour4')
-
-        user.open_setup_page('connectfour4')
-        self.assertContains(user.response, 'OK')
-
-        user.downloads_build_times_data()
-        self.assertEquals(True, user.can_visit_resource())
-        user.downloads_csv()
-        self.assertEquals(True, user.can_visit_resource())
-        user.downloads_pass_rate_data()
-        self.assertEquals(True, user.can_visit_resource())
-        user.downloads_per_build_time_data()
-        self.assertEquals(True, user.can_visit_resource())
-    
+          user = User()
+          user.open_home_page()
+          self.assertContains(user.response, 'Missing Data')
+          user.open_show_page('connectfour4')
+          self.assertContains(user.response, 'MISSING REPORT')
+          self.assertContains(user.response, user.found_config_file_location())
+          user.generates_reports_for('connectfour4')
+      
+          user.open_setup_page('connectfour4')
+          self.assertContains(user.response, 'OK')
+      
+          user.downloads_build_times_data()
+          self.assertEquals(True, user.can_visit_resource())
+          user.downloads_csv()
+          self.assertEquals(True, user.can_visit_resource())
+          user.downloads_pass_rate_data()
+          self.assertEquals(True, user.can_visit_resource())
+          user.downloads_per_build_time_data()
+          self.assertEquals(True, user.can_visit_resource())
+      
     def test_user_should_be_able_to_request_with_project_id(self):
         user = User()
         user.open_home_page()
@@ -50,7 +50,7 @@ class FunctionalTests(TestCase):
 
         user.open_setup_page('cclive')
         self.assertContains(user.response, 'OK')
-        
+
         user.open_show_page('cclive')
 
         self.assertContains(user.response, '4 runs')
@@ -64,29 +64,24 @@ class FunctionalTests(TestCase):
         self.assertEquals(True, user.can_visit_resource())
         user.downloads_per_build_time_data()
         self.assertEquals(True, user.can_visit_resource())
-    
-    def test_user_should_not_wait_for_re_generating_the_data_when_referesh_the_page(self):
-       user = User()
-       self.test_utils.rename_conf_to_bak()
-       user.open_home_page()
-       self.assertContains(user.response, 'Opps! seems you did not create any config file')
 
-       self.test_utils.rename_bak_to_conf()
-       user.open_home_page()
-       self.assertContains(user.response, 'cclive')
-       self.assertContains(user.response, 'connectfour4')
-       
-    def test_should_print_hint_on_the_screen_when_user_first_time_uses_software(self):
-       user = User()
-       user.open_home_page()
-       self.assertContains(user.response, 'Missing Data')
-    
+    def test_user_should_not_wait_for_re_generating_the_data_when_referesh_the_page(self):
+         user = User()
+         self.test_utils.rename_conf_to_bak()
+         user.open_home_page()
+         self.assertContains(user.response, 'Opps! seems you did not create any config file')
+
+         self.test_utils.rename_bak_to_conf()
+         user.open_home_page()
+         self.assertContains(user.response, 'cclive')
+         self.assertContains(user.response, 'connectfour4')
+ 
     def test_user_can_find_which_project_might_go_wrong(self):
         user = User()
         user.generates_reports_for('connectfour4')
         user.open_home_page()
         self.assertEquals(True, user.noticed_warning_icon('connectfour4'))
-        
+
         user.open_show_page('connectfour4')
         self.assertEquals('More than 1 month', user.found_last_build_happened_at())
         self.assertEquals('More than 1 month', user.found_last_pass_happened_at())
@@ -98,18 +93,13 @@ class FunctionalTests(TestCase):
         self.assertEquals('failed', user.found_status_for('connectfour4'))
         self.assertEquals('failed', user.found_status_for('cclive'))
         self.assertEquals('passed', user.found_status_for('acc-srv'))
-        
-    def test_user_can_be_noticed_if_the_logs_dir_is_incorrectly_defined(self):
-        user = User()
-        user.open_home_page()
-        self.assertEquals('unknown', user.found_status_for('missing-logs'))
-    
+      
     def test_user_can_generate_all_logs(self):
         user = User()
         self.l3_support = self.test_utils.create_l3_support_config()
         user.open_home_page()
         self.assertContains(user.response, 'l3_support')
-        
+
         user.open_show_page('l3_support')       
         self.assertContains(user.response, 'MISSING REPORT')
 
@@ -121,7 +111,18 @@ class FunctionalTests(TestCase):
         self.assertContains(user.response, '100.00%')
         self.assertContains(user.response, '21600.0(s)')
 
+    def test_user_can_download_all_the_csv_files_as_a_single_tar(self):
+        user = User()
+        user.open_home_page()
+        user.generates_all_reports()
+        user.downloads_all_csv_as_single_tar()
+        self.assertEquals(True, user.can_visit_resource())
         
+    def test_user_can_be_noticed_if_the_logs_dir_is_incorrectly_defined(self):
+        user = User()
+        user.open_home_page()
+        self.assertEquals('unknown', user.found_status_for('missing-logs'))
+
 class User :
     def __init__(self):
         self.client = Client()
@@ -162,7 +163,10 @@ class User :
         
     def downloads_successful_rate_data(self):
         self.response = self.client.get('/results/' + self.project_id + '/successful_rate.txt')        
-
+    
+    def downloads_all_csv_as_single_tar(self):
+        self.response = self.client.get('/results/all.tar')        
+            
     def can_visit_resource(self):
         code = self.response.status_code
         return code >= 200 and code < 300

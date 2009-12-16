@@ -65,9 +65,7 @@ def help(request):
         "configs" : configs,
     }
     return render_to_response('analyse/help.html', Context(results), context_instance = RequestContext(request))
-    
-    
-    
+   
     
     
     
