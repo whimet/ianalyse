@@ -9,7 +9,7 @@ from django.utils.http import urlquote
 cache = Cache()
 
 def home(request):
-    return redirect('index.html')
+    return redirect('/analyse/index.html')
 
 def index(request):
     configs = Configs()

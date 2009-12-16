@@ -8,7 +8,7 @@ from analyse.config import Configs
 from analyse import views
 
 urlpatterns = patterns('',
-                       
+                       url(r'^$',                                     views.home,  name="default"),
                        url(r'^analyse/$',                             views.home,  name="home"),
                        url(r'^analyse/index.html',                    views.index, name="index"),
                        url(r'^analyse/setup.html',                    views.setup, name="setup"),
