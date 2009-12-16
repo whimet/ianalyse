@@ -226,7 +226,7 @@ class TopNStatistics :
 
         chart.y_axis   = { "min": 0, "max": 110, "steps": 10,  "labels" : {"labels" : all_percentage, "steps" : 20}}
         chart.x_axis   = { "min": min_date, "max": max_date, "steps": 86400,
-                           "labels": { "text": "#date:l jS, M Y#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
+                           "labels": { "text": "#date:Y-m-d at H:i#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
         chart.title    = { "text": "Pass rate over time."}
         return chart.create()
 
@@ -252,7 +252,7 @@ class TopNStatistics :
 
         chart.y_axis   = { "min": 0, "max": max_time + 10, "steps": max_time / 10}
         chart.x_axis   = { "min": min_date, "max": max_date, "steps": 86400,
-                           "labels": { "text": "#date:l jS, M Y#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
+                           "labels": { "text": "#date:Y-m-d at H:i#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
         chart.title    = { "text": "Build time over time."}
         return chart.create()
 
