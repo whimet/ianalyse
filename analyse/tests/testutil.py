@@ -2,6 +2,7 @@ from analyse.config import Config
 from django.db import settings
 import os
 import util.osutils
+import tarfile
 
 class TestUtils:
         
@@ -48,6 +49,9 @@ class TestUtils:
         if os.path.exists(temp_dir):
             os.rmdir_p(temp_dir)
     
+    def temp_dir(self):
+        return os.path.join(settings.PROJECT_DIR, 'temp')
+    
     def write_to_temp(self, file, content):
         temp_dir = os.path.join(settings.PROJECT_DIR, 'temp')
         os.makedirs_p(temp_dir)
@@ -72,7 +76,16 @@ class TestUtils:
             if file.endswith('.bak'):
                 os.rename(os.path.join(config_dir, file), os.path.join(config_dir, base_name + '.cfg'))
     
-    
+    def extract_tar(self, tar_file, dest_dir):
+        if os.path.exists(dest_dir):
+            os.makedirs_p(dest_dir)
+
+        if not os.path.exists(tar_file):
+            raise Exception("i cannot find the tar file.")
+
+        tar = tarfile.open(tar_file)
+        tar.extractall(dest_dir)
+        tar.close()
 
     def create_config_file(self, file_name, content):
         config_dir = os.path.join(settings.PROJECT_DIR, 'analyse/tests/configs/')

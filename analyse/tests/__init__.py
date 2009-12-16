@@ -11,6 +11,7 @@ import analyse.tests.config_tests
 import analyse.tests.configs_tests
 import analyse.tests.functional_tests
 import analyse.tests.perf_tests
+import analyse.tests.tar_tests
 import os                                                  
 
 def suite():
@@ -28,5 +29,6 @@ def suite():
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.config_tests.ConfigTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.configs_tests.ConfigsTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.osutils_tests.OSUtilsTests))
+        s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.tar_tests.TarTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.functional_tests.FunctionalTests))
     return s

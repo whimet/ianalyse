@@ -15,6 +15,7 @@ from analyse.saxhandlers import *
 from lxml import etree
 import StringIO
 import csv
+from analyse.tar import Tar
 
 
 class Build(models.Model):
@@ -487,6 +488,12 @@ class ProjectGroup:
                 Builds.gen_all_reports(config[1].id)
             except Exception, e:
                 pass
+        try:
+            tar = Tar(configs).create()
+        except Exception, e:
+            print e
+            pass
+                    
         return pg
     
     

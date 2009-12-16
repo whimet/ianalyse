@@ -63,5 +63,5 @@ os.touch = touch
 os.makedirs_p = makedirs_p
 os.rmdir_p = rmdir_p
 os.sort_by_rule = sort_by_rule
-
+os.list_matched_files = list_matched_files
 
