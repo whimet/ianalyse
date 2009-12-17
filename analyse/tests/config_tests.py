@@ -34,13 +34,20 @@ class ConfigTests(TestCase):
     def testShouldReadTheLogDir(self):
         self.assertEquals('/var/logs', self.config.logdir())
 	
-    def testShouldReturnNDaysIfDefined(self):
+    def testShouldReturnNBuildsIfDefined(self):
         self.assertEquals(3, self.config.builds())
 	
-    def testShouldReturn14DaysAsDefaultValue(self):
+    def testShouldReturn30BuildsAsDefaultValue(self):
         self.config = Config(os.path.abspath(os.path.join(settings.PROJECT_DIR, 'analyse/tests/fixtures/config/no_days.cfg')))
         self.assertEquals(30, self.config.builds())
 	
+    def testShouldReturnNDaysIfDefined(self):
+        self.assertEquals(3, self.config.days())
+	
+    def testShouldReturn30BuildsAsDefaultValue(self):
+        self.config = Config(os.path.abspath(os.path.join(settings.PROJECT_DIR, 'analyse/tests/fixtures/config/no_days.cfg')))
+        self.assertEquals(14, self.config.days())
+
     def testShouldAggregateTheColumnNamesAndXpathsAsDic(self):
         self.assertEquals('start time', self.config.csv_settings()[0][0])
         self.assertEquals('//property[@name=\'start time\']/@value', self.config.csv_settings()[0][1])

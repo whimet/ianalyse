@@ -57,6 +57,8 @@ class Configs:
     
 class Config:
     DEFAULT_FILES_TO_PROCESS = 30
+    DEFAULT_DAYS_TO_PROCESS = 14
+
     def __init__(self, config_file):
         self.config_file = config_file
         self.id = os.path.splitext(os.path.split(config_file)[1])[0]
@@ -81,7 +83,15 @@ class Config:
             except Exception, e:
                 return Config.DEFAULT_FILES_TO_PROCESS
         return self.__readattr__(anonymous)
-        
+
+    def days(self):
+        def anonymous(config): 
+            try:                                        
+                return config.getint('Basic', 'days')
+            except Exception, e:
+                return Config.DEFAULT_DAYS_TO_PROCESS
+        return self.__readattr__(anonymous)
+
     def csv_settings(self):
         def anonymous(config): return config.items("CSV")
         return self.__readattr__(anonymous) 
