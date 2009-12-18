@@ -34,13 +34,6 @@ class ConfigTests(TestCase):
     def testShouldReadTheLogDir(self):
         self.assertEquals('/var/logs', self.config.logdir())
 	
-    def testShouldReturnNBuildsIfDefined(self):
-        self.assertEquals(3, self.config.builds())
-	
-    def testShouldReturn30BuildsAsDefaultValue(self):
-        self.config = Config(os.path.abspath(os.path.join(settings.PROJECT_DIR, 'analyse/tests/fixtures/config/no_days.cfg')))
-        self.assertEquals(30, self.config.builds())
-	
     def testShouldReturnNDaysIfDefined(self):
         self.assertEquals(3, self.config.days())
 	

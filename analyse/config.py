@@ -76,14 +76,6 @@ class Config:
     def logfile(self, name):
         return os.path.join(self.logdir(), name)
     
-    def builds(self):
-        def anonymous(config): 
-            try:                                        
-                return config.getint('Basic', 'builds')
-            except Exception, e:
-                return Config.DEFAULT_FILES_TO_PROCESS
-        return self.__readattr__(anonymous)
-
     def days(self):
         def anonymous(config): 
             try:                                        
