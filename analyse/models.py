@@ -390,15 +390,17 @@ class Builds:
 
 
     @staticmethod
-    def create_builds(config, pattern, required_builds):
+    def create_builds(config, pattern):
         if pattern == None :
             pattern = "log.*.xml"
 
         Build.objects.filter(project_id = config.id).delete()
         builds_obj = Builds()  
         builds = list();
-           
-        for eachfile in Builds.filter(config.logdir(), required_builds):
+
+        all_necessary_files = os.filter_by_days(config.logdir(), pattern, config.days())
+
+        for eachfile in all_necessary_files:
             if None != re.match(pattern, eachfile) :
                 try :
                     build = Build.from_file(config.logfile(eachfile))
@@ -413,12 +415,14 @@ class Builds:
         return builds_obj;
 
     @staticmethod  
-    def select_values_from(config, pattern, required_builds):
+    def select_values_from(config, pattern):
         if pattern == None :
             pattern = "log.*.xml"
 
         values = []
-        for eachfile in Builds.filter(config.logdir(), required_builds):
+        all_necessary_files = os.filter_by_days(config.logdir(),"log([0-9]*).*.xml", config.days())
+        
+        for eachfile in all_necessary_files:
             if None != re.match(pattern, eachfile) :
                 try :
                     value = Build.select_values(config.logfile(eachfile), config.csv_settings())
@@ -428,20 +432,9 @@ class Builds:
         return values
         
     @staticmethod
-    def filter(root, required_builds): 
-          files = os.sort_by_rule(root,"log([0-9]*).*.xml", 'asc')
-          len_of_files = len(files)
-
-          if required_builds < len_of_files :                 
-              for i in range(0, len_of_files - required_builds) :
-                  files.pop(0)
-
-          return files
-
-    @staticmethod
     def create_csv(project_id):
         config = Configs().find(project_id)
-        arrays = Builds.select_values_from(config, None, config.builds())
+        arrays = Builds.select_values_from(config, None)
         folder = config.result_dir()
         writer = csv.writer(open(os.path.join(folder, project_id + '.csv'), 'w'), delimiter=',')
         writer.writerow(config.csv_keys())
@@ -484,7 +477,7 @@ class ProjectGroup:
         configs = Configs()
         for config in configs:
             try:
-                pg.append(config[1], Builds.create_builds(config[1], None, config[1].builds()))
+                pg.append(config[1], Builds.create_builds(config[1], None))
                 Builds.gen_all_reports(config[1].id)
             except Exception, e:
                 pass

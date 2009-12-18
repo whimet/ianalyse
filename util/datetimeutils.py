@@ -36,6 +36,9 @@ def time_delta_as_str(timedelta_param):
     if timedelta_param < timedelta(hours=1):
         return "Less than 1 hour"
 
+def cctimestamp_as_date(cctimestamp):
+    pattern = "log([0-9]*).*.xml"
+    return datetime.strptime(re.match(pattern, cctimestamp).group(1), "%Y%m%d%H%M%S")
 
 def evaluate_time_to_seconds(time_str) :
     left = re.compile('\(')

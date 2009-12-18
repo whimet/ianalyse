@@ -53,9 +53,9 @@ class FunctionalTests(TestCase):
 
         user.open_show_page('cclive')
 
-        self.assertContains(user.response, '4 runs')
+        self.assertContains(user.response, '6 runs')
         self.assertContains(user.response, '0.00%')
-        self.assertContains(user.response, '399.5(s)')
+        self.assertContains(user.response, '251.333333333(s)')
         user.downloads_build_times_data()
         self.assertEquals(True, user.can_visit_resource())
         user.downloads_csv()
@@ -109,7 +109,7 @@ class FunctionalTests(TestCase):
 
         self.assertContains(user.response, '2 runs')
         self.assertContains(user.response, '100.00%')
-        self.assertContains(user.response, '21600.0(s)')
+        self.assertContains(user.response, '1200.0(s)')
 
     def test_user_can_download_all_the_csv_files_as_a_single_tar(self):
         user = User()

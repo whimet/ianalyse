@@ -18,17 +18,24 @@ class TestUtils:
             ('buid time', '//build/@time'),
             ('something wrong', '//not right')
             ]
+    def twenty_days(self):
+        return 20
+    def one_day(self):
+        return 1
+        
         
     def connectfour_config(self):
         config = Config(settings.PROJECT_DIR + '/analyse/tests/fixtures/config/connectfour4.cfg')
         config.logdir = self.connectfour
         config.csv_settings = self.csv_settings 
+        config.days = self.twenty_days
         return config
     
     def cclive_config(self):
         config = Config(settings.PROJECT_DIR + '/analyse/tests/fixtures/config/cclive.cfg')
         config.logdir = self.cclive_release_jdk
         config.csv_settings = self.csv_settings
+        config.days = self.one_day
         return config
     
     def cleanup_results(self):

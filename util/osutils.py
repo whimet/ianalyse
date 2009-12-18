@@ -1,7 +1,7 @@
 import os
 import shutil          
 import re 
-import util.datetimeutils                             
+import util.datetimeutils
 from datetime import datetime
 
 def touch(path):
@@ -39,6 +39,27 @@ def sort_by_rule(root, rule, order):
     all_files = list_matched_files(root, rule)
     return sorted(all_files, eval('compare_files_' + order)) 
 
+def filter_by_days(root, rule, days):
+    if days == None or days == 0:
+        return []
+    files = os.sort_by_rule(root, rule, 'asc');
+    ndays_before = __ndays_before__(files[len(files) - 1], days)
+    
+    filtered = []
+    for file in files:
+        current_date =  util.datetimeutils.cctimestamp_as_date(file)
+
+        if current_date >= ndays_before:
+            filtered.append(file)
+    return filtered
+    
+def __ndays_before__(file, days):
+    cc_date =  util.datetimeutils.cctimestamp_as_date(file)
+    n_days_ago = util.datetimeutils.days_ago(days, cc_date)
+    beging_of_n_days_ago = util.datetimeutils.begining_of_the_day(n_days_ago)
+    return beging_of_n_days_ago
+    
+
 def __compare_files(file1, file2, order):
     pattern = "log([0-9]*).*.xml"
     m1 = re.match(pattern, file1)
@@ -66,4 +87,5 @@ os.makedirs_p = makedirs_p
 os.rmdir_p = rmdir_p
 os.sort_by_rule = sort_by_rule
 os.list_matched_files = list_matched_files
+os.filter_by_days = filter_by_days
 

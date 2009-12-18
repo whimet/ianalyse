@@ -2336,6 +2336,6 @@
     <property name="logdir" value="/home/cruise/work/logs/cclive-release-jdk1.5" />
     <property name="logfile" value="log20080923232508.xml" />
   </info>
-  <build error="/home/cruise/work/projects/cruisecontrol/build.xml:185: the archive doesn't exist" time="6 minutes 45 seconds"/>
+  <build error="/home/cruise/work/projects/cruisecontrol/build.xml:185: the archive doesn't exist" time="3 minutes 45 seconds"/>
 </cruisecontrol>
 

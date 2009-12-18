@@ -15,7 +15,7 @@ class Cache:
         return cls._instance
             
     def refresh(self, config = None):
-        self.project_group.append(config.id, Builds.create_builds(config, None, config.builds()))
+        self.project_group.append(config.id, Builds.create_builds(config, None))
         Builds.gen_all_reports(config.id)
 
     def find(self, project_id):

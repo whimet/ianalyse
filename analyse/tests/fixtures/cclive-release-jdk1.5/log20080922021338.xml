@@ -2316,16 +2316,16 @@
   </modifications>
   <info>
     <property name="projectname" value="cclive-release-jdk1.5" />
-    <property name="lastbuild" value="20080923005446" />
+    <property name="lastbuild" value="20080922005446" />
     <property name="lastsuccessfulbuild" value="20080906021547" />
     <property name="builddate" value="09/23/2008 02:13:38" />
-    <property name="cctimestamp" value="20080923021338" />
+    <property name="cctimestamp" value="20080922021338" />
     <property name="label" value="build.6" />
     <property name="interval" value="300" />
     <property name="lastbuildsuccessful" value="false" />
     <property name="logdir" value="/home/cruise/work/logs/cclive-release-jdk1.5" />
-    <property name="logfile" value="log20080923021338.xml" />
+    <property name="logfile" value="log20080922021338.xml" />
   </info>
-  <build error="/home/cruise/work/projects/cruisecontrol/build.xml:185: the archive doesn't exist" time="2 minutes 45 seconds"/>    
+  <build error="/home/cruise/work/projects/cruisecontrol/build.xml:185: the archive doesn't exist" time="1 minutes 45 seconds"/>    
 </cruisecontrol>
 
