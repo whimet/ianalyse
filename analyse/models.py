@@ -122,7 +122,7 @@ class Build(models.Model):
     @staticmethod
     def view_all(project_id, results):
         results["total_count"] = Build.total_count(project_id)
-        results["avg_time"] = "%.2f%%" % Build.avg_build_time(project_id)             
+        results["avg_time"] = "%.2f" % Build.avg_build_time(project_id)             
         results["pass_rate"] = "%.2f%%" % (Build.pass_rate(project_id) * 100)
         results["started_build_at"] = Build.started_build_at(project_id)
         results["last_built_at"] = Build.last_built_at(project_id)
