@@ -69,13 +69,6 @@ class Build(models.Model):
         return rate[0]
 
     @staticmethod
-    def total_count(project_id):
-        cursor = connection.cursor()
-        cursor.execute("select count(1) from analyse_build where project_id = %s", [project_id])
-        rate = cursor.fetchone()
-        return rate[0]
-
-    @staticmethod
     def pass_rate(project_id):
         cursor = connection.cursor()
         cursor.execute(
@@ -115,7 +108,6 @@ class Build(models.Model):
 
     @staticmethod
     def view_all(project_id, results):
-        results["total_count"] = Build.total_count(project_id)
         results["avg_time"] = "%.2f" % Build.avg_build_time(project_id)             
         results["pass_rate"] = "%.2f%%" % (Build.pass_rate(project_id) * 100)
         results["started_build_at"] = Build.started_build_at(project_id)
@@ -275,7 +267,9 @@ class Builds:
     def __getitem__(self, index):
         return self.builds.__getitem__(index)
 
-    
+    def total_count(self):
+        return len(self.builds)
+        
     def last(self):
         size = len(self.builds)
         if size == 0 :

@@ -49,11 +49,13 @@ def show(request):
     if not config.has_result() :
         return redirect('setup.html?id=' + urlquote(project_id))
 
+    builds = Cache.INSTANCE().find(project_id)
     over_all_result = {
         "project_id" : project_id,
-        "builds" : Cache.INSTANCE().find(project_id)
+        "builds" : builds
     }
-
+    over_all_result["total_count"] = len(builds)
+    
     Build.view_all(project_id, over_all_result)
     return render_to_response('analyse/show.html', Context(over_all_result), context_instance = RequestContext(request))
 
