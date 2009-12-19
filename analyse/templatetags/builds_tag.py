@@ -52,7 +52,7 @@ def pass_rate(builds):
     return  "%.2f%%" % (builds.pass_rate() * 100)
 
 def summary(builds):
-    return str(builds.total_count()) + ' runs between ' + str(builds.started_at()) + "and " + str(builds.ended_at())
+    return str(builds.total_count()) + ' runs between ' + str(builds.started_at()) + " and " + str(builds.ended_at())
 
 register.simple_tag(total_runs)
 register.simple_tag(avg_build_time)

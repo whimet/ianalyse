@@ -1,4 +1,5 @@
 {% extends "analyse/layout.html" %}
+{% load builds_tag %}
 
 {% block title %}ianalyse - Take a closer look at your project{% endblock %}
 
@@ -10,22 +11,21 @@
     swfobject.embedSWF(
             "{{ MEDIA_URL }}/swf/open-flash-chart.swf", "successful_rate", "550", "500",
             "9.0.0", "expressInstall.swf",
-    {"data-file":"/results/{{project_id}}/successful_rate.txt"}
+    {"data-file":"/results/{% project_id builds %}/successful_rate.txt"}
             );
 
     swfobject.embedSWF(
             "{{ MEDIA_URL }}/swf/open-flash-chart.swf", "build_times", "550", "500",
             "9.0.0", "expressInstall.swf",
-    {"data-file":"/results/{{project_id}}/build_times.txt"}
+    {"data-file":"/results/{% project_id builds %}/build_times.txt"}
             );
     swfobject.embedSWF(
             "{{ MEDIA_URL }}/swf/open-flash-chart.swf", "per_build_time", "550", "500",
             "9.0.0", "expressInstall.swf",
-    {"data-file":"/results/{{project_id}}/per_build_time.txt"}
+    {"data-file":"/results/{% project_id builds %}/per_build_time.txt"}
             );
 </script>
 {% endblock %}
-{% load builds_tag %}
 {% block content %}
 <div class="site">
 	<div id="repos">
@@ -36,7 +36,7 @@
 						{% project_id builds %}				
 					</span>
 					<span id="download_button">
-						<a href="/results/{{project_id}}/{{project_id}}.csv"><img src="/media/css/img/csv.png" style="border-width:0"></img> Export as CSV</a>
+						<a href="/results/{% project_id builds %}/{% project_id builds %}.csv"><img src="/media/css/img/csv.png" style="border-width:0"></img> Export as CSV</a>
 					</a>
 			      </div>
 				</span>
