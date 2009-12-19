@@ -82,12 +82,6 @@ class Build(models.Model):
 		return rate[0]
 
     @staticmethod
-    def avg_build_time(project_id):
-        cursor = connection.cursor()
-        cursor.execute("select avg(build_time) from analyse_build where project_id = %s", [project_id])
-        return  cursor.fetchone()[0]
-
-    @staticmethod
     def started_build_at(project_id):
         cursor = connection.cursor()
         cursor.execute("select min(start_time) from analyse_build where project_id = %s", [project_id])
@@ -108,7 +102,6 @@ class Build(models.Model):
 
     @staticmethod
     def view_all(project_id, results):
-        results["avg_time"] = "%.2f" % Build.avg_build_time(project_id)             
         results["pass_rate"] = "%.2f%%" % (Build.pass_rate(project_id) * 100)
         results["started_build_at"] = Build.started_build_at(project_id)
         results["last_built_at"] = Build.last_built_at(project_id)
@@ -363,7 +356,17 @@ class Builds:
             return 0
 
         return float('%.2f' % (self.pass_count() / (len(self.builds) - 0.0)))
+    
+    def avg_build_time(self):
+        array = []
+        for build in self.builds :
+            array.append(build.build_time)
+        if len(array) == 0:
+            return '0'
 
+        average = float(sum(array)) / len(array)
+        return "%.2f" % average
+    
     def avg_runs(self):
         min = self.builds[0]
         max = self.builds[len(self.builds) - 1]
