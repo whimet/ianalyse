@@ -25,9 +25,6 @@ class Build():
     last_pass = None
     last_build = None
 
-    def __unicode__(self):
-        return self.name + " << " + str(self.is_passed) + " << " + str(self.start_time) + "\n"
-
     def day_of_start(self):
         return begining_of_the_day(self.start_time)
 
@@ -84,6 +81,10 @@ class Build():
             return self.start_time
         else:
             return self.last_pass
+
+    def __unicode__(self):
+        return self.name + " << " + str(self.is_passed) + " << " + str(self.start_time) + "\n"
+
 
 
 class TopNStatistics :
@@ -191,15 +192,6 @@ class TopNStatistics :
 class Builds:
     def __init__(self):
         self.builds = []
-
-    def __len__(self):
-        return len(self.builds)
-
-    def __iter__(self):
-       return self.builds.__iter__()
-
-    def __getitem__(self, index):
-        return self.builds.__getitem__(index)
 
     def total_count(self):
         return len(self.builds)
@@ -326,10 +318,6 @@ class Builds:
             return '%.2f' % len_builds
         return '%.2f' % (len_builds / (delta.days - 0.0))
     
-    def __unicode__(self):
-        return "<Builds " + str(self.builds) + ">\n"
-
-
     @staticmethod
     def create_builds(config, pattern):
         if pattern == None :
@@ -389,6 +377,19 @@ class Builds:
         writer.writerow(config.csv_keys())
         writer.writerows(arrays)
 
+    def __unicode__(self):
+        return "<Builds " + str(self.builds) + ">\n"
+
+    def __len__(self):
+        return len(self.builds)
+
+    def __iter__(self):
+       return self.builds.__iter__()
+
+    def __getitem__(self, index):
+        return self.builds.__getitem__(index)
+
+
 class ProjectGroup:
     def __init__(self):
         self.projects = {}
@@ -429,17 +430,3 @@ class ProjectGroup:
             pass
                     
         return pg
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-
