@@ -38,12 +38,29 @@ def last_pass_span(builds):
         return '<span class="last_pass_at" style="color:red;font-weight:bold">' + build.last_pass_t() + "</span>"
     else :
         return '<span class="last_pass_at">' + build.last_pass_t()  + "</span>"   
-    
 
+def total_runs(builds):
+    return str(builds.total_count()) + '(s)'
+
+def avg_build_time(builds):
+    return str(builds.avg_build_time())  + '(s)'
+
+def project_id(builds):
+    return builds.project_id()
+
+def pass_rate(builds):
+    return  "%.2f%%" % (builds.pass_rate() * 100)
+
+def summary(builds):
+    return str(builds.total_count()) + ' runs between ' + str(builds.started_at()) + "and " + str(builds.ended_at())
+
+register.simple_tag(total_runs)
+register.simple_tag(avg_build_time)
+register.simple_tag(project_id)
+register.simple_tag(pass_rate)
+register.simple_tag(summary)
 
 register.simple_tag(build_status_icon)
 register.simple_tag(more_attention_icon)
 register.simple_tag(last_pass_span)
 register.simple_tag(last_build_span)
-
-

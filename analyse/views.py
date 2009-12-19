@@ -51,15 +51,8 @@ def show(request):
 
     builds = Cache.INSTANCE().find(project_id)
     over_all_result = {
-        "project_id" : project_id,
         "builds" : builds
-    }
-    over_all_result["total_count"] = len(builds)
-    over_all_result["avg_time"] = builds.avg_build_time()
-    over_all_result["pass_rate"] = "%.2f%%" % (builds.pass_rate() * 100)
-    over_all_result["started_build_at"] = builds.started_at()
-    over_all_result["last_build_at"] = builds.ended_at()
-    
+    }    
     return render_to_response('analyse/show.html', Context(over_all_result), context_instance = RequestContext(request))
 
 def help(request):
