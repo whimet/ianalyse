@@ -62,13 +62,6 @@ class Build(models.Model):
         return result
 
     @staticmethod
-    def passed_count(project_id):
-        cursor = connection.cursor()
-        cursor.execute("select count(1) from analyse_build where project_id = %s and is_passed = 1", [project_id])
-        rate = cursor.fetchone()
-        return rate[0]
-
-    @staticmethod
     def started_build_at(project_id):
         cursor = connection.cursor()
         cursor.execute("select min(start_time) from analyse_build where project_id = %s", [project_id])
@@ -132,8 +125,8 @@ class TopNStatistics :
         builds = Builds()
         builds.builds = self.builds
 
-        total  = Build.total(self.project_id)
-        passed = Build.passed_count(self.project_id)
+        total  = builds.total_count()
+        passed = builds.pass_count()
         failed = total - passed        
         
         chart = Chart()

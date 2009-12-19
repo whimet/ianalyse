@@ -204,11 +204,24 @@ class BuildsTest(TestCase):
         arry, min_date, max_date = builds.pass_rate_by_day()
         self.assertEquals('67.0', str(arry[0]['y']))
 
+    def test_should_calculate_total_count(self):
+        builds = Builds()
+        builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed_at_oct_11]
+
+        self.assertEquals(3, builds.total_count())
+
+    def test_should_calculate_pass_count(self):
+        builds = Builds()
+        builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed_at_oct_11]
+
+        self.assertEquals(2, builds.pass_count())
+
     def test_should_calculate_avg_build_time(self):
         builds = Builds()
         builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed_at_oct_11]
 
         self.assertEquals('40.67', builds.avg_build_time())
+
 
     def test_should_return_zero_as_avg_build_time_if_no_builds(self):
         builds = Builds()
