@@ -95,12 +95,6 @@ class Build(models.Model):
         return  cursor.fetchone()[0]
 
     @staticmethod
-    def avg_runs(project_id):
-        cursor = connection.cursor()
-        cursor.execute("select avg(build_time) from analyse_build where project_id = %s", [project_id])
-        return  cursor.fetchone()[0]
-
-    @staticmethod
     def started_build_at(project_id):
         cursor = connection.cursor()
         cursor.execute("select min(start_time) from analyse_build where project_id = %s", [project_id])
@@ -182,7 +176,7 @@ class TopNStatistics :
         element1.colours = ['#1C9E05','#FF368D']
 
         chart.elements = [element1]
-        chart.title = {"text": str(builds.avg_runs()) + ' Runs/Day', "style": "{font-size: 15px; font-family: Times New Roman; font-weight: bold; color: #4183C4; text-align: center;}" }
+        chart.title = {"text": str(len(builds)) + ' Runs', "style": "{font-size: 15px; font-family: Times New Roman; font-weight: bold; color: #4183C4; text-align: center;}" }
         chart.bg_colour = "#FFFFFF" 
         return chart.create()
 
