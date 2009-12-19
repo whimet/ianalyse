@@ -7,7 +7,7 @@ from datetime import datetime
 import util.datetimeutils
 from analyse.tests.testutil import TestUtils
 
-class BuildsTest(TestCase):
+class BuildsByDayTests(TestCase):
     FAILED_LOG_AT_OCT_11 = '''<cruisecontrol>
       <modifications />
       <info>
@@ -124,121 +124,66 @@ class BuildsTest(TestCase):
     def setUp(self):
         self.testutils                = TestUtils()
         self.root                     = settings.PROJECT_DIR
-        self.failed                   = Build.from_file(self.testutils.write_to_temp('FAILED_LOG.xml', BuildsTest.FAILED_LOG))
-        self.passed_at_oct_11         = Build.from_file(self.testutils.write_to_temp('PASSED_LOG_AT_OCT_11.xml', BuildsTest.PASSED_LOG_AT_OCT_11))
-        self.another_passed_at_oct_11 = Build.from_file(self.testutils.write_to_temp('ANOTHER_PASSED_LOG_AT_OCT_11.xml', BuildsTest.ANOTHER_PASSED_LOG_AT_OCT_11))
-        self.failed_at_oct_11 = Build.from_file(self.testutils.write_to_temp('FAILED_LOG_AT_OCT_11.xml', BuildsTest.FAILED_LOG_AT_OCT_11))        
+        self.failed                   = Build.from_file(self.testutils.write_to_temp('FAILED_LOG.xml', BuildsByDayTests.FAILED_LOG))
+        self.passed_at_oct_11         = Build.from_file(self.testutils.write_to_temp('PASSED_LOG_AT_OCT_11.xml', BuildsByDayTests.PASSED_LOG_AT_OCT_11))
+        self.another_passed_at_oct_11 = Build.from_file(self.testutils.write_to_temp('ANOTHER_PASSED_LOG_AT_OCT_11.xml', BuildsByDayTests.ANOTHER_PASSED_LOG_AT_OCT_11))
+        self.failed_at_oct_11 = Build.from_file(self.testutils.write_to_temp('FAILED_LOG_AT_OCT_11.xml', BuildsByDayTests.FAILED_LOG_AT_OCT_11))        
         
 
     def tearDown(self):
         self.testutils.cleantemp()
+
+    def test_should_total_runs_by_day(self):
+        builds = Builds()
+        builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed_at_oct_11]
+        n_days_summary = builds.get_n_days_summary();
         
-    def testShouldGroupTheBuilds(self):
+        self.assertEquals(3, n_days_summary.total_runs_values()[0].get('y'))
+    
+    def test_should_return_zero_total_runs_if_no_builds(self):
         builds = Builds()
-        builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed]
-        grouped_builds = builds.group_by_each_day()
-        self.assertEquals(2, len(grouped_builds))
-
-        atime = datetime.strptime("20091011000000", "%Y%m%d%H%M%S")
-        btime = datetime.strptime("20091017000000", "%Y%m%d%H%M%S")
-
-        self.assertEquals(2, len(grouped_builds[atime].builds))
-        btime = datetime.strptime("20091017000000", "%Y%m%d%H%M%S")
-        self.assertEquals(1, len(grouped_builds[btime].builds))
-
-    def testShouldCalculateThePassCount(self):
-        builds = Builds()
-        builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed]
-
-        atime = datetime.strptime("20091011000000", "%Y%m%d%H%M%S")
-        self.assertEquals(2, builds.group_by_each_day()[atime].pass_count())
-
-    def testShouldCalculateTheFailCount(self):
-        builds = Builds()
-        builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed]
-
-        atime = datetime.strptime("20091017000000", "%Y%m%d%H%M%S")
-        self.assertEquals(0, builds.group_by_each_day()[atime].pass_count())
-
-    def testShouldCalculateThePassRate(self):
-        builds = Builds()
-        builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed]
-
-        atime = datetime.strptime("20091011000000", "%Y%m%d%H%M%S")
-        self.assertEquals(1, builds.group_by_each_day()[atime].pass_rate())
-
-    def testShouldTheBuildsTimes(self):
-        builds = Builds()
-        builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed]
-
-        atime = datetime.strptime("20091011000000", "%Y%m%d%H%M%S")
-        values, min, max, max_time = builds.build_times()
-        self.assertEquals(3, len(values))
-
-        self.assertEquals (util.datetimeutils.cctimestamp_to_unix_timestamp("20091011173900"), min)
-        self.assertEquals (util.datetimeutils.cctimestamp_to_unix_timestamp("20091017220324"), max)
-        self.assertEquals (60, max_time)
-
-    def testShouldCalculateTheBuildPerDay(self):
-        builds = Builds()
-        builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed]
-
-        values, labels, max_time = builds.per_build_time()
+        n_days_summary = builds.get_n_days_summary();
         
-        self.assertEquals('#1C9E05', values[0]['colour']);
-        self.assertEquals('#1C9E05', values[1]['colour']);
-        self.assertEquals('#FF368D', values[2]['colour']);
-        self.assertEquals(60, values[0]['top']);
-        self.assertEquals(2,  values[1]['top']);
-        self.assertEquals(4,  values[2]['top']);
-        self.assertEquals('2009-10-11 17:39:22', labels[0])
-        self.assertEquals('2009-10-11 17:39:00', labels[1])
-        self.assertEquals('2009-10-17 22:03:24', labels[2])
-        self.assertEquals(60, max_time);
+        self.assertEquals(0, len(n_days_summary.total_runs_values()))
 
-
-    def test_should_calculate_pass_rate_by_day(self):
+    
+    def test_should_passed_runs_by_day(self):
         builds = Builds()
         builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed_at_oct_11]
+        n_days_summary = builds.get_n_days_summary();
 
-        n_days_summary = builds.get_n_days_summary()
-        self.assertEquals('67.0', str(n_days_summary.pass_rate_values()[0]['y']))
+        self.assertEquals(2, n_days_summary.passed_runs_values()[0].get('y'))
+    
+    def test_should_return_zero_if_no_passed_build(self):
+        builds = Builds()
+        builds.builds = [self.failed_at_oct_11]
 
-    def test_should_calculate_total_count(self):
+        n_days_summary = builds.get_n_days_summary();
+        self.assertEquals(0, n_days_summary.passed_runs_values()[0].get('y'))
+
+    def test_should_return_zero_passed_build_if_no_builds(self):
+        builds = Builds()
+        n_days_summary = builds.get_n_days_summary();
+        self.assertEquals(0, len(n_days_summary.passed_runs_values()))
+
+    
+    def test_should_passed_runs_by_day(self):
         builds = Builds()
         builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed_at_oct_11]
+        n_days_summary = builds.get_n_days_summary();
 
-        self.assertEquals(3, builds.total_count())
+        self.assertEquals(1, n_days_summary.failed_runs_values()[0].get('y'))
 
-    def test_should_calculate_pass_count(self):
+    def test_should_return_zero_if_no_passed_build(self):
         builds = Builds()
-        builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed_at_oct_11]
+        builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11]
 
-        self.assertEquals(2, builds.pass_count())
+        n_days_summary = builds.get_n_days_summary();
+        self.assertEquals(0, n_days_summary.failed_runs_values()[0].get('y'))
 
-    def test_should_calculate_avg_build_time(self):
+    def test_should_return_zero_passed_build_if_no_builds(self):
         builds = Builds()
-        builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed_at_oct_11]
+        n_days_summary = builds.get_n_days_summary();
+        self.assertEquals(0, len(n_days_summary.failed_runs_values()))
 
-        self.assertEquals('40.67', builds.avg_build_time())
 
-
-    def test_should_return_zero_as_avg_build_time_if_no_builds(self):
-        builds = Builds()
-
-        self.assertEquals('0', builds.avg_build_time())
-
-    def testShouldCalcateAvgRunsPerDay(self):
-        builds = Builds()
-        builds.builds = [self.passed_at_oct_11,  self.another_passed_at_oct_11, self.failed]
-        self.assertEquals('1.5', builds.avg_runs());
-
-    def testShouldCalcateAvgRunsPerDay(self):
-        builds = Builds()
-        builds.builds = [self.passed_at_oct_11,  self.passed_at_oct_11, self.passed_at_oct_11]
-        self.assertEquals('3.00', builds.avg_runs());
-        
-    def testShouldOnlyKeep2digitAfterPoint(self):
-        builds = Builds()
-        builds.builds = [self.passed_at_oct_11,  self.failed]
-        self.assertEquals('0.33', str(builds.avg_runs()));

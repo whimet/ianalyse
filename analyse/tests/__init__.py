@@ -12,6 +12,7 @@ import analyse.tests.functional_tests
 import analyse.tests.perf_tests
 import analyse.tests.tar_tests
 import analyse.tests.project_group_tests
+import analyse.tests.builds_by_day_tests
 import os                                                  
 
 def suite():
@@ -25,6 +26,7 @@ def suite():
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.successful_rate_chart.SuccessfulRateChartTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.datetimeutils_tests.DatetimeUtilsTest))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.builds_tests.BuildsTest))
+        s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.builds_by_day_tests.BuildsByDayTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.config_tests.ConfigTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.configs_tests.ConfigsTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.osutils_tests.OSUtilsTests))

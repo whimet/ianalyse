@@ -84,7 +84,70 @@ class Build():
     def __unicode__(self):
         return self.name + " << " + str(self.is_passed) + " << " + str(self.start_time) + "\n"
 
+class DaySummary:
+    def __init__(self, total, passed, start_time, timestamp):
+        self.total = total
+        self.passed = passed
+        self.start_time = start_time
+        self.timestamp = timestamp
 
+    def pass_rate(self):
+        return {"x" : self.timestamp, "y" :  float('%.2f' % (self.passed / (self.total - 0.0)))  * 100}
+
+    def total_runs(self):
+        return {"x" : self.timestamp, "y" :  self.total}
+
+    def passed_runs(self):
+        return {"x" : self.timestamp, "y" :  self.passed}
+        
+    def failed_runs(self):
+        return {"x" : self.timestamp, "y" :  (self.total - self.passed)}
+
+class NDaysSummary:
+    def __init__(self):
+        self.days_summary = []
+
+    def append(self, day_summary):
+        self.days_summary.append(day_summary)
+
+    def min_timestamp(self):
+        array = []
+        for day_summary in self:
+            array.append(day_summary.timestamp)
+        array.sort()
+        return array[0]
+        
+    def max_timestamp(self):
+        array = []
+        for day_summary in self:
+            array.append(day_summary.timestamp)
+        array.sort()
+        return array[len(array) - 1]
+
+
+    def _run_values(self, method):
+        array = []
+        for day_summary in self:
+            array.append(getattr(day_summary, method)())
+        return array
+
+    def __getattr__(self, name):
+        if not name.endswith("_values"):
+            return lambda : getattr(self, name)
+        else :
+            field = name[0:len(name) - len('_values')]
+            return lambda : self._run_values(field)
+
+    def __len__(self):
+        return len(self.days_summary)
+
+    def __iter__(self):
+       return self.days_summary.__iter__()
+
+    def __getitem__(self, index):
+        return self.days_summary.__getitem__(index)
+
+    
 class Builds:
     def __init__(self):
         self.builds = []
@@ -125,26 +188,15 @@ class Builds:
 
         return grouped_builds
 
-    def pass_rate_by_day(self) :
-        arry = []
-        builds = Builds()
-        builds.builds = self.builds
-        grped_builds = builds.group_by_each_day();
-        min_date = None;
-        max_date = None;
-
+    def get_n_days_summary(self):
+        grped_builds = self.group_by_each_day();
+        ndayssummary = NDaysSummary()
         for day_of_start in grped_builds.order() :
             timestamp = int(to_unix_timestamp(day_of_start));
-            pass_rate = grped_builds[day_of_start].pass_rate()
-            arry.append({"x" : timestamp, "y" : pass_rate * 100})
-            if min_date == None or timestamp < min_date:
-                min_date = timestamp;
-
-            if max_date == None or timestamp >  max_date:
-                max_date = timestamp;
-
-        return arry,min_date, max_date
-
+            builds = grped_builds[day_of_start];
+            ndayssummary.append(DaySummary(builds.total_count(), builds.pass_count(), day_of_start, timestamp))
+        return ndayssummary
+        
     def build_times(self):
         arry = []
         min_date = None;
@@ -261,6 +313,7 @@ class Builds:
         stat.generate_pass_rate_by_day()
         stat.generate_build_time_over_time()
         stat.generate_per_build_info()
+        stat.generate_run_times_and_pass_count_by_day()
         self.create_csv()
         return
 
@@ -340,6 +393,7 @@ class ProjectGroup:
                 pg.append(config[1], builds)
                 builds.gen_all_reports()
             except Exception, e:
+                print e
                 pass
         try:
             tar = Tar(configs).create()
