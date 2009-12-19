@@ -1,34 +1,29 @@
-from django.db import connection, models,settings
-import string
 from datetime import datetime, timedelta
 import os
-from util.datetimeutils import *
-from analyse.openFlashChart import Chart
 import re
-import analyse.ordered_dic
-from analyse.config import Config, Configs
+import csv
 
+from django.db import settings
 from xml.sax.handler import ContentHandler
 from xml.sax import parse, parseString
-import sys
-from analyse.saxhandlers import *
 from lxml import etree
-import StringIO
-import csv
+
+from util.datetimeutils import *
+from analyse.openFlashChart import Chart
+import analyse.ordered_dic
+from analyse.config import Config, Configs
+from analyse.saxhandlers import *
 from analyse.tar import Tar
 
 
-class Build(models.Model):
-    project_id = models.TextField()
-    number = models.TextField()
-    name = models.TextField()
-    scm_type = models.TextField()
-    scm_revision = models.TextField()
-    start_time = models.DateTimeField('build start')
-    build_time = models.IntegerField('How long does this build take', default=0)
-    is_passed = models.BooleanField('Does the build pass', default=False)
-    last_pass = models.DateTimeField('When is the last successful date happend?')
-    last_build = models.DateTimeField('When is the last build happend?')
+class Build():
+    project_id = ""
+    name = ""
+    start_time = None;
+    build_time = 0
+    is_passed = False
+    last_pass = None
+    last_build = None
 
     def __unicode__(self):
         return self.name + " << " + str(self.is_passed) + " << " + str(self.start_time) + "\n"
@@ -345,7 +340,6 @@ class Builds:
         if pattern == None :
             pattern = "log.*.xml"
 
-        Build.objects.filter(project_id = config.id).delete()
         builds_obj = Builds()  
         builds = list();
 
@@ -356,7 +350,6 @@ class Builds:
                 try :
                     build = Build.from_file(config.logfile(eachfile))
                     build.project_id = config.id
-                    build.save()
                     builds.append(build)
                 except Exception, e :
                     print e
@@ -382,24 +375,24 @@ class Builds:
                     pass
         return values
         
-    @staticmethod
-    def create_csv(project_id):
+    
+    def gen_all_reports(self):
+        stat = TopNStatistics(self.builds[0].project_id, self.builds)
+        stat.generate_pass_rate()
+        stat.generate_successful_rate()
+        stat.generate_build_times()
+        stat.generate_per_build_time()
+        self.create_csv()
+        return
+
+    def create_csv(self):
+        project_id = self.builds[0].project_id
         config = Configs().find(project_id)
         arrays = Builds.select_values_from(config, None)
         folder = config.result_dir()
         writer = csv.writer(open(os.path.join(folder, project_id + '.csv'), 'w'), delimiter=',')
         writer.writerow(config.csv_keys())
         writer.writerows(arrays)
-    
-    @staticmethod
-    def gen_all_reports(project_id):
-        stat = TopNStatistics(project_id = project_id, builds = Build.objects.filter(project_id = project_id).order_by('start_time'))
-        stat.generate_pass_rate()
-        stat.generate_successful_rate()
-        stat.generate_build_times()
-        stat.generate_per_build_time()
-        Builds.create_csv(project_id)
-        return
 
 class ProjectGroup:
     def __init__(self):
@@ -429,8 +422,9 @@ class ProjectGroup:
 
         for config in configs:
             try:
-                pg.append(config[1], Builds.create_builds(config[1], None))
-                Builds.gen_all_reports(config[1].id)
+                builds = Builds.create_builds(config[1], None)
+                pg.append(config[1], builds)
+                builds.gen_all_reports()
             except Exception, e:
                 pass
         try:

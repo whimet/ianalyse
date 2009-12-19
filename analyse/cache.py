@@ -8,8 +8,9 @@ class Cache:
         self.project_group = None
             
     def refresh(self, config = None):
-        self.project_group.append(config.id, Builds.create_builds(config, None))
-        Builds.gen_all_reports(config.id)
+        builds = Builds.create_builds(config, None)
+        self.project_group.append(config.id, builds)
+        builds.gen_all_reports()
 
     def find(self, project_id):
         return self.project_group.find(project_id)
