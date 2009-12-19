@@ -16,9 +16,6 @@ class Cache:
         return self.project_group.find(project_id)
 
     def get_project_group(self):
-        if Cache._instance.project_group == None:
-            Cache._instance.populate()
-            
         return Cache._instance.project_group
 
     def populate(self):

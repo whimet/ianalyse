@@ -58,7 +58,8 @@ class Configs:
 class Config:
     DEFAULT_FILES_TO_PROCESS = 30
     DEFAULT_DAYS_TO_PROCESS = 14
-
+    DEFAULT_INTERVAL = 600
+    
     def __init__(self, config_file):
         self.config_file = config_file
         self.id = os.path.splitext(os.path.split(config_file)[1])[0]
@@ -75,7 +76,7 @@ class Config:
     
     def logfile(self, name):
         return os.path.join(self.logdir(), name)
-    
+
     def days(self):
         def anonymous(config): 
             try:                                        
