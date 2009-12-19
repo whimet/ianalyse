@@ -69,19 +69,6 @@ class Build(models.Model):
         return rate[0]
 
     @staticmethod
-    def pass_rate(project_id):
-        cursor = connection.cursor()
-        cursor.execute(
-                "select (select CAST(count(1) AS REAL) from analyse_build where project_id = %s and is_passed = 1) / (select count(1) from analyse_build where project_id = %s)"
-                ,
-                [project_id, project_id])
-        rate = cursor.fetchone()
-        if rate[0] == None:
-        	return 0.0
-	else:
-		return rate[0]
-
-    @staticmethod
     def started_build_at(project_id):
         cursor = connection.cursor()
         cursor.execute("select min(start_time) from analyse_build where project_id = %s", [project_id])
@@ -102,7 +89,6 @@ class Build(models.Model):
 
     @staticmethod
     def view_all(project_id, results):
-        results["pass_rate"] = "%.2f%%" % (Build.pass_rate(project_id) * 100)
         results["started_build_at"] = Build.started_build_at(project_id)
         results["last_built_at"] = Build.last_built_at(project_id)
         return

@@ -56,6 +56,7 @@ def show(request):
     }
     over_all_result["total_count"] = len(builds)
     over_all_result["avg_time"] = builds.avg_build_time()
+    over_all_result["pass_rate"] = "%.2f%%" % (builds.pass_rate() * 100)
     
     Build.view_all(project_id, over_all_result)
     return render_to_response('analyse/show.html', Context(over_all_result), context_instance = RequestContext(request))
