@@ -87,7 +87,7 @@ class Build():
 
 
 
-class TopNStatistics :
+class NDaysStatistics :
     def __init__(self, builds):
         self.builds = builds
         self.project_id = builds.project_id()
@@ -360,7 +360,7 @@ class Builds:
         
     
     def gen_all_reports(self):
-        stat = TopNStatistics(self)
+        stat = NDaysStatistics(self)
         stat.generate_pass_rate()
         stat.generate_successful_rate()
         stat.generate_build_times()

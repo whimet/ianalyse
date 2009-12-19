@@ -1,5 +1,5 @@
 from django.test import TestCase
-from analyse.models import Build, Builds, TopNStatistics, Builds
+from analyse.models import *
 import os
 from django.conf import settings
 from datetime import datetime
@@ -22,7 +22,7 @@ class SuccessfulRateChartTests(TestCase):
     def testGenerateTotalPassRate(self):
         builds = Builds.create_builds(TestUtils().connectfour_config(), SuccessfulRateChartTests.PATTERN);
         
-        ndaysStat = TopNStatistics(builds)
+        ndaysStat = NDaysStatistics(builds)
         json_str = ndaysStat.successful_rate()
         if NO_CJSON :
             json_obj = json.loads(json_str)
