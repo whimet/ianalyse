@@ -264,7 +264,7 @@ class TopNStatistics :
         result = getattr(self, field)()
         
         total_json_file = os.path.join(Configs().find(self.project_id).result_dir(), field + '.txt');
-        
+
         os.write_to_file(total_json_file, result)
         return lambda : {}
 
@@ -475,6 +475,7 @@ class ProjectGroup:
     def create():
         pg = ProjectGroup()
         configs = Configs()
+
         for config in configs:
             try:
                 pg.append(config[1], Builds.create_builds(config[1], None))
@@ -492,6 +493,7 @@ class ProjectGroup:
     
     
     
+
     
     
     

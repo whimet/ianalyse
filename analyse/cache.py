@@ -6,13 +6,6 @@ class Cache:
     
     def __init__(self):
         self.project_group = None
-
-    '''this is a singleton class'''
-    def __new__(cls, *args, **kwargs):
-        if not cls._instance:
-            cls._instance = super(Cache, cls).__new__(
-                                cls, *args, **kwargs)
-        return cls._instance
             
     def refresh(self, config = None):
         self.project_group.append(config.id, Builds.create_builds(config, None))
@@ -22,12 +15,18 @@ class Cache:
         return self.project_group.find(project_id)
 
     def get_project_group(self):
-        if self.project_group == None:
-            self.populate()
+        if Cache._instance.project_group == None:
+            Cache._instance.populate()
             
-        return self.project_group
+        return Cache._instance.project_group
 
     def populate(self):
-        self.project_group = ProjectGroup.create()
+        Cache._instance.project_group = ProjectGroup.create()
+    
+    @staticmethod
+    def INSTANCE():
+        if Cache._instance == None:
+            Cache._instance = Cache()
+        
+        return Cache._instance
 
-Cache().populate()

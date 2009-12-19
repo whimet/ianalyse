@@ -6,8 +6,6 @@ from analyse.cache import Cache
 from analyse.config import Config, Configs
 from django.utils.http import urlquote
 
-cache = Cache()
-
 def home(request):
     return redirect('/analyse/index.html')
 
@@ -16,7 +14,7 @@ def index(request):
     if (configs.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
 
-    results = {'configs' : configs, 'project_groups' : cache.get_project_group()}
+    results = {'configs' : configs, 'project_groups' : Cache.INSTANCE().get_project_group()}
     
     return render_to_response('analyse/index.html', Context(results), context_instance = RequestContext(request))
 
@@ -36,9 +34,9 @@ def generate(request) :
 
     id = request.POST.get('id')
     if id == None:
-        cache.populate()
+        Cache.INSTANCE().populate()
     else:
-        cache.refresh(configs.find(id))
+        Cache.INSTANCE().refresh(configs.find(id))
     return redirect('index.html')
 
 def show(request):
@@ -53,7 +51,7 @@ def show(request):
 
     over_all_result = {
         "project_id" : project_id,
-        "builds" : cache.find(project_id)
+        "builds" : Cache.INSTANCE().find(project_id)
     }
 
     Build.view_all(project_id, over_all_result)
