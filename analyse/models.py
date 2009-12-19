@@ -9,12 +9,11 @@ from xml.sax import parse, parseString
 from lxml import etree
 
 from util.datetimeutils import *
-from analyse.openFlashChart import Chart
 import analyse.ordered_dic
 from analyse.config import Config, Configs
 from analyse.saxhandlers import *
 from analyse.tar import Tar
-
+from analyse.statistics import *
 
 class Build():
     project_id = ""
@@ -85,109 +84,6 @@ class Build():
     def __unicode__(self):
         return self.name + " << " + str(self.is_passed) + " << " + str(self.start_time) + "\n"
 
-
-
-class NDaysStatistics :
-    def __init__(self, builds):
-        self.builds = builds
-        self.project_id = builds.project_id()
-
-    def pass_rate(self):
-        total  = self.builds.total_count()
-        passed = self.builds.pass_count()
-        failed = total - passed        
-        
-        chart = Chart()
-        element1 = Chart()
-        element1.values =  [passed, failed]
-        element1.type = "pie"
-        element1.alpha = 0.6
-        element1.animate = False
-        element1.angle = 35
-        element1.tip = '#val# of #total#<br>#percent# of 100%';
-        element1.colours = ['#1C9E05','#FF368D']
-
-        chart.elements = [element1]
-        chart.title = {"text": str(self.builds.total_count()) + ' Runs', "style": "{font-size: 15px; font-family: Times New Roman; font-weight: bold; color: #4183C4; text-align: center;}" }
-        chart.bg_colour = "#FFFFFF" 
-        return chart.create()
-
-    def per_build_time(self):
-        chart = Chart()
-
-        values, labels, max_time = self.builds.per_build_time();
-        element = Chart()
-        element.type = "bar_glass"
-        element.values = values
-        
-
-        chart.elements = [element]
-        chart.y_axis = { "min": 0, "max": max_time + 10, "steps": max_time / 10}
-        chart.x_axis = {"labels" : {"labels" : labels, "visible-steps": 2, "rotate": 90}}
-        return chart.create()
-
-    def successful_rate(self):
-        chart = Chart()
-
-        element = Chart()
-        element.type = "line"
-        element.dot_style = { "type": "dot" }
-        element.width = 2
-        element.colour = "#C4B86A"
-        element.fill = "#1C9E05"
-        element.fill_alpha = 0.7
-
-        values, min_date, max_date = self.builds.pass_rate_by_day()
-
-        element.values = values
-        chart.elements = [element]
-        all_percentage = []
-
-        for i in range(110):
-            all_percentage.append(str(i) + "%");
-
-        chart.y_axis   = { "min": 0, "max": 110, "steps": 10,  "labels" : {"labels" : all_percentage, "steps" : 20}}
-        chart.x_axis   = { "min": min_date, "max": max_date, "steps": 86400,
-                           "labels": { "text": "#date:Y-m-d at H:i#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
-        chart.title    = { "text": "Pass rate over time."}
-        return chart.create()
-
-    def build_times(self):
-        chart = Chart()
-
-        element = Chart()
-        element.type = "line"
-        element.dot_style = { "type": "dot" }
-        element.width = 2
-        element.colour = "#0000ff"
-        element.fill = "#1C9E05"
-        element.fill_alpha = 0.7
-
-        builds = Builds()
-        builds.builds = self.builds
-        
-        values, min_date, max_date, max_time = builds.build_times()
-
-        element.values = values
-        chart.elements = [element]
-        all_percentage = []
-
-        chart.y_axis   = { "min": 0, "max": max_time + 10, "steps": max_time / 10}
-        chart.x_axis   = { "min": min_date, "max": max_date, "steps": 86400,
-                           "labels": { "text": "#date:Y-m-d at H:i#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
-        chart.title    = { "text": "Build time over time."}
-        return chart.create()
-
-    def __getattr__(self, name):
-        if not name.startswith("generate_"):
-            raise AttributeError(name)
-        field = name[len("generate_"):]
-        result = getattr(self, field)()
-        
-        total_json_file = os.path.join(Configs().find(self.project_id).result_dir(), field + '.txt');
-
-        os.write_to_file(total_json_file, result)
-        return lambda : {}
 
 class Builds:
     def __init__(self):
@@ -411,6 +307,28 @@ class ProjectGroup:
         builds = self.find(id)
         return builds.last()
 
+
+    def projects_comparation(self):
+        names = []
+        values = []
+        max = 0
+        
+        for project in self:
+            project_id = project[0]
+            builds = project[1]
+            names.append(project_id)
+            
+            pass_count = builds.pass_count()
+            total_count = builds.total_count()
+            if total_count > max:
+                max = total_count
+                
+            value = [pass_count,  total_count - pass_count]
+            
+            values.append(value)
+        return values, names, max
+        
+        
     @staticmethod        
     def create():
         pg = ProjectGroup()
@@ -426,7 +344,12 @@ class ProjectGroup:
         try:
             tar = Tar(configs).create()
         except Exception, e:
-            print e
             pass
-                    
+        stat = GlobalStatistics(pg)
+        stat.generate_projects_comparation()                    
         return pg
+
+    def __iter__(self):
+        items = self.projects.items()
+        items.sort()
+        return items.__iter__()
