@@ -3,7 +3,6 @@ import os
 import re
 import csv
 
-from django.db import settings
 from xml.sax.handler import ContentHandler
 from xml.sax import parse, parseString
 from lxml import etree
@@ -15,7 +14,7 @@ from analyse.saxhandlers import *
 from analyse.tar import Tar
 from analyse.statistics import *
 
-class Build():
+class Build:
     project_id = ""
     name = ""
     start_time = None;
