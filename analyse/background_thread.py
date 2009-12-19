@@ -12,9 +12,9 @@ class BackGroundThread:
     def method_wrapper(self):
         while(True):
             try:
-                print "[" + str(datetime.now()) + '] the backgrond thread is processing.'
+                print "[" + str(datetime.now()) + '] the background thread is processing.'
                 self.method()
-                print "[" + str(datetime.now()) + '] the backgrond thread go sleep..'
+                print "[" + str(datetime.now()) + '] the background thread go sleep..'
             except Exception, e:
                 print e
                 pass
