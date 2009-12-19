@@ -61,24 +61,6 @@ class Build(models.Model):
                 result.append(None)
         return result
 
-    @staticmethod
-    def started_build_at(project_id):
-        cursor = connection.cursor()
-        cursor.execute("select min(start_time) from analyse_build where project_id = %s", [project_id])
-        return  cursor.fetchone()[0]
-
-    @staticmethod
-    def last_built_at(project_id):
-        cursor = connection.cursor()
-        cursor.execute("select max(start_time) from analyse_build where project_id = %s", [project_id])
-        return  cursor.fetchone()[0]
-
-    @staticmethod
-    def view_all(project_id, results):
-        results["started_build_at"] = Build.started_build_at(project_id)
-        results["last_built_at"] = Build.last_built_at(project_id)
-        return
-
     def need_attention(self):
         if self.is_last_pass_old():
             return True
@@ -241,6 +223,12 @@ class Builds:
             return None
         else :
             return self.builds[size - 1]
+
+    def started_at(self):
+        return self.builds[0].start_time
+
+    def ended_at(self):
+        return self.builds[len(self.builds) - 1].start_time
 
     def append(self, build):
         self.builds.append(build)
