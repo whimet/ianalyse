@@ -11,18 +11,18 @@
     swfobject.embedSWF(
             "{{ MEDIA_URL }}/swf/open-flash-chart.swf", "successful_rate", "550", "500",
             "9.0.0", "expressInstall.swf",
-    {"data-file":"/results/{% project_id builds %}/successful_rate.txt"}
+    {"data-file":"/results/{% project_id builds %}/pass_rate_by_day.txt"}
             );
 
     swfobject.embedSWF(
             "{{ MEDIA_URL }}/swf/open-flash-chart.swf", "build_times", "550", "500",
             "9.0.0", "expressInstall.swf",
-    {"data-file":"/results/{% project_id builds %}/build_times.txt"}
+    {"data-file":"/results/{% project_id builds %}/build_time_over_time.txt"}
             );
     swfobject.embedSWF(
             "{{ MEDIA_URL }}/swf/open-flash-chart.swf", "per_build_time", "550", "500",
             "9.0.0", "expressInstall.swf",
-    {"data-file":"/results/{% project_id builds %}/per_build_time.txt"}
+    {"data-file":"/results/{% project_id builds %}/per_build_info.txt"}
             );
 </script>
 {% endblock %}

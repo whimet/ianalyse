@@ -19,8 +19,30 @@ class NDaysStatistics :
     def __init__(self, builds):
         self.builds = builds
         self.project_id = builds.project_id()
+    def build_time_over_time(self):
+        chart = Chart()
 
-    def pass_rate(self):
+        element = Chart()
+        element.type = "line"
+        element.dot_style = { "type": "dot" }
+        element.width = 2
+        element.colour = "#0000ff"
+        element.fill = "#1C9E05"
+        element.fill_alpha = 0.7
+
+        values, min_date, max_date, max_time = self.builds.build_times()
+
+        element.values = values
+        chart.elements = [element]
+        all_percentage = []
+
+        chart.y_axis   = { "min": 0, "max": max_time + 10, "steps": max_time / 10}
+        chart.x_axis   = { "min": min_date, "max": max_date, "steps": 86400,
+                           "labels": { "text": "#date:Y-m-d at H:i#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
+        chart.title    = { "text": "Build time over time."}
+        return chart.create()
+
+    def overall_pass_rate(self):
         total  = self.builds.total_count()
         passed = self.builds.pass_count()
         failed = total - passed        
@@ -40,7 +62,7 @@ class NDaysStatistics :
         chart.bg_colour = "#FFFFFF" 
         return chart.create()
 
-    def per_build_time(self):
+    def per_build_info(self):
         chart = Chart()
 
         values, labels, max_time = self.builds.per_build_time();
@@ -54,7 +76,7 @@ class NDaysStatistics :
         chart.x_axis = {"labels" : {"labels" : labels, "visible-steps": 2, "rotate": 90}}
         return chart.create()
 
-    def successful_rate(self):
+    def pass_rate_by_day(self):
         chart = Chart()
 
         element = Chart()
@@ -80,28 +102,9 @@ class NDaysStatistics :
         chart.title    = { "text": "Pass rate over time."}
         return chart.create()
 
-    def build_times(self):
-        chart = Chart()
+    '''{ "elements": [ { "type": "line", "values": [ 3, 5, 2, 5, 3, 4, 3, 4, 6 ], "dot-style": { "type": "dot", "dot-size": 5, "colour": "#DFC329" }, "width": 4, "colour": "#DFC329", "text": "Line 1", "font-size": 10 }, { "type": "line", "values": [ 8, 10, 10, 13, 11, 10, 12, 13, 10 ], "dot-style": { "type": "star", "dot-size": 5 }, "width": 1, "colour": "#6363AC", "text": "Line 2", "font-size": 10 }, { "type": "line", "values": [ 17, 16, 16, 17, 18, 16, 19, 16, 19 ], "width": 1, "colour": "#5E4725", "text": "Line 3", "font-size": 10 } ], "title": { "text": "Three lines example" }, "y_axis": { "min": 0, "max": 20, "steps": 5 } }'''
 
-        element = Chart()
-        element.type = "line"
-        element.dot_style = { "type": "dot" }
-        element.width = 2
-        element.colour = "#0000ff"
-        element.fill = "#1C9E05"
-        element.fill_alpha = 0.7
 
-        values, min_date, max_date, max_time = self.builds.build_times()
-
-        element.values = values
-        chart.elements = [element]
-        all_percentage = []
-
-        chart.y_axis   = { "min": 0, "max": max_time + 10, "steps": max_time / 10}
-        chart.x_axis   = { "min": min_date, "max": max_date, "steps": 86400,
-                           "labels": { "text": "#date:Y-m-d at H:i#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
-        chart.title    = { "text": "Build time over time."}
-        return chart.create()
 
     def __getattr__(self, name):
         if not name.startswith("generate_"):

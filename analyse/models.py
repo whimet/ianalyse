@@ -257,10 +257,10 @@ class Builds:
     
     def gen_all_reports(self):
         stat = NDaysStatistics(self)
-        stat.generate_pass_rate()
-        stat.generate_successful_rate()
-        stat.generate_build_times()
-        stat.generate_per_build_time()
+        stat.generate_overall_pass_rate()
+        stat.generate_pass_rate_by_day()
+        stat.generate_build_time_over_time()
+        stat.generate_per_build_info()
         self.create_csv()
         return
 

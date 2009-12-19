@@ -150,19 +150,19 @@ class User :
         self.response = self.client.post('/analyse/generate.html', {}, follow=True)
     
     def downloads_build_times_data(self):
-        self.response = self.client.get('/results/' + self.project_id + '/build_times.txt')
+        self.response = self.client.get('/results/' + self.project_id + '/build_time_over_time.txt')
         
     def downloads_csv(self):
         self.response = self.client.get('/results/' + self.project_id + '/' + self.project_id + '.csv')
         
     def downloads_pass_rate_data(self):
-        self.response = self.client.get('/results/' + self.project_id + '/pass_rate.txt')        
+        self.response = self.client.get('/results/' + self.project_id + '/overall_pass_rate.txt')        
 
     def downloads_per_build_time_data(self):
-        self.response = self.client.get('/results/' + self.project_id + '/per_build_time.txt')
+        self.response = self.client.get('/results/' + self.project_id + '/per_build_info.txt')
         
     def downloads_successful_rate_data(self):
-        self.response = self.client.get('/results/' + self.project_id + '/successful_rate.txt')        
+        self.response = self.client.get('/results/' + self.project_id + '/pass_rate_by_day.txt')        
     
     def downloads_all_csv_as_single_tar(self):
         self.response = self.client.get('/results/all.tar')        

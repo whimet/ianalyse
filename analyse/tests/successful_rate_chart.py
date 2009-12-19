@@ -23,7 +23,7 @@ class SuccessfulRateChartTests(TestCase):
         builds = Builds.create_builds(TestUtils().connectfour_config(), SuccessfulRateChartTests.PATTERN);
         
         ndaysStat = NDaysStatistics(builds)
-        json_str = ndaysStat.successful_rate()
+        json_str = ndaysStat.pass_rate_by_day()
         if NO_CJSON :
             json_obj = json.loads(json_str)
         else:
