@@ -74,13 +74,6 @@ class Build(models.Model):
         return  cursor.fetchone()[0]
 
     @staticmethod
-    def total(project_id):
-        cursor = connection.cursor()
-        cursor.execute("select count(1) from analyse_build where project_id = %s", [project_id])
-        total = cursor.fetchone()
-        return total[0]
-
-    @staticmethod
     def view_all(project_id, results):
         results["started_build_at"] = Build.started_build_at(project_id)
         results["last_built_at"] = Build.last_built_at(project_id)
