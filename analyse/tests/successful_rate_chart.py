@@ -22,7 +22,7 @@ class SuccessfulRateChartTests(TestCase):
     def testGenerateTotalPassRate(self):
         builds = Builds.create_builds(TestUtils().connectfour_config(), SuccessfulRateChartTests.PATTERN);
         
-        ndaysStat = TopNStatistics('connectfour4', builds)
+        ndaysStat = TopNStatistics(builds)
         json_str = ndaysStat.successful_rate()
         if NO_CJSON :
             json_obj = json.loads(json_str)

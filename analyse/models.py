@@ -87,16 +87,13 @@ class Build():
 
 
 class TopNStatistics :
-    def __init__(self, project_id=None, builds = list()):
-        self.project_id = project_id
+    def __init__(self, builds):
         self.builds = builds
+        self.project_id = builds.project_id()
 
     def pass_rate(self):
-        builds = Builds()
-        builds.builds = self.builds
-
-        total  = builds.total_count()
-        passed = builds.pass_count()
+        total  = self.builds.total_count()
+        passed = self.builds.pass_count()
         failed = total - passed        
         
         chart = Chart()
@@ -110,17 +107,14 @@ class TopNStatistics :
         element1.colours = ['#1C9E05','#FF368D']
 
         chart.elements = [element1]
-        chart.title = {"text": str(len(builds)) + ' Runs', "style": "{font-size: 15px; font-family: Times New Roman; font-weight: bold; color: #4183C4; text-align: center;}" }
+        chart.title = {"text": str(self.builds.total_count()) + ' Runs', "style": "{font-size: 15px; font-family: Times New Roman; font-weight: bold; color: #4183C4; text-align: center;}" }
         chart.bg_colour = "#FFFFFF" 
         return chart.create()
 
     def per_build_time(self):
-        builds = Builds()
-        builds.builds = self.builds
-
         chart = Chart()
 
-        values, labels, max_time = builds.per_build_time();
+        values, labels, max_time = self.builds.per_build_time();
         element = Chart()
         element.type = "bar_glass"
         element.values = values
@@ -142,9 +136,7 @@ class TopNStatistics :
         element.fill = "#1C9E05"
         element.fill_alpha = 0.7
 
-        builds = Builds()
-        builds.builds = self.builds
-        values, min_date, max_date = builds.pass_rate_by_day()
+        values, min_date, max_date = self.builds.pass_rate_by_day()
 
         element.values = values
         chart.elements = [element]
@@ -212,6 +204,9 @@ class Builds:
     def total_count(self):
         return len(self.builds)
         
+    def project_id(self):
+        return self.builds[0].project_id
+
     def last(self):
         size = len(self.builds)
         if size == 0 :
@@ -377,7 +372,7 @@ class Builds:
         
     
     def gen_all_reports(self):
-        stat = TopNStatistics(self.builds[0].project_id, self.builds)
+        stat = TopNStatistics(self)
         stat.generate_pass_rate()
         stat.generate_successful_rate()
         stat.generate_build_times()
@@ -386,7 +381,7 @@ class Builds:
         return
 
     def create_csv(self):
-        project_id = self.builds[0].project_id
+        project_id = self.project_id()
         config = Configs().find(project_id)
         arrays = Builds.select_values_from(config, None)
         folder = config.result_dir()
