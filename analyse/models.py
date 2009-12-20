@@ -5,7 +5,6 @@ import csv
 
 from xml.sax.handler import ContentHandler
 from xml.sax import parse, parseString
-from lxml import etree
 
 from util.datetimeutils import *
 import analyse.ordered_dic
@@ -39,17 +38,17 @@ class Build:
         return build
 
     @staticmethod
-    def select_values(file, csv_settings):
-        tree = etree.parse(file)
-        root = tree.getroot()
-        result = []
-        for setting in csv_settings :
-            try:
-                select_xpath = etree.XPath(setting[1])
-                result.append(select_xpath(root)[0])
-            except Exception, e:
-                result.append(None)
-        return result
+    def select_values(file, csv_settings):pass
+        # tree = etree.parse(file)
+        #         root = tree.getroot()
+        #         result = []
+        #         for setting in csv_settings :
+        #             try:
+        #                 select_xpath = etree.XPath(setting[1])
+        #                 result.append(select_xpath(root)[0])
+        #             except Exception, e:
+        #                 result.append(None)
+        #         return result
 
     def need_attention(self):
         if self.is_last_pass_old():
@@ -289,21 +288,21 @@ class Builds:
         return builds_obj;
 
     @staticmethod  
-    def select_values_from(config, pattern):
-        if pattern == None :
-            pattern = "log.*.xml"
-
-        values = []
-        all_necessary_files = os.filter_by_days(config.logdir(),"log([0-9]*).*.xml", config.days())
-        
-        for eachfile in all_necessary_files:
-            if None != re.match(pattern, eachfile) :
-                try :
-                    value = Build.select_values(config.logfile(eachfile), config.csv_settings())
-                    values.append(value)
-                except Exception, e :
-                    pass
-        return values
+    def select_values_from(config, pattern):pass
+        # if pattern == None :
+        #     pattern = "log.*.xml"
+        # 
+        # values = []
+        # all_necessary_files = os.filter_by_days(config.logdir(),"log([0-9]*).*.xml", config.days())
+        # 
+        # for eachfile in all_necessary_files:
+        #     if None != re.match(pattern, eachfile) :
+        #         try :
+        #             value = Build.select_values(config.logfile(eachfile), config.csv_settings())
+        #             values.append(value)
+        #         except Exception, e :
+        #             pass
+        # return values
         
     
     def gen_all_reports(self):
@@ -319,11 +318,11 @@ class Builds:
     def create_csv(self):
         project_id = self.project_id()
         config = Configs().find(project_id)
-        arrays = Builds.select_values_from(config, None)
+        #arrays = Builds.select_values_from(config, None)
         folder = config.result_dir()
         writer = csv.writer(open(os.path.join(folder, project_id + '.csv'), 'w'), delimiter=',')
         writer.writerow(config.csv_keys())
-        writer.writerows(arrays)
+        #writer.writerows(arrays)
 
     def __unicode__(self):
         return "<Builds " + str(self.builds) + ">\n"
