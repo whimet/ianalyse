@@ -18,6 +18,20 @@ FAILED_BUILD_COLOR_CODE =  '#FF368D'
 PASSED_BUILD_COLOR_CODE = '#1C9E05'
 BLUE_COLOR_CODE = "#0000ff"
 
+class DateXAxis:
+    '''use this class to workaround the bug in open flash chart, if the min date and the max date are equal, browser will hang.'''
+    def __init__(self, min, max):
+        self.min = min
+        self.max = max
+    
+    def min_date(self):
+        return self.min
+    
+    def max_date(self):
+        if self.min == self.max:
+            return self.max + 200
+        return self.max
+
 class NDaysStatistics :
     def __init__(self, builds):
         self.builds = builds
@@ -40,8 +54,9 @@ class NDaysStatistics :
         chart.elements = [element]
         all_percentage = []
 
+        dateXAxis = DateXAxis(min_date, max_date)
         chart.y_axis   = { "min": 0, "max": max_time + 10, "steps": max_time / 10}
-        chart.x_axis   = { "min": min_date, "max": max_date, "steps": 86400,
+        chart.x_axis   = { "min": dateXAxis.min_date(), "max": dateXAxis.max_date(), "steps": 86400,
                            "labels": { "text": "#date:Y-m-d at H:i#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
         chart.title    = { "text": "Build time over time."}
         return chart.create()
@@ -100,8 +115,9 @@ class NDaysStatistics :
         for i in range(110):
             all_percentage.append(str(i) + "%");
 
+        dateXAxis = DateXAxis(n_days_summary.min_timestamp(),  n_days_summary.max_timestamp())
         chart.y_axis   = { "min": 0, "max": 110, "steps": 10,  "labels" : {"labels" : all_percentage, "steps" : 20}}
-        chart.x_axis   = { "min": n_days_summary.min_timestamp(), "max": n_days_summary.max_timestamp(), "steps": 86400,
+        chart.x_axis   = { "min": dateXAxis.min_date(), "max":dateXAxis.max_date(), "steps": 86400,
                            "labels": { "text": "#date:Y-m-d at H:i#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
         chart.title    = { "text": "Pass rate over time."}
         return chart.create()
@@ -127,7 +143,10 @@ class NDaysStatistics :
                           self._create_line(summary.failed_runs_values(),  FAILED_BUILD_COLOR_CODE, 'Failed runs')]
         chart.title = { "text": "Run times and pass count by day" }
         chart.y_axis = { "min": 0, "max": 20, "steps": 5 }
-        chart.x_axis   = { "min": total_runs_values[0].get('x'), "max": total_runs_values[len(summary) - 1].get('x'), "steps": 86400,
+        
+        dateXAxis = DateXAxis(total_runs_values[0].get('x'), total_runs_values[len(summary) - 1].get('x'))
+        
+        chart.x_axis   = { "min": dateXAxis.min_date(), "max": dateXAxis.max_date(), "steps": 86400,
                            "labels": { "text": "#date:Y-m-d at H:i#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
 
         return chart.create()
