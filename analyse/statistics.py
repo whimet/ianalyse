@@ -6,7 +6,6 @@ import csv
 from django.db import settings
 from xml.sax.handler import ContentHandler
 from xml.sax import parse, parseString
-from lxml import etree
 
 from util.datetimeutils import *
 from analyse.openFlashChart import Chart
