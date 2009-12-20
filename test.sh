@@ -1,3 +1,3 @@
 export CONFIGS_DIR=./analyse/tests/configs
-./manage.py test
+python 2.5 manage.py test
 
