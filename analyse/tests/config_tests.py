@@ -41,15 +41,6 @@ class ConfigTests(TestCase):
         self.config = Config(os.path.abspath(os.path.join(settings.PROJECT_DIR, 'analyse/tests/fixtures/config/no_days.cfg')))
         self.assertEquals(14, self.config.days())
 
-    def testShouldAggregateTheColumnNamesAndXpathsAsDic(self):
-        self.assertEquals('start time', self.config.csv_settings()[0][0])
-        self.assertEquals('//property[@name=\'start time\']/@value', self.config.csv_settings()[0][1])
-        self.assertEquals('buid time', self.config.csv_settings()[1][0])
-        self.assertEquals('//build/@time', self.config.csv_settings()[1][1])
-
-    def testShouldAggregateTheColumnNamesAndXpathsAsDic(self):
-        self.assertEquals('start time', self.config.csv_keys()[0])
-        self.assertEquals('buid time', self.config.csv_keys()[1])
 
     def testShouldReturnTrueIfAllResultsJsonGenerated(self):
         project1 = self.config.result_dir()
@@ -85,4 +76,28 @@ class ConfigTests(TestCase):
         config2 = Config("")
         config2.id = 'id2'
         self.assertEquals(False, config1 == config2)
+        
+    def test_should_return_default_csv_plugins_if_nothing_defined(self):
+        config = Config("")
+        list = config.plugins()
+        self.assertEquals(True, list.count('build_time.py') == 1)
+        self.assertEquals(True, list.count('label.py') == 1)
+        
+        
+    def test_should_return_default_csv_plugins_plus_user_input(self):
+        default_config = Config("")
+        default_plugins = default_config.plugins()
+
+        plugins = self.config.plugins()
+
+        self.assertEquals(len(plugins), len(default_plugins) + 3)
+        self.assertEquals(True, plugins.count('my_plugin.py') == 1)
+        self.assertEquals(True, plugins.count('my_plugin2.py') == 1)
+        self.assertEquals(True, plugins.count('my_plugin3.py') == 1)
+
+
+
+        
+        
+        
         

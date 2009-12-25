@@ -96,6 +96,23 @@ class Config:
             array.append(setting[0])
         return array
 
+    def plugins(self):
+        default = ['build_time.py', 'label.py']
+
+        def anonymous(config): 
+            try:                                        
+                plugins = config.get('CSV', 'plugins')
+                splits = plugins.split(',')
+                results = []
+                for part in splits:
+                    results.append(part.strip())
+                results.extend(default)
+                results.sort()
+                return results
+            except Exception, e:
+                return default
+        return self.__readattr__(anonymous)
+
     def results_dir(self):
         return os.path.join(settings.PROJECT_DIR, 'results')
 
