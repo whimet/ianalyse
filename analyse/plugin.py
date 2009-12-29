@@ -37,13 +37,18 @@ class Plugins:
             except Exception, e:
                 pass
 
+    def find_plugin(self, key):
+        plugin = self.plugins.get(key)
+        if plugin == None:
+            plugin = NullPlugin(key)
+        return plugin
+
     def multiple_handlers(self, config):
         all_plugins = self.plugins.values();
         handlers = []
         for defined_plugin in config.plugins():
-            plugin = self.plugins.get(defined_plugin)
-            if not plugin == None:
-                handlers.append(plugin.handler)
+            plugin = self.find_plugin(defined_plugin)
+            plugin.append_handler_to(handlers)
         return MultiplePluginHandlers(handlers)
 
     def handle(self, input, config):
@@ -51,9 +56,8 @@ class Plugins:
         parse(input, handlers)
         result = []
         for defined_plugin in config.plugins():
-            plugin = self.plugins.get(defined_plugin)
-            if not plugin == None:
-                result.append(self.plugins.get(defined_plugin).handler.csv_cell())
+            plugin = self.find_plugin(defined_plugin)
+            plugin.append_csv_cell_to(result)
         return result
 
     @staticmethod
@@ -89,5 +93,17 @@ class Plugin:
         self.column_name = column_name
         self.handler = handler
 
-    
+    def append_handler_to(self, handlers):
+        handlers.append(self.handler)
+
+    def append_csv_cell_to(self, result):
+        result.append(self.handler.csv_cell())
+
+class NullPlugin(Plugin):
+    def __init__(self, file_name):
+        self.file_name = file_name
+
+    def append_handler_to(self, handlers):pass
+
+    def append_csv_cell_to(self, result):pass
     
