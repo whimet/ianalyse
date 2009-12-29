@@ -41,8 +41,9 @@ class Plugins:
         all_plugins = self.plugins.values();
         handlers = []
         for defined_plugin in config.plugins():
-            handlers.append(self.plugins.get(defined_plugin).handler)
-            
+            plugin = self.plugins.get(defined_plugin)
+            if not plugin == None:
+                handlers.append(plugin.handler)
         return MultiplePluginHandlers(handlers)
 
     def handle(self, input, config):
@@ -50,7 +51,9 @@ class Plugins:
         parse(input, handlers)
         result = []
         for defined_plugin in config.plugins():
-            result.append(self.plugins.get(defined_plugin).handler.csv_cell())
+            plugin = self.plugins.get(defined_plugin)
+            if not plugin == None:
+                result.append(self.plugins.get(defined_plugin).handler.csv_cell())
         return result
 
     @staticmethod
