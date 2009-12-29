@@ -26,8 +26,10 @@ def write_to_file(path, content):
     finally:
         f.close() 
                                                                    
-def list_matched_files(root, pattern):     
+def list_matched_files(root, pattern=None):     
     files = []
+    if pattern == None:
+        pattern = '.*'
     for file in os.listdir(root):
         m = re.match(pattern, file)
         if m != None:

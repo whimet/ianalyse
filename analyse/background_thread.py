@@ -16,7 +16,6 @@ class BackGroundThread:
                 self.method()
                 print "[" + str(datetime.now()) + '] the background thread go sleep..'
             except Exception, e:
-                print e
                 pass
             time.sleep(self.interval)
 

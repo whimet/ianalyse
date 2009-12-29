@@ -97,7 +97,7 @@ class Config:
         return array
 
     def plugins(self):
-        default = ['build_time.py', 'label.py']
+        default = ['project_name.py', 'label.py', 'build_time.py']
 
         def anonymous(config): 
             try:                                        

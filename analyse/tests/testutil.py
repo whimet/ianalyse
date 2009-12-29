@@ -11,7 +11,10 @@ class TestUtils:
 
     def cclive_release_jdk(self):
         return settings.PROJECT_DIR + '/analyse/tests/fixtures/cclive-release-jdk1.5'        
-     
+    
+    def plugins(self):
+        return settings.PROJECT_DIR + '/analyse/tests/fixtures/plugins'
+            
     def csv_settings(self):
         return [('project name', '//property[@name="projectname"]/@value'),
             ("label", '//property[@name="label"]/@value'),
