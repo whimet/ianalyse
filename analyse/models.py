@@ -286,11 +286,11 @@ class Builds:
         values = []
         all_necessary_files = os.filter_by_days(config.logdir(),"log([0-9]*).*.xml", config.days())
         
-        plugins = Plugins()
+        plugins = Plugins.INSTANCE()
         for eachfile in all_necessary_files:
             if None != re.match(pattern, eachfile) :
                 try :
-                    values = Build.select_values(config.logfile(eachfile), config, plugins)
+                    values.append(Build.select_values(config.logfile(eachfile), config, plugins))
                 except Exception, e :
                     pass
         return values
@@ -312,7 +312,7 @@ class Builds:
         arrays = Builds.select_values_from(config, None)
         folder = config.result_dir()
         writer = csv.writer(open(os.path.join(folder, project_id + '.csv'), 'w'), delimiter=',')
-        #writer.writerow(config.csv_keys())
+        writer.writerow(Plugins.INSTANCE().columns(config))
         writer.writerows(arrays)
 
     def __unicode__(self):

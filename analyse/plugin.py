@@ -27,7 +27,7 @@ class Plugins:
         self.plugins_folder = plugins_folder
         if plugins_folder == None:
             self.plugins_folder = os.path.join(settings.PROJECT_DIR, 'plugins');
-    
+            
     def load_plugins(self):        
         files = os.list_matched_files(self.plugins_folder);
         for file in files:
@@ -36,6 +36,13 @@ class Plugins:
                 execfile(os.path.join(self.plugins_folder, file))
             except Exception, e:
                 pass
+    def columns(self, config):
+        names = []
+        for defined_plugin in config.plugins():
+            plugin = self.find_plugin(defined_plugin)
+            plugin.append_column_name_to(names)
+        return names
+        
 
     def find_plugin(self, key):
         plugin = self.plugins.get(key)
@@ -99,6 +106,9 @@ class Plugin:
     def append_csv_cell_to(self, result):
         result.append(self.handler.csv_cell())
 
+    def append_column_name_to(self, names):
+        names.append(self.column_name)    
+
 class NullPlugin(Plugin):
     def __init__(self, file_name):
         self.file_name = file_name
@@ -106,4 +116,6 @@ class NullPlugin(Plugin):
     def append_handler_to(self, handlers):pass
 
     def append_csv_cell_to(self, result):pass
+    
+    def append_column_name_to(self, names):pass
     

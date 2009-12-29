@@ -7,5 +7,6 @@ class BuildTimePlugin(ContentHandler):
             
     def csv_cell(self):
         return self.build_time
+        
 
 Plugins.register('build time', BuildTimePlugin())
