@@ -181,13 +181,11 @@ class GlobalStatistics:
         element.tip = "#val# runs of #total# in project #x_label#"
         
         chart.title = { "text": "Passed/Failed builds between projects", "style": "{font-size: 20px; color: #F24062; text-align: center;}" }
-        chart.x_axis = { "labels": { "labels": names} }
-        chart.y_axis = { "min": 0, "max": max + 2, "steps": 2 }
+        chart.x_axis = { "labels": { "labels": names, "rotate": 45} }
+        chart.y_axis = { "min": 0, "max": max + 2, "steps": 5 }
         chart.tooltip =  { "mouse": 2 } 
         chart.elements = [element]
-
-        #for builds in self.project_group:
-
+        
         return chart.create()
             
         
