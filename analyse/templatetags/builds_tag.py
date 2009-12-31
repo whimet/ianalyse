@@ -9,7 +9,7 @@ def more_attention_icon(project_groups, id):
         return ""
 
     if build.need_attention() :
-        return '<img id="warning_' + id + '" src="/media/css/img/attention_please.png" alt="latest build passed" title="latest build passed"/>'
+        return '<img id="warning_' + id + '" src="/media/css/img/attention_please.png" alt="you may need to pay attention on this build" title="you may need to pay attention on this build"/>'
     else :
         return ""    
 
