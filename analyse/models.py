@@ -378,6 +378,7 @@ class ProjectGroup:
 
         for config in configs:
             try:
+                print 'processing [' + config[0] + ']..........'
                 builds = Builds.create_builds(config[1], None)
                 pg.append(config[1], builds)
                 builds.gen_all_reports()
