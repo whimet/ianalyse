@@ -5,7 +5,7 @@ import os
 from django.conf import settings
 from datetime import datetime, timedelta
 from analyse.tests.testutil import TestUtils
-from analyse.config import Config, Configs
+from analyse.config import *
 from analyse.plugin import Plugins
 
 class BuildTest(TestCase):
@@ -51,7 +51,7 @@ class BuildTest(TestCase):
     
     def testToSelectValuesAsArrayByApplyingXPath(self):
         file = self.ccroot + '/log20091011173922Lbuild.1.xml'
-        config = Configs().find('connectfour4')
+        config = Groups().default().find('connectfour4')
         values = Build.select_values(file, config, Plugins.INSTANCE())
         self.assertEquals('connectfour4', values[0])
         self.assertEquals('1 minute(s) 0 second(s)', values[2])

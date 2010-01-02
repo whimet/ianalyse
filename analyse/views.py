@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response, redirect
 from django.http import HttpResponse
 from analyse.models import Builds, Build
 from analyse.cache import Cache
-from analyse.config import Config, Configs
+from analyse.config import *
 from django.utils.http import urlquote
 
 def home(request):
@@ -56,7 +56,7 @@ def show(request):
     return render_to_response('analyse/show.html', Context(over_all_result), context_instance = RequestContext(request))
 
 def help(request):
-    configs = Configs()
+    configs = Groups().default()
     results = {
         "configs" : configs,
     }

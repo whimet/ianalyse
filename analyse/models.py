@@ -8,7 +8,7 @@ from xml.sax import parse, parseString
 
 from util.datetimeutils import *
 import analyse.ordered_dic
-from analyse.config import Config, Configs
+from analyse.config import *
 from analyse.plugin import Plugins
 from analyse.saxhandlers import *
 from analyse.tar import Tar
@@ -311,7 +311,7 @@ class Builds:
 
     def create_csv(self):
         project_id = self.project_id()
-        config = Configs().find(project_id)
+        config = Groups().default().find(project_id)
         arrays = Builds.select_values_from(config, None)
         folder = config.result_dir()
         writer = csv.writer(open(os.path.join(folder, project_id + '.csv'), 'w'), delimiter=',')
@@ -331,3 +331,73 @@ class Builds:
         return self.builds.__getitem__(index)
 
 
+class ProjectGroup:
+    def __init__(self):
+        self.projects = {}
+
+    def append(self, config, builds):
+        if isinstance(config, Config):
+            self.projects[config.id] = builds
+        else:
+            self.projects[config] = builds
+
+    def find(self, id):
+        builds = self.projects.get(id)
+        if builds == None:
+            return Builds()
+        else:
+            return builds
+
+    def latest_build_of(self, id):
+        builds = self.find(id)
+        return builds.last()
+
+
+    def projects_comparation(self):
+        names = []
+        values = []
+        max = 0
+
+        for project in self:
+            project_id = project[0]
+            builds = project[1]
+            names.append(project_id)
+
+            pass_count = builds.pass_count()
+            total_count = builds.total_count()
+            if total_count > max:
+                max = total_count
+
+            value = [pass_count,  total_count - pass_count]
+
+            values.append(value)
+        return values, names, max
+
+
+    @staticmethod        
+    def create():
+        pg = ProjectGroup()
+        configs = Groups().default()
+
+        for config in configs:
+            try:
+                logging.getLogger('ianalyse_logger').info('processing [' + config[0] + ']..........')
+                builds = Builds.create_builds(config[1], None)
+                pg.append(config[1], builds)
+                builds.gen_all_reports()
+            except Exception, e:
+                logging.getLogger('ianalyse_logger').error(e)
+                pass
+        try:
+            tar = Tar(configs).create()
+        except Exception, e:
+            logging.getLogger('ianalyse_logger').error(e)
+            pass
+        stat = GlobalStatistics(pg)
+        stat.generate_projects_comparation()                    
+        return pg
+
+    def __iter__(self):
+        items = self.projects.items()
+        items.sort()
+        return items.__iter__()

@@ -1,6 +1,5 @@
 from xml.sax.handler import ContentHandler
 from xml.sax import parse, parseString
-from analyse.config import Config, Configs
 from django.conf import settings
 import os
 

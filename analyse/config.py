@@ -2,8 +2,43 @@ import os
 from django.conf import settings
 import ConfigParser
 
-class Configs:
+class Groups:
     def __init__(self, config_dir = None):
+        self.groups = {}
+        configs = config_dir
+        if None ==  configs :            
+            configs = os.environ.get("CONFIGS_DIR")
+        if None == configs :
+            configs = os.path.join(settings.PROJECT_DIR, 'configs')
+        self.config_dir = configs
+        groups_cfg = os.path.join(self.config_dir, 'groups.cfg')
+        if os.path.exists(groups_cfg):
+            config = ConfigParser.ConfigParser()
+            config.read(groups_cfg)
+            items = config.items("GROUPS")
+            for item in items:
+                splits = item[1].split(',')
+                results = []
+                for part in splits:
+                    results.append(part.strip())
+                self.groups[item[0]] = Configs(self.config_dir, results)
+        self.groups['default'] = Configs(self.config_dir)
+            
+
+    def __len__(self):
+        return len(self.groups)
+        
+    def items(self):
+        return self.groups.items()
+        
+    def find(self, key):
+        return self.groups[key]
+
+    def default(self):
+        return self.groups['default']
+
+class Configs:
+    def __init__(self, config_dir = None, file_patterns = []):
         configs = config_dir
         if None ==  configs :            
             configs = os.environ.get("CONFIGS_DIR")
@@ -13,9 +48,11 @@ class Configs:
         self.configs = {}
         for file in os.listdir(self.config_dir):
             names = os.path.splitext(file)
-            if names[1] == '.cfg':
-                id = names[0]
-                self.configs[id] = Config(os.path.join(self.config_dir, file))
+            if file_patterns == [] and names[1] == '.cfg':
+                self.configs[names[0]] = Config(os.path.join(self.config_dir, file))
+            if file_patterns != [] and file_patterns.__contains__(file):
+                self.configs[names[0]] = Config(os.path.join(self.config_dir, file))                
+
 
     def abspath(self):
         return os.path.abspath(self.config_dir)                                        

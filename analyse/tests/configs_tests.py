@@ -1,7 +1,7 @@
 from django.test import TestCase
 import os                                                  
 from django.conf import settings
-from analyse.config import Config, Configs
+from analyse.config import *
 from analyse.tests.testutil import TestUtils
 
 class ConfigsTests(TestCase):
@@ -12,18 +12,33 @@ class ConfigsTests(TestCase):
     def tearDown(self):
         pass
         
-    def testShouldReturnTheConfigFilesUnderConfigsRoot(self):
+    def test_should_return_the_config_files_under_configs_root(self):
         self.assertEquals(len(os.listdir(os.path.join(settings.PROJECT_DIR, 'analyse/tests/fixtures/config/'))), self.configs.size())
         self.assertEquals(os.path.join(self.configs_root, 'ianalyse.cfg'), self.configs['ianalyse'].config_file)
         self.assertEquals(os.path.join(self.configs_root, 'no_days.cfg'), self.configs['no_days'].config_file)
         
-    def testShouldReturnTheFirstConfigWhenNoIdProvided(self):
+    def test_should_return_the_first_config_when_no_id_provided(self):
         self.assertEquals(os.path.join(self.configs_root, 'ianalyse.cfg'), self.configs.find(None).config_file)
 
-    def testShouldReturnTheConfigEqualWithId(self):
+    def test_should_return_the_config_equal_with_id(self):
         self.assertEquals(os.path.join(self.configs_root, 'no_days.cfg'), self.configs.find('no_days').config_file)
 
-    def testShouldOrderTheConfigByName(self):
+    def test_should_load_the_project_groups_information(self):
+        groups = Groups(self.configs_root)
+        self.assertEquals(3, len(groups))
+
+    def test_should_order_the_groups_by_name(self):
+        items = Groups(self.configs_root).items()
+        self.assertEquals('acc', items[0][0])
+        self.assertEquals('default', items[1][0])
+        self.assertEquals('others', items[2][0])
+
+    def test_should_return_the_default_group_if_there_is_no_groups_defined(self):
+        items = Groups().items()
+        self.assertEquals('default', items[0][0])
+        self.assertEquals(1, len(items))
+
+    def test_should_order_the_config_by_name(self):
         configs = Configs()
         configs_hash = {
         	'safe' : Config('safe'),
