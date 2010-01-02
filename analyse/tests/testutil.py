@@ -71,16 +71,26 @@ class TestUtils:
         f.write(content)
         return temp_file
     
-    def rename_conf_to_bak(self):
+    def rename_conf_to_bak(self, specific_file=None):
         config_dir = os.path.join(settings.PROJECT_DIR, 'analyse/tests/configs/')
+        if not specific_file == None:
+            base_name = os.path.splitext(specific_file)[0]
+            os.rename(os.path.join(config_dir, specific_file), os.path.join(config_dir, base_name + '.bak'))
+            return
+
         for file in os.listdir(config_dir):
             base_name = os.path.splitext(file)[0]
             if file.endswith('.cfg'):
                 os.rename(os.path.join(config_dir, file), os.path.join(config_dir, base_name + '.bak'))
         
     
-    def rename_bak_to_conf(self):
+    def rename_bak_to_conf(self, specific_file=None):
         config_dir = os.path.join(settings.PROJECT_DIR, 'analyse/tests/configs/')
+        if not specific_file == None:
+            base_name = os.path.splitext(specific_file)[0]
+            os.rename(os.path.join(config_dir, specific_file), os.path.join(config_dir, base_name + '.cfg'))
+            return
+            
         for file in os.listdir(config_dir):
             base_name = os.path.splitext(file)[0]
             if file.endswith('.bak'):

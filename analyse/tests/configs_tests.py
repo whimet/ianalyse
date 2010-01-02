@@ -10,7 +10,8 @@ class ConfigsTests(TestCase):
         self.configs = Configs(self.configs_root)
         
     def tearDown(self):
-        pass
+        if os.path.exists(os.path.join(settings.PROJECT_DIR, 'analyse/tests/fixtures/config/groups.bak')):
+            TestUtils().rename_bak_to_conf('groups.bak')
         
     def test_should_return_the_config_files_under_configs_root(self):
         self.assertEquals(len(os.listdir(os.path.join(settings.PROJECT_DIR, 'analyse/tests/fixtures/config/'))), self.configs.size())
@@ -34,6 +35,7 @@ class ConfigsTests(TestCase):
         self.assertEquals('others', items[2][0])
 
     def test_should_return_the_default_group_if_there_is_no_groups_defined(self):
+        TestUtils().rename_conf_to_bak('groups.cfg')
         items = Groups().items()
         self.assertEquals('default', items[0][0])
         self.assertEquals(1, len(items))
