@@ -2,7 +2,7 @@ from django.test import TestCase
 import os                                                  
 from django.conf import settings
 from analyse.config import Config, Configs
-from analyse.models import ProjectGroup
+from analyse.project_group import ProjectGroup
 from analyse.tar import Tar
 from analyse.tests.testutil import TestUtils
 

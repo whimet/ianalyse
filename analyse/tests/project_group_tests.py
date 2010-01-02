@@ -5,6 +5,7 @@ import os
 from django.conf import settings
 from datetime import datetime
 import util.datetimeutils
+from analyse.project_group import ProjectGroup
 from analyse.tests.testutil import TestUtils
 
 class ProjectGroupTests(TestCase):

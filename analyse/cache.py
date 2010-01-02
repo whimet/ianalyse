@@ -1,4 +1,5 @@
-from analyse.models import Build, Builds, ProjectGroup
+from analyse.models import Build, Builds
+from analyse.project_group import ProjectGroup
 from analyse.config import Config, Configs
 
 class Cache:
