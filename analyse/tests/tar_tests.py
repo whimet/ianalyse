@@ -2,7 +2,7 @@ from django.test import TestCase
 import os                                                  
 from django.conf import settings
 from analyse.config import Config, Configs
-from analyse.project_group import ProjectGroup
+from analyse.models import ProjectGroup
 from analyse.tar import Tar
 from analyse.tests.testutil import TestUtils
 
@@ -20,7 +20,7 @@ class TarTests(TestCase):
          
     def test_should_generate_tar_file_with_all_csvs(self):
         self.assertEquals(False, os.path.exists(os.path.join(self.configs.results_dir(), 'all.tar')))
-        ProjectGroup.create()
+        pg = ProjectGroup.create('default', self.configs)
 
         tar = Tar(self.configs)
 

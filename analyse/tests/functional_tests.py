@@ -19,25 +19,25 @@ class FunctionalTests(TestCase):
             
             
     def test_user_should_be_able_to_setup_the_application(self):
-          user = User()
-          user.open_home_page()
-          self.assertContains(user.response, 'Missing Data')
-          user.open_show_page('connectfour4')
-          self.assertContains(user.response, 'MISSING REPORT')
-          self.assertContains(user.response, user.found_config_file_location())
-          user.generates_reports_for('connectfour4')
-      
-          user.open_setup_page('connectfour4')
-          self.assertContains(user.response, 'OK')
-      
-          user.downloads_build_times_data()
-          self.assertEquals(True, user.can_visit_resource())
-          user.downloads_csv()
-          self.assertEquals(True, user.can_visit_resource())
-          user.downloads_pass_rate_data()
-          self.assertEquals(True, user.can_visit_resource())
-          user.downloads_per_build_time_data()
-          self.assertEquals(True, user.can_visit_resource())
+        user = User()
+        user.open_home_page()
+        self.assertContains(user.response, 'Missing Data')
+        user.open_show_page('connectfour4')
+        self.assertContains(user.response, 'MISSING REPORT')
+        self.assertContains(user.response, user.found_config_file_location())
+        user.generates_reports_for('connectfour4')
+
+        user.open_setup_page('connectfour4')
+        self.assertContains(user.response, 'OK')
+
+        user.downloads_build_times_data()
+        self.assertEquals(True, user.can_visit_resource())
+        user.downloads_csv()
+        self.assertEquals(True, user.can_visit_resource())
+        user.downloads_pass_rate_data()
+        self.assertEquals(True, user.can_visit_resource())
+        user.downloads_per_build_time_data()
+        self.assertEquals(True, user.can_visit_resource())
       
     def test_user_should_be_able_to_request_with_project_id(self):
         user = User()
@@ -104,7 +104,14 @@ class FunctionalTests(TestCase):
         self.assertContains(user.response, 'MISSING REPORT')
 
         user.generates_all_reports()
-
+        
+        user.downloads_groups_acc_projects_comparation()
+        self.assertEquals(True, user.can_visit_resource())
+        user.downloads_groups_others_projects_comparation()
+        self.assertEquals(True, user.can_visit_resource())
+        user.downloads_groups_defaults_projects_comparation()
+        self.assertEquals(True, user.can_visit_resource())
+        
         user.open_show_page('l3_support')
 
         self.assertContains(user.response, '2 runs')
@@ -164,6 +171,15 @@ class User :
     def downloads_successful_rate_data(self):
         self.response = self.client.get('/results/' + self.project_id + '/pass_rate_by_day.txt')        
     
+    def downloads_groups_acc_projects_comparation(self):
+        self.response = self.client.get('/results/group_acc_comparation.txt')
+        
+    def downloads_groups_others_projects_comparation(self):
+        self.response = self.client.get('/results/group_others_comparation.txt')
+
+    def downloads_groups_defaults_projects_comparation(self):
+        self.response = self.client.get('/results/group_default_comparation.txt')
+            
     def downloads_all_csv_as_single_tar(self):
         self.response = self.client.get('/results/all.tar')        
             

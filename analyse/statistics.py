@@ -195,6 +195,6 @@ class GlobalStatistics:
         field = name[len("generate_"):]
         result = getattr(self, field)()
 
-        total_json_file = os.path.join(Configs().results_dir(), field + '.txt');
+        total_json_file = os.path.join(Configs().results_dir(), 'group_' + self.project_group.group_id + '_comparation.txt');
         os.write_to_file(total_json_file, result)
         return lambda : {}

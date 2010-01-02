@@ -374,8 +374,9 @@ class ProjectGroup:
 
 
     @staticmethod        
-    def create(configs):
+    def create(group_id, configs):
         pg = ProjectGroup()
+        pg.group_id = group_id
         for config in configs:
             try:
                 logging.getLogger('ianalyse_logger').info('processing [' + config[0] + ']..........')
@@ -410,7 +411,7 @@ class ProjectGroups:
         pgs = ProjectGroups()
         items = Groups().items()
         for item in items:
-            pgs.project_groups[item[0]] = ProjectGroup.create(item[1])
+            pgs.project_groups[item[0]] = ProjectGroup.create(item[0], item[1])
         return pgs
         
     def find(self, key):
