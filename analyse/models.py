@@ -13,6 +13,7 @@ from analyse.plugin import Plugins
 from analyse.saxhandlers import *
 from analyse.tar import Tar
 from analyse.statistics import *
+import logging
 
 class Build:
     project_id = ""
@@ -273,6 +274,7 @@ class Builds:
                     build.project_id = config.id
                     builds.append(build)
                 except Exception, e :
+                    logging.getLogger('ianalyse_logger').error(e)
                     pass
 
         builds_obj.builds = builds
@@ -292,6 +294,7 @@ class Builds:
                 try :
                     values.append(Build.select_values(config.logfile(eachfile), config, plugins))
                 except Exception, e :
+                    logging.getLogger('ianalyse_logger').error(e)
                     pass
         return values
         
@@ -378,16 +381,17 @@ class ProjectGroup:
 
         for config in configs:
             try:
-                print 'processing [' + config[0] + ']..........'
+                logging.getLogger('ianalyse_logger').info('processing [' + config[0] + ']..........')
                 builds = Builds.create_builds(config[1], None)
                 pg.append(config[1], builds)
                 builds.gen_all_reports()
             except Exception, e:
-                print e
+                logging.getLogger('ianalyse_logger').error(e)
                 pass
         try:
             tar = Tar(configs).create()
         except Exception, e:
+            logging.getLogger('ianalyse_logger').error(e)
             pass
         stat = GlobalStatistics(pg)
         stat.generate_projects_comparation()                    

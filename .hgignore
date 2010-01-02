@@ -11,3 +11,5 @@ results
 db/ianalyse
 **/.svn/*
 .svn
+ianalyse.log
+ianalyse.log.*

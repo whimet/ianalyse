@@ -1,6 +1,7 @@
 import threading
 import thread, time
 from datetime import datetime
+import logging
 
 class BackGroundThread:
     _RUNNING = False
@@ -10,12 +11,14 @@ class BackGroundThread:
         self.interval = interval
 
     def method_wrapper(self):
+        logger = logging.getLogger('ianalyse_logger')
         while(True):
             try:
-                print "[" + str(datetime.now()) + '] the background thread is processing.'
+                logger.info("[" + str(datetime.now()) + '] the background thread is processing.')
                 self.method()
-                print "[" + str(datetime.now()) + '] the background thread go sleep..'
+                logger.info("[" + str(datetime.now()) + '] the background thread go sleep..')
             except Exception, e:
+                logger.error(e)
                 pass
             time.sleep(self.interval)
 

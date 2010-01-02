@@ -94,3 +94,15 @@ INSTALLED_APPS = (
 )
 
 
+import glob
+import logging
+import logging.handlers
+
+# Set up a specific logger with our desired output level
+LOGGER = logging.getLogger('ianalyse_logger')
+LOGGER.setLevel(logging.INFO)
+
+handler = logging.handlers.RotatingFileHandler('ianalyse.log', maxBytes=(10 * 1024 * 1024), backupCount=5)
+LOGGER.addHandler(handler)
+
+
