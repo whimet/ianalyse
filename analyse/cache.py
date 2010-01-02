@@ -1,26 +1,28 @@
-from analyse.models import Build, Builds
-from analyse.project_group import ProjectGroup
+from analyse.models import *
+
 
 class Cache:
     _instance = None
     
     def __init__(self):
-        self.project_group = None
-            
-    def refresh(self, config = None):
-        builds = Builds.create_builds(config, None)
-        self.project_group.append(config.id, builds)
-        builds.gen_all_reports()
+        self.project_groups = None
 
     def find(self, project_id):
-        return self.project_group.find(project_id)
+        return self.project_groups.find('default').find(project_id)
 
-    def get_project_group(self):
-        return Cache._instance.project_group
+    def refresh(self, config = None):
+        builds = Builds.create_builds(config, None)
+        self.project_groups.find('default').append(config.id, builds)
+        builds.gen_all_reports()
+
+    def get_project_group(self, groups):
+        if Cache._instance.project_groups == None:
+            Cache._instance.populate()
+        return Cache._instance.project_groups.find(groups)
 
     def populate(self):
-        Cache._instance.project_group = ProjectGroup.create()
-    
+        Cache._instance.project_groups = ProjectGroups.create()
+
     @staticmethod
     def INSTANCE():
         if Cache._instance == None:

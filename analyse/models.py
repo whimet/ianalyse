@@ -329,8 +329,7 @@ class Builds:
 
     def __getitem__(self, index):
         return self.builds.__getitem__(index)
-
-
+    
 class ProjectGroup:
     def __init__(self):
         self.projects = {}
@@ -375,10 +374,8 @@ class ProjectGroup:
 
 
     @staticmethod        
-    def create():
+    def create(configs):
         pg = ProjectGroup()
-        configs = Groups().default()
-
         for config in configs:
             try:
                 logging.getLogger('ianalyse_logger').info('processing [' + config[0] + ']..........')
@@ -393,6 +390,7 @@ class ProjectGroup:
         except Exception, e:
             logging.getLogger('ianalyse_logger').error(e)
             pass
+
         stat = GlobalStatistics(pg)
         stat.generate_projects_comparation()                    
         return pg
@@ -401,3 +399,19 @@ class ProjectGroup:
         items = self.projects.items()
         items.sort()
         return items.__iter__()
+
+
+class ProjectGroups:
+    def __init__(self):
+        self.project_groups = {}
+
+    @staticmethod        
+    def create():
+        pgs = ProjectGroups()
+        items = Groups().items()
+        for item in items:
+            pgs.project_groups[item[0]] = ProjectGroup.create(item[1])
+        return pgs
+        
+    def find(self, key):
+        return self.project_groups.get(key)

@@ -22,8 +22,8 @@ class Groups:
                 for part in splits:
                     results.append(part.strip())
                 self.groups[item[0]] = Configs(self.config_dir, results)
-        self.groups['default'] = Configs(self.config_dir)
-            
+
+        self.groups['default'] = Configs(self.config_dir)            
 
     def __len__(self):
         return len(self.groups)

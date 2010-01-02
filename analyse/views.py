@@ -13,8 +13,9 @@ def index(request):
     configs = Configs()
     if (configs.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
-
-    results = {'configs' : configs, 'project_groups' : Cache.INSTANCE().get_project_group()}
+    
+    groups = request.GET.get('groups', 'default')
+    results = {'configs' : configs, 'project_groups' : Cache.INSTANCE().get_project_group(groups)}
     
     return render_to_response('analyse/index.html', Context(results), context_instance = RequestContext(request))
 

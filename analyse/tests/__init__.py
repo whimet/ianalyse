@@ -33,6 +33,6 @@ def suite():
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.osutils_tests.OSUtilsTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.tar_tests.TarTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.plugins_tests.PluginsTests))
-        s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.functional_tests.FunctionalTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.project_group_tests.ProjectGroupTests))        
+        s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.functional_tests.FunctionalTests))
     return s
