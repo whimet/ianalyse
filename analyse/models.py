@@ -374,10 +374,10 @@ class ProjectGroup:
 
 
     @staticmethod        
-    def create(group_id, configs):
+    def create(group):
         pg = ProjectGroup()
-        pg.group_id = group_id
-        for config in configs:
+        pg.group_id = group.id
+        for config in group:
             try:
                 logging.getLogger('ianalyse_logger').info('processing [' + config[0] + ']..........')
                 builds = Builds.create_builds(config[1], None)
@@ -387,7 +387,7 @@ class ProjectGroup:
                 logging.getLogger('ianalyse_logger').error(e)
                 pass
         try:
-            tar = Tar(configs).create()
+            tar = Tar(group).create()
         except Exception, e:
             logging.getLogger('ianalyse_logger').error(e)
             pass
@@ -409,9 +409,8 @@ class ProjectGroups:
     @staticmethod        
     def create():
         pgs = ProjectGroups()
-        items = Groups().items()
-        for item in items:
-            pgs.project_groups[item[0]] = ProjectGroup.create(item[0], item[1])
+        for group in Groups():
+            pgs.project_groups[group[0]] = ProjectGroup.create(group[1])
         return pgs
         
     def find(self, key):

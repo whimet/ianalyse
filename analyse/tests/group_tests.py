@@ -35,16 +35,19 @@ class GroupTests(TestCase):
         self.assertEquals(len(configs), len(default_configs))
 
     def test_should_order_the_groups_by_name(self):
-        items = Groups(self.configs_root).items()
-        self.assertEquals('acc', items[0][0])
-        self.assertEquals('default', items[1][0])
-        self.assertEquals('others', items[2][0])
+        group = Groups(self.configs_root)[0]
+        self.assertEquals('acc', group[0])
+        group = Groups(self.configs_root)[1]
+        self.assertEquals('default', group[0])
+        group = Groups(self.configs_root)[2]
+        self.assertEquals('others', group[0])
 
     def test_should_return_the_default_group_if_there_is_no_groups_defined(self):
         TestUtils().rename_conf_to_bak('groups.cfg')
-        items = Groups().items()
-        self.assertEquals('default', items[0][0])
-        self.assertEquals(1, len(items))
+        groups = Groups()
+        group = groups[0]
+        self.assertEquals('default', group[0])
+        self.assertEquals(1, len(groups))
 
     def test_should_order_the_config_by_name(self):
         configs = Group()

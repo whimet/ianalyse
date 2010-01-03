@@ -21,15 +21,20 @@ class Groups:
                 results = []
                 for part in splits:
                     results.append(part.strip())
-                self.groups[item[0]] = Group(self.config_dir, results)
+                self.groups[item[0]] = Group(self.config_dir, results, group_id=item[0])
 
-        self.groups['default'] = Group(self.config_dir)            
+        self.groups['default'] = Group(self.config_dir, group_id='default')            
+
+    def __getitem__(self, index):
+        return self.groups.items()[index]
 
     def __len__(self):
         return len(self.groups)
-        
-    def items(self):
-        return self.groups.items()
+    
+    def __iter__(self):
+        items = self.groups.items()
+        items.sort()
+        return items.__iter__()
         
     def find(self, key):
         configs = self.groups.get(key)
@@ -49,7 +54,8 @@ class Groups:
         return configs.is_empty()
 
 class Group:
-    def __init__(self, config_dir = None, file_patterns = []):
+    def __init__(self,  config_dir = None, file_patterns = [], group_id=None):
+        self.id = group_id
         configs = config_dir
         if None ==  configs :            
             configs = os.environ.get("CONFIGS_DIR")
