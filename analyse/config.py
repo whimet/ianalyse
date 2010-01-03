@@ -48,7 +48,7 @@ class Configs:
         self.configs = {}
         for file in os.listdir(self.config_dir):
             names = os.path.splitext(file)
-            if file_patterns == [] and names[1] == '.cfg':
+            if file_patterns == [] and names[1] == '.cfg' and file != 'groups.cfg':
                 self.configs[names[0]] = Config(os.path.join(self.config_dir, file))
             if file_patterns != [] and file_patterns.__contains__(file):
                 self.configs[names[0]] = Config(os.path.join(self.config_dir, file))                

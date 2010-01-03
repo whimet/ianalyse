@@ -14,7 +14,7 @@ class ConfigsTests(TestCase):
             TestUtils().rename_bak_to_conf('groups.bak')
         
     def test_should_return_the_config_files_under_configs_root(self):
-        self.assertEquals(len(os.listdir(os.path.join(settings.PROJECT_DIR, 'analyse/tests/fixtures/config/'))), self.configs.size())
+        self.assertEquals(len(os.listdir(os.path.join(settings.PROJECT_DIR, 'analyse/tests/fixtures/config/'))) - 1, self.configs.size())
         self.assertEquals(os.path.join(self.configs_root, 'ianalyse.cfg'), self.configs['ianalyse'].config_file)
         self.assertEquals(os.path.join(self.configs_root, 'no_days.cfg'), self.configs['no_days'].config_file)
         

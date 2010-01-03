@@ -10,7 +10,7 @@ def home(request):
     return redirect('/analyse/index.html')
 
 def index(request):
-    configs = Configs()
+    configs = Groups().default()
     if (configs.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
     
@@ -20,7 +20,7 @@ def index(request):
     return render_to_response('analyse/index.html', Context(results), context_instance = RequestContext(request))
 
 def setup(request):
-    configs = Configs()
+    configs = Groups().default()
     if (configs.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
 
@@ -29,7 +29,7 @@ def setup(request):
     return render_to_response('analyse/setup.html', Context(results), context_instance = RequestContext(request))
 
 def generate(request) :
-    configs = Configs()
+    configs = Groups().default()
     if (configs.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
 
@@ -41,7 +41,7 @@ def generate(request) :
     return redirect('index.html')
 
 def show(request):
-    configs = Configs()
+    configs = Groups().default()
     if (configs.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
     project_id = request.GET['id']
