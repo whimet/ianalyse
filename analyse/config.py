@@ -44,8 +44,9 @@ class Groups:
         configs = self.groups.get(key)
         return configs != None
 
-
-        
+    def is_empty(self):
+        configs = self.default()
+        return configs.is_empty()
 
 class Configs:
     def __init__(self, config_dir = None, file_patterns = []):

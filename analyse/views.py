@@ -11,8 +11,7 @@ def home(request):
 
 def index(request):
     groups = Groups()
-    configs = groups.default()
-    if (configs.is_empty()) :
+    if (groups.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
     group_id = request.GET.get('groups', 'default')
     
@@ -24,32 +23,32 @@ def index(request):
     return render_to_response('analyse/index.html', Context(results), context_instance = RequestContext(request))
 
 def setup(request):
-    configs = Groups().default()
-    if (configs.is_empty()) :
+    groups = Groups()
+    if (groups.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
 
-    current = configs.find(request.GET.get('id'))
-    results = {"configs" : configs, 'current' : current}
+    current = groups.default().find(request.GET.get('id'))
+    results = {"configs" : groups.default(), 'current' : current}
     return render_to_response('analyse/setup.html', Context(results), context_instance = RequestContext(request))
 
 def generate(request) :
-    configs = Groups().default()
-    if (configs.is_empty()) :
+    groups = Groups()
+    if (groups.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
 
     id = request.POST.get('id')
     if id == None:
         Cache.INSTANCE().populate()
     else:
-        Cache.INSTANCE().refresh(configs.find(id))
+        Cache.INSTANCE().refresh(groups.default().find(id))
     return redirect('index.html')
 
 def show(request):
-    configs = Groups().default()
-    if (configs.is_empty()) :
+    groups = Groups()
+    if (groups.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
     project_id = request.GET['id']
-    config = configs.find(project_id)
+    config = groups.default().find(project_id)
 
     if not config.has_result() :
         return redirect('setup.html?id=' + urlquote(project_id))
