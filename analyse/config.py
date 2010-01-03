@@ -32,10 +32,20 @@ class Groups:
         return self.groups.items()
         
     def find(self, key):
-        return self.groups[key]
+        configs = self.groups.get(key)
+        if configs == None:
+            configs = self.groups.get('default')
+        return configs
 
     def default(self):
         return self.groups['default']
+
+    def exists(self, key):
+        configs = self.groups.get(key)
+        return configs != None
+
+
+        
 
 class Configs:
     def __init__(self, config_dir = None, file_patterns = []):
@@ -80,7 +90,9 @@ class Configs:
     def get(self, key):
         return self.configs.get(key)
 
-        
+    def __len__(self):
+        return len(self.configs)
+
     def __iter__(self):
         items = self.configs.items()
         items.sort()

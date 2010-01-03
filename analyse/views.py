@@ -10,13 +10,17 @@ def home(request):
     return redirect('/analyse/index.html')
 
 def index(request):
-    configs = Groups().default()
+    groups = Groups()
+    configs = groups.default()
     if (configs.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
+    group_id = request.GET.get('groups', 'default')
     
-    groups = request.GET.get('groups', 'default')
-    results = {'configs' : configs, 'project_groups' : Cache.INSTANCE().get_project_group(groups)}
-    
+    if not groups.exists(group_id):
+        return redirect('index.html?groups=default')
+
+    configs = groups.find(group_id)    
+    results = {'group_id' : group_id, 'configs' : configs, 'project_groups' : Cache.INSTANCE().get_project_group(group_id)}
     return render_to_response('analyse/index.html', Context(results), context_instance = RequestContext(request))
 
 def setup(request):

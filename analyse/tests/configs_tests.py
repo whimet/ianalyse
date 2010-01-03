@@ -28,6 +28,12 @@ class ConfigsTests(TestCase):
         groups = Groups(self.configs_root)
         self.assertEquals(3, len(groups))
 
+    def test_should_load_the_default_configs_when_group_id_cannot_be_found(self):
+        groups = Groups(self.configs_root)
+        configs = groups.find('not_exist')
+        default_configs = groups.find('default')
+        self.assertEquals(len(configs), len(default_configs))
+
     def test_should_order_the_groups_by_name(self):
         items = Groups(self.configs_root).items()
         self.assertEquals('acc', items[0][0])
