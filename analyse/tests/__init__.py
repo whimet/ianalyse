@@ -7,7 +7,7 @@ import analyse.tests.datetimeutils_tests
 import analyse.tests.osutils_tests
 import analyse.tests.builds_tests
 import analyse.tests.config_tests
-import analyse.tests.configs_tests
+import analyse.tests.group_tests
 import analyse.tests.functional_tests
 import analyse.tests.perf_tests
 import analyse.tests.tar_tests
@@ -29,7 +29,7 @@ def suite():
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.builds_tests.BuildsTest))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.builds_by_day_tests.BuildsByDayTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.config_tests.ConfigTests))
-        s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.configs_tests.ConfigsTests))
+        s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.group_tests.GroupTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.osutils_tests.OSUtilsTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.tar_tests.TarTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.plugins_tests.PluginsTests))

@@ -4,10 +4,10 @@ from django.conf import settings
 from analyse.config import *
 from analyse.tests.testutil import TestUtils
 
-class ConfigsTests(TestCase):
+class GroupTests(TestCase):
     def setUp(self):
         self.configs_root = os.path.abspath(os.path.join(settings.PROJECT_DIR, 'analyse/tests/fixtures/config/'))
-        self.configs = Configs(self.configs_root)
+        self.configs = Group(self.configs_root)
         
     def tearDown(self):
         if os.path.exists(os.path.join(settings.PROJECT_DIR, 'analyse/tests/fixtures/config/groups.bak')):
@@ -47,7 +47,7 @@ class ConfigsTests(TestCase):
         self.assertEquals(1, len(items))
 
     def test_should_order_the_config_by_name(self):
-        configs = Configs()
+        configs = Group()
         configs_hash = {
         	'safe' : Config('safe'),
         	'acc_ci_commit' : Config('acc_ci_commit'),

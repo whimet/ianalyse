@@ -1,7 +1,7 @@
 from django.test import TestCase
 import os                                                  
 from django.conf import settings
-from analyse.config import Config, Configs
+from analyse.config import *
 
 
 class ConfigTests(TestCase):   
@@ -19,12 +19,12 @@ class ConfigTests(TestCase):
     def testShouldReturnTheAbsolutePathOfTheDefaultConfigFile(self):
         expected = os.path.abspath(os.path.join(settings.PROJECT_DIR, 'configs'))
         os.environ.pop("CONFIGS_DIR")
-        config = Configs()
+        config = Group()
         self.assertEquals(expected, config.abspath())
 
     def testShouldReturnSpecificConfigFile(self):
         expected = os.path.abspath(os.path.join(settings.PROJECT_DIR, 'analyse/tests/fixtures/config/'))
-        config = Configs(expected)
+        config = Group(expected)
         self.assertEquals(expected, config.abspath())
     
     def testShouldReturnFalseWhenConfigFileIsMissing(self):

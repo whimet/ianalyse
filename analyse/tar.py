@@ -1,4 +1,4 @@
-from analyse.config import Config, Configs
+from analyse.config import *
 import os
 import tarfile
 

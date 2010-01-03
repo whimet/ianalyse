@@ -1,8 +1,6 @@
 from django.test import TestCase
 
-from analyse.models import Build
-from analyse.config import Config, Configs
-from analyse.models import Builds
+from analyse.models import * 
 import os
 from django.conf import settings
 from datetime import datetime

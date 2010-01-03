@@ -21,9 +21,9 @@ class Groups:
                 results = []
                 for part in splits:
                     results.append(part.strip())
-                self.groups[item[0]] = Configs(self.config_dir, results)
+                self.groups[item[0]] = Group(self.config_dir, results)
 
-        self.groups['default'] = Configs(self.config_dir)            
+        self.groups['default'] = Group(self.config_dir)            
 
     def __len__(self):
         return len(self.groups)
@@ -48,7 +48,7 @@ class Groups:
         configs = self.default()
         return configs.is_empty()
 
-class Configs:
+class Group:
     def __init__(self, config_dir = None, file_patterns = []):
         configs = config_dir
         if None ==  configs :            

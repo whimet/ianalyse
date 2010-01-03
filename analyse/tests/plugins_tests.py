@@ -1,7 +1,6 @@
 from django.test import TestCase
 
 from analyse.models import Build, Builds
-from analyse.config import Config, Configs
 import os
 from django.conf import settings
 from analyse.plugin import Plugins
