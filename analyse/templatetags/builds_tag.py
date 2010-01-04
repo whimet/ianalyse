@@ -65,6 +65,21 @@ def group_selection(groups, group_id):
     selection_box = selection_box + options + '</select>'
     return selection_box
 
+def group_cmp(url, configs, group_id):
+    width="400"
+    height="320"
+    if len(configs) > 5:
+        width = 900
+    return '''<script type="text/javascript">
+        swfobject.embedSWF(
+                "%(url)s/swf/open-flash-chart.swf", "projects_comparation", "%(width)s", "%(height)s",
+                "9.0.0", "expressInstall.swf",
+        {"data-file":"/results/group_%(group_id)s_comparation.txt"}
+                );
+    </script>''' % \
+    {'width': width, "height": height, "group_id":group_id, 'url':url}
+    
+
 register.simple_tag(total_runs)
 register.simple_tag(avg_build_time)
 register.simple_tag(project_id)
@@ -75,4 +90,4 @@ register.simple_tag(more_attention_icon)
 register.simple_tag(last_pass_span)
 register.simple_tag(last_build_span)
 register.simple_tag(group_selection)
-
+register.simple_tag(group_cmp)

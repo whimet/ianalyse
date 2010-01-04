@@ -8,13 +8,8 @@
 {% endblock %}
 {% block content %}
 {% load builds_tag %}
-<script type="text/javascript">
-    swfobject.embedSWF(
-            "{{ MEDIA_URL }}/swf/open-flash-chart.swf", "projects_comparation", "900", "320",
-            "9.0.0", "expressInstall.swf",
-    {"data-file":"/results/group_{{group_id}}_comparation.txt"}
-            );
-</script>
+
+{% group_cmp MEDIA_URL configs group_id %}
 <div style="margin-left:500px;margin-top:0.5em;margin-bottom:0.5em">
 	Group {%group_selection groups group_id %}
 </div>
