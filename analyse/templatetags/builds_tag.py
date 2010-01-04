@@ -54,13 +54,25 @@ def pass_rate(builds):
 def summary(builds):
     return str(builds.total_count()) + ' runs between ' + str(builds.started_at()) + " and " + str(builds.ended_at())
 
+def group_selection(groups, group_id):
+    selection_box = '<select id="group_selection_box">'
+    options = ''
+    for group in groups:
+        options = options + '<option id="' + group.id + '" value="' + group.id + '"'
+        if group_id == group.id:
+            options = options + ' selected="selected" '
+        options =  options + '>' + group.id + "</option>"
+    selection_box = selection_box + options + '</select>'
+    return selection_box
+
 register.simple_tag(total_runs)
 register.simple_tag(avg_build_time)
 register.simple_tag(project_id)
 register.simple_tag(pass_rate)
 register.simple_tag(summary)
-
 register.simple_tag(build_status_icon)
 register.simple_tag(more_attention_icon)
 register.simple_tag(last_pass_span)
 register.simple_tag(last_build_span)
+register.simple_tag(group_selection)
+

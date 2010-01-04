@@ -13,13 +13,13 @@ def index(request):
     groups = Groups()
     if (groups.is_empty()) :
         return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
-    group_id = request.GET.get('groups', 'default')
+    group_id = request.GET.get('groups')
     
-    if not groups.exists(group_id):
+    if group_id == None or not groups.exists(group_id):
         return redirect('index.html?groups=default')
 
     configs = groups.find(group_id)    
-    results = {'group_id' : group_id, 'configs' : configs, 'project_groups' : Cache.INSTANCE().get_project_group(group_id)}
+    results = {'group_id' : group_id, 'groups' : groups, 'configs' : configs, 'project_groups' : Cache.INSTANCE().get_project_group(group_id)}
     return render_to_response('analyse/index.html', Context(results), context_instance = RequestContext(request))
 
 def setup(request):

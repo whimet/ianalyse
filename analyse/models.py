@@ -410,7 +410,7 @@ class ProjectGroups:
     def create():
         pgs = ProjectGroups()
         for group in Groups():
-            pgs.project_groups[group[0]] = ProjectGroup.create(group[1])
+            pgs.project_groups[group.id] = ProjectGroup.create(group)
         return pgs
         
     def find(self, key):

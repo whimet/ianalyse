@@ -32,9 +32,9 @@ class Groups:
         return len(self.groups)
     
     def __iter__(self):
-        items = self.groups.items()
-        items.sort()
-        return items.__iter__()
+        values = self.groups.values()
+        values.sort()
+        return values.__iter__()
         
     def find(self, key):
         configs = self.groups.get(key)
@@ -110,7 +110,15 @@ class Group:
 
     def __str__( self ):
             return 'the configs dir location is [' + self.config_dir + ']'
-    
+
+    def __cmp__(self, other):
+        if other == None or self.id > other.id:
+            return 1
+        if self.id < other.id:
+            return -1
+        if self.id == other.id:
+            return 0
+        
 class Config:
     DEFAULT_FILES_TO_PROCESS = 30
     DEFAULT_DAYS_TO_PROCESS = 14

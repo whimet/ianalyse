@@ -8,7 +8,6 @@
 {% endblock %}
 {% block content %}
 {% load builds_tag %}
-
 <script type="text/javascript">
     swfobject.embedSWF(
             "{{ MEDIA_URL }}/swf/open-flash-chart.swf", "projects_comparation", "900", "320",
@@ -16,8 +15,17 @@
     {"data-file":"/results/group_{{group_id}}_comparation.txt"}
             );
 </script>
-
-
+<div style="margin-left:500px;margin-top:0.5em;margin-bottom:0.5em">
+	Group {%group_selection groups group_id %}
+</div>
+<script>
+$(document).ready(function(){
+	    $("#group_selection_box").change(function(e){
+		var selected = $("#group_selection_box option:selected");   
+		window.location = '/analyse/index.html?groups=' + selected.text()
+	});	     
+	});
+</script>
 <b id="projects_comparation"></b>
 
 <div id="preview_container">
