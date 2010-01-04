@@ -118,6 +118,45 @@ class FunctionalTests(TestCase):
         self.assertContains(user.response, '100.00%')
         self.assertContains(user.response, '1200.00(s)')
 
+    def test_user_can_visit_different_group_using_unique_url(self):
+        user = User()
+        user.open_home_page('others')
+        self.assertContains(user.response, 'safe')
+        self.assertNotContains(user.response, 'cclive')
+        self.assertNotContains(user.response, 'connectfour4')
+        self.assertNotContains(user.response, 'missing-logs')
+        self.assertNotContains(user.response, 'acc-srv')
+        user.open_home_page('acc')        
+        self.assertNotContains(user.response, 'safe')
+        self.assertContains(user.response, 'cclive')
+        self.assertContains(user.response, 'connectfour4')
+        self.assertContains(user.response, 'acc-srv')
+        user.open_home_page()        
+        self.assertContains(user.response, 'safe')
+        self.assertContains(user.response, 'cclive')
+        self.assertContains(user.response, 'connectfour4')
+        self.assertContains(user.response, 'missing-logs')
+        self.assertContains(user.response, 'acc-srv')  
+
+    def test_user_should_be_redirected_to_default_group_when_group_does_not_exists(self):
+        user = User()
+        user.open_home_page('some-thing-missing')
+        self.assertContains(user.response, 'safe')
+        self.assertContains(user.response, 'cclive')
+        self.assertContains(user.response, 'connectfour4')
+        self.assertContains(user.response, 'missing-logs')
+        self.assertContains(user.response, 'acc-srv')  
+        
+
+    def test_user_should_be_redirected_to_default_group_when_no_group_was_provided(self):
+        user = User()
+        user.open_home_page(None)
+        self.assertContains(user.response, 'safe')
+        self.assertContains(user.response, 'cclive')
+        self.assertContains(user.response, 'connectfour4')
+        self.assertContains(user.response, 'missing-logs')
+        self.assertContains(user.response, 'acc-srv')  
+
     def test_user_can_download_all_the_csv_files_as_a_single_tar(self):
         user = User()
         user.open_home_page()
@@ -134,8 +173,11 @@ class User :
     def __init__(self):
         self.client = Client()
         
-    def open_home_page(self):
-        self.response = self.client.get('/analyse/index.html', follow=True)
+    def open_home_page(self,groups='default'):
+        if groups == None:
+            self.response = self.client.get('/analyse/index.html', follow=True)
+        else:
+            self.response = self.client.get('/analyse/index.html?groups='+groups, follow=True)
 
     def open_show_page(self, id):
         self.response = self.client.get('/analyse/show.html?id=' + id, follow=True)
