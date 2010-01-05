@@ -172,6 +172,7 @@ class Config:
             except Exception, e:
                 files = os.list_matched_files(os.path.join(settings.PROJECT_DIR, 'plugins'), '.*.py')
                 files.remove('__init__.py')
+                files.sort()
                 return files
         return self.__readattr__(anonymous)
 
