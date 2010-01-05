@@ -103,7 +103,10 @@ class Plugin:
         handlers.append(self.handler)
 
     def append_csv_cell_to(self, result):
-        result.append(self.handler.csv_cell())
+        try:
+            result.append(self.handler.csv_cell())
+        except Exception, e:
+            result.append("")
 
     def append_column_name_to(self, names):
         names.append(self.column_name)    

@@ -161,8 +161,6 @@ class Config:
         return array
 
     def plugins(self):
-        default = ['project_name.py', 'label.py', 'build_time.py']
-
         def anonymous(config): 
             try:                                        
                 plugins = config.get('CSV', 'plugins')
@@ -170,11 +168,11 @@ class Config:
                 results = []
                 for part in splits:
                     results.append(part.strip())
-                results.extend(default)
-                results.sort()
                 return results
             except Exception, e:
-                return default
+                files = os.list_matched_files(os.path.join(settings.PROJECT_DIR, 'plugins'), '.*.py')
+                files.remove('__init__.py')
+                return files
         return self.__readattr__(anonymous)
 
     def results_dir(self):

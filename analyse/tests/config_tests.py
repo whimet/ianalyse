@@ -77,24 +77,26 @@ class ConfigTests(TestCase):
         config2.id = 'id2'
         self.assertEquals(False, config1 == config2)
         
-    def test_should_return_default_csv_plugins_if_nothing_defined(self):
+    def test_should_return_all_the_plugins_under_the_plugins_folder_as_default_plugins(self):
         config = Config("")
         list = config.plugins()
+        self.assertEquals(7, len(list))
         self.assertEquals(True, list.count('build_time.py') == 1)
         self.assertEquals(True, list.count('label.py') == 1)
+        self.assertEquals(True, list.count('last_build.py') == 1)
+        self.assertEquals(True, list.count('last_passed.py') == 1)
+        self.assertEquals(True, list.count('project_name.py') == 1)
+        self.assertEquals(True, list.count('result.py') == 1)
+        self.assertEquals(True, list.count('start_at.py') == 1)
         
-        
-    def test_should_return_default_csv_plugins_plus_user_input(self):
-        default_config = Config("")
-        default_plugins = default_config.plugins()
-
+    def test_should_return_plugins_in_the_same_order_as_user_defined(self):
         plugins = self.config.plugins()
 
-        self.assertEquals(len(plugins), len(default_plugins) + 3)
-        self.assertEquals(True, plugins.count('my_plugin.py') == 1)
-        self.assertEquals(True, plugins.count('my_plugin2.py') == 1)
-        self.assertEquals(True, plugins.count('my_plugin3.py') == 1)
-
+        self.assertEquals(len(plugins), 3)
+        self.assertEquals('my_plugin.py', plugins[0])
+        self.assertEquals('my_plugin2.py', plugins[1])
+        self.assertEquals('my_plugin3.py', plugins[2])
+    
 
 
         

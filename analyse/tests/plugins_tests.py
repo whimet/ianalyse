@@ -58,9 +58,11 @@ class PluginsTests(TestCase):
         plugins.load_plugins()
         
         result = plugins.handle(file, TestUtils().connectfour_config())
-        self.assertEquals('connectfour4', result[0])
+
+        self.assertEquals('1 minute(s) 0 second(s)', result[0])
         self.assertEquals('build.1', result[1])
-        self.assertEquals('1 minute(s) 0 second(s)', result[2])
+        self.assertEquals('connectfour4', result[2])
+
 
     def test_should_load_the_value_based_on_the_order_user_defined(self):
         file = TestUtils().write_to_temp('log20090909090.xml', PluginsTests.FAILED_LOG_AT_OCT_11)

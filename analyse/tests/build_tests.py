@@ -52,11 +52,16 @@ class BuildTest(TestCase):
     def testToSelectValuesAsArrayByApplyingXPath(self):
         file = self.ccroot + '/log20091011173922Lbuild.1.xml'
         config = Groups().default().find('connectfour4')
-        values = Build.select_values(file, config, Plugins.INSTANCE())
-        self.assertEquals('connectfour4', values[0])
-        self.assertEquals('1 minute(s) 0 second(s)', values[2])
-        self.assertEquals('build.1', values[1])
+        result = Build.select_values(file, config, Plugins.INSTANCE())
 
+
+        self.assertEquals('1 minute(s) 0 second(s)', result[0])
+        self.assertEquals('build.1', result[1])
+        self.assertEquals('20091011000000', result[2])
+        self.assertEquals('20091011000000', result[3])
+        self.assertEquals('connectfour4', result[4])
+        self.assertEquals('Passed', result[5])
+        self.assertEquals('20091011173922', result[6])
     
     
     def testUserShouldPayMoreAttentionIfLastBuildHappend24HoursAgo(self):

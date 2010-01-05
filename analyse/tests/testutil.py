@@ -16,11 +16,7 @@ class TestUtils:
         return settings.PROJECT_DIR + '/analyse/tests/fixtures/plugins'
             
     def csv_settings(self):
-        return [('project name', '//property[@name="projectname"]/@value'),
-            ("label", '//property[@name="label"]/@value'),
-            ('buid time', '//build/@time'),
-            ('something wrong', '//not right')
-            ]
+        return []
     def twenty_days(self):
         return 20
     def one_day(self):
