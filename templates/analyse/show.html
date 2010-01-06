@@ -29,6 +29,11 @@
             "9.0.0", "expressInstall.swf",
     {"data-file":"/results/{% project_id builds %}/run_times_and_pass_count_by_day.txt"}
             );
+    swfobject.embedSWF(
+            "{{ MEDIA_URL }}/swf/open-flash-chart.swf", "build_breakers", "550", "500",
+            "9.0.0", "expressInstall.swf",
+    {"data-file":"/results/{% project_id builds %}/build_breakers.txt"}
+            );
 
 </script>
 {% endblock %}
@@ -87,6 +92,7 @@
 	<b id="successful_rate"></b>
 	<b id="build_times"></b>
 	<b id="per_build_time"></b>	
+	<b id="build_breakers"></b>		
 	<div class="push"></div>
 </div>
 

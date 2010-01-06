@@ -37,6 +37,29 @@ class NDaysStatistics :
         self.builds = builds
         self.project_id = builds.project_id()
 
+
+    def build_breakers(self):
+        chart = Chart()
+        element = Chart()
+        element.type = "bar_stack"
+        element.colours = [ '#1C9E05','#FF368D']
+        build_breakers = self.builds.build_breakers()
+        element.values =  build_breakers.as_arrays()
+
+        element.keys =  [
+            { "colour": FAILED_BUILD_COLOR_CODE, "text": "Failed builds", "font-size": 13 },
+            { "colour": PASSED_BUILD_COLOR_CODE, "text": "Passed builds", "font-size": 13 }]
+        element.tip = "#val# runs of #total# in project #x_label#"
+
+        chart.title = { "text": "Passed/Failed builds between projects", "style": "{font-size: 20px; color: #F24062; text-align: center;}" }
+        chart.x_axis = { "labels": { "labels": build_breakers.names(), "rotate": 45} }
+        chart.y_axis = { "min": 0, "max": build_breakers.max() + 2, "steps": 5 }
+        chart.tooltip =  { "mouse": 2 } 
+        chart.elements = [element]
+
+        return chart.create()
+
+
     def build_time_over_time(self):
         chart = Chart()
 
@@ -172,7 +195,7 @@ class GlobalStatistics:
         element = Chart()
         element.type = "bar_stack"
         element.colours = [ '#1C9E05','#FF368D']
-        values, names, max =    self.project_group.projects_comparation()
+        values, names, max = self.project_group.projects_comparation()
         element.values =  values
 
         element.keys =  [

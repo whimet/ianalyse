@@ -45,13 +45,21 @@ class Commitor:
             self.passed_commits.add(commit)
         else:
             self.failed_commits.add(commit)
-            
+    
     def passed_count(self):
         return len(self.passed_commits)
 
     def failed_count(self):
         return len(self.failed_commits)
 
+    def max(self):
+        passed_count = self.passed_count()
+        failed_count = self.failed_count()
+        if passed_count > failed_count:
+            return passed_count
+        else:
+            return failed_count        
+        
     def __str__(self):
         passed = ""
         for commit in self.passed_commits:
@@ -60,13 +68,31 @@ class Commitor:
         for commit in self.failed_commits:
             failed = failed + ":" + str(commit)
         return self.name + " \n PASSED \n " + passed + "\n FAILED \n" + failed
-
-class NullCommitor(Commitor):pass
-
+        
 class Commitors:
     def __init__(self):
         self.commitors = []
+        
+    def names(self):
+        names = []
+        for commitor in self.commitors:
+            names.append(commitor.name)
+        return names
 
+    def as_arrays(self):
+        arrays = []
+        for commitor in self.commitors:
+            arrays.append([commitor.passed_count(), commitor.failed_count()])
+        return arrays
+
+    def max(self):
+        max = 0
+        for commitor in self.commitors:
+            tmp_max = commitor.max()
+            if tmp_max > max:
+                max = tmp_max
+        return max
+            
     def find(self, name):
         for commitor in self.commitors:
             if commitor.name == name:
@@ -387,6 +413,7 @@ class Builds:
         stat.generate_build_time_over_time()
         stat.generate_per_build_info()
         stat.generate_run_times_and_pass_count_by_day()
+        stat.generate_build_breakers()
         self.create_csv()
         return
 
