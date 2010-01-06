@@ -49,9 +49,9 @@ class NDaysStatistics :
         element.keys =  [
             { "colour": FAILED_BUILD_COLOR_CODE, "text": "Failed builds", "font-size": 13 },
             { "colour": PASSED_BUILD_COLOR_CODE, "text": "Passed builds", "font-size": 13 }]
-        element.tip = "#val# runs of #total# in project #x_label#"
+        element.tip = "#val# runs are trigger by #x_label#' commits"
 
-        chart.title = { "text": "Passed/Failed builds between projects", "style": "{font-size: 20px; color: #F24062; text-align: center;}" }
+        chart.title = { "text": "Passed/Failed builds caused by him/her", "style": "{font-size: 20px; color: #F24062; text-align: center;}" }
         chart.x_axis = { "labels": { "labels": build_breakers.names(), "rotate": 45} }
         chart.y_axis = { "min": 0, "max": build_breakers.max() + 2, "steps": 5 }
         chart.tooltip =  { "mouse": 2 } 
