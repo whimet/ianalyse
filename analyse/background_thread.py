@@ -1,5 +1,6 @@
 import threading
 import thread, time
+from threading import Lock
 from datetime import datetime
 import logging
 
@@ -23,11 +24,15 @@ class BackGroundThread:
             time.sleep(self.interval)
 
     def launch(self):
+        lock = Lock()
+        lock.acquire()
         if BackGroundThread._RUNNING :
             return False
-
         BackGroundThread._RUNNING = True
+        lock.release()
         t = threading.Thread(target=self.method_wrapper)
         t.setDaemon(True)
         t.start()
-        return True
+        return True        
+
+        

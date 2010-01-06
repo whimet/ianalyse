@@ -3,6 +3,7 @@ from datetime import datetime
 from xml.sax import make_parser
 import util.datetimeutils
 
+
 import sys
 
 class LabelHandler(ContentHandler):
@@ -62,18 +63,56 @@ class BuildTimeHandler(ContentHandler):
             build_time = util.datetimeutils.evaluate_time_to_seconds(attrs["time"])
             self.build.build_time = build_time
 
+class CommitHandler(ContentHandler):
+    def __init__(self, build):
+        self.build = build
+        self.should_capture = False
+        self.is_user = False
+        self.is_revision = False
+        self.user = ""
+        self.revision = ""
+
+    def startElement(self, name, attrs):
+        self.buffer = ""
+        if name == 'modification':
+            self.should_capture = True            
+        if name == 'user':
+            self.is_user = True
+        if name == 'revision':
+            self.is_revision = True
+
+    def characters(self, data):
+        self.buffer += data
+
+    def endElement(self, name):
+        if self.should_capture:
+            if name == 'user':
+                self.user = self.buffer
+            if name == 'revision':
+                self.revision = self.buffer
+
+        if name == 'modification':
+            self.build.add_commitor(self.user, self.revision)
+            self.should_capture = False
+            self.is_user = False
+            self.is_revision = False
+            self.user = ""
+            self.revision = ""            
+
 class MultipleHandlers(ContentHandler):
     def __init__(self, build):
         self.handlers = [LabelHandler(build), ProjNameHandler(build), TimeStampHandler(build), ResultHandler(build),
-                         LastPassHandler(build), LastBuildHandler(build), BuildTimeHandler(build)]
+                         LastPassHandler(build), LastBuildHandler(build), BuildTimeHandler(build), CommitHandler(build)]
 
     def startElement(self, name, attrs):
         for handler in self.handlers :
             handler.startElement(name, attrs)
 
+    def characters(self, data):
+        for handler in self.handlers :
+            handler.characters(data)
 
-
-
-
-
+    def endElement(self, name):
+        for handler in self.handlers :
+            handler.endElement(name)
 

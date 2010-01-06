@@ -15,14 +15,33 @@ from analyse.tar import Tar
 from analyse.statistics import *
 import logging
 
+class Commit:
+    def __init__(self, name = None, revision = None):
+        self.name = name
+        self.revision = revision
+
+    def __str__(self):
+        return self.name + " << " + self.revision
+
+    def __hash__(self):
+        return 1
+        
+    def __eq__(self, other):
+        if self != None and other != None:
+            return self.name == other.name and  self.revision == other.revision
+        else:
+            return False
+
 class Build:
-    project_id = ""
-    name = ""
-    start_time = None;
-    build_time = 0
-    is_passed = False
-    last_pass = None
-    last_build = None
+    def __init__(self):
+        self.project_id = ""
+        self.name = ""
+        self.start_time = None;
+        self.build_time = 0
+        self.is_passed = False
+        self.last_pass = None
+        self.last_build = None
+        self.commits = set()
 
     def day_of_start(self):
         return begining_of_the_day(self.start_time)
@@ -72,6 +91,9 @@ class Build:
         else:
             return self.last_pass
 
+    def add_commitor(self, name, revision):
+        self.commits.add(Commit(name, revision))
+        
     def __unicode__(self):
         return self.name + " << " + str(self.is_passed) + " << " + str(self.start_time) + "\n"
 

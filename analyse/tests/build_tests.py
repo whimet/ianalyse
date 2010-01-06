@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from analyse.models import Build
+from analyse.models import *
 import os
 from django.conf import settings
 from datetime import datetime, timedelta
@@ -43,7 +43,7 @@ class BuildTest(TestCase):
         expecteddate = datetime(2009, 10, 11, 20, 11, 49);
         build = Build.from_file(self.ccroot + '/log20091013220324.xml')
         self.assertEqual(expecteddate, build.last_pass)
-
+    
     def testToParseTheFailedLogForBuildDate(self):
             expecteddate = datetime(2009, 10, 11, 20, 11, 49);
             build = Build.from_file(self.ccroot + '/log20091013220324.xml')
@@ -53,8 +53,8 @@ class BuildTest(TestCase):
         file = self.ccroot + '/log20091011173922Lbuild.1.xml'
         config = Groups().default().find('connectfour4')
         result = Build.select_values(file, config, Plugins.INSTANCE())
-
-
+    
+    
         self.assertEquals('1 minute(s) 0 second(s)', result[0])
         self.assertEquals('build.1', result[1])
         self.assertEquals('20091011000000', result[2])
@@ -119,4 +119,18 @@ class BuildTest(TestCase):
         build.last_build = datetime.now() - timedelta(hours=2)
         build.start_time = datetime.now() - timedelta(hours=1)
         self.assertEquals('1 Hours', build.last_pass_t())
+
+    def test_should_parse_the_commitor_from_the_files(self):
+        build = Build.from_file(self.root + '/analyse/tests/fixtures/cclive-release-jdk1.5/log20080922021338.xml')
+        self.assertEqual(6, len(build.commits))
+        self.assertEqual(True, Commit('jfredrick', '4006') in build.commits)
+        self.assertEqual(True, Commit('jfredrick', '4007') in build.commits)
+        self.assertEqual(True, Commit('jfredrick', '4008') in build.commits)
+        self.assertEqual(True, Commit('bhamail', '4009') in build.commits)
+        self.assertEqual(True, Commit('jfredrick', '4010') in build.commits)
+        self.assertEqual(True, Commit('jfredrick', '4011') in build.commits)
+
+    def test_should_parse_no_commitor_if_user_forces_build(self):
+        build = Build.from_file(self.ccroot + '/log20091011173922Lbuild.1.xml')
+        self.assertEqual(0, len(build.commits))
     
