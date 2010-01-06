@@ -21,16 +21,70 @@ class Commit:
         self.revision = revision
 
     def __str__(self):
-        return self.name + " << " + self.revision
+        return "[" + self.name + ":" + self.revision + "]"
 
     def __hash__(self):
-        return 1
+        return self.name.__hash__() * 31  +  self.revision.__hash__()
         
     def __eq__(self, other):
         if self != None and other != None:
             return self.name == other.name and  self.revision == other.revision
         else:
             return False
+class Commitor:
+    def __init__(self, name):
+        self.name = name
+        self.passed_commits = set()
+        self.failed_commits = set()
+
+    def add(self, commit, is_passed):
+        if commit in self.passed_commits or commit in self.failed_commits:
+            return
+
+        if is_passed:
+            self.passed_commits.add(commit)
+        else:
+            self.failed_commits.add(commit)
+            
+    def passed_count(self):
+        return len(self.passed_commits)
+
+    def failed_count(self):
+        return len(self.failed_commits)
+
+    def __str__(self):
+        passed = ""
+        for commit in self.passed_commits:
+            passed = passed + ":" + str(commit)
+        failed = ""
+        for commit in self.failed_commits:
+            failed = failed + ":" + str(commit)
+        return self.name + " \n PASSED \n " + passed + "\n FAILED \n" + failed
+
+class NullCommitor(Commitor):pass
+
+class Commitors:
+    def __init__(self):
+        self.commitors = []
+
+    def find(self, name):
+        for commitor in self.commitors:
+            if commitor.name == name:
+                return commitor
+        commitor = Commitor(name)
+        self.commitors.append(commitor)
+        return commitor
+
+    def add_commits(self, commits, is_passed):
+        for commit in commits:
+            commitor = self.find(commit.name)
+            commitor.add(commit, is_passed)
+
+    def __len__(self):
+        return len(self.commitors)
+
+    def __iter__(self):
+        return self.commitors.__iter__()
 
 class Build:
     def __init__(self):
@@ -164,6 +218,7 @@ class NDaysSummary:
 class Builds:
     def __init__(self):
         self.builds = []
+        self.commitors = Commitors()
 
     def total_count(self):
         return len(self.builds)
@@ -278,7 +333,12 @@ class Builds:
         if delta.days <= 1 :
             return '%.2f' % len_builds
         return '%.2f' % (len_builds / (delta.days - 0.0))
-    
+
+    def build_breakers(self):
+        for build in self.builds:
+            self.commitors.add_commits(build.commits, build.is_passed)
+        return self.commitors
+        
     @staticmethod
     def create_builds(config, pattern):
         if pattern == None :
@@ -288,7 +348,6 @@ class Builds:
         builds = list();
 
         all_necessary_files = os.filter_by_days(config.logdir(), pattern, config.days())
-
         for eachfile in all_necessary_files:
             if None != re.match(pattern, eachfile) :
                 try :

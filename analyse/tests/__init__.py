@@ -14,6 +14,7 @@ import analyse.tests.tar_tests
 import analyse.tests.project_group_tests
 import analyse.tests.builds_by_day_tests
 import analyse.tests.plugins_tests
+import analyse.tests.build_breaker_tests
 import os                                                  
 
 def suite():
@@ -22,6 +23,7 @@ def suite():
     if test_type == 'PERF' :
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.perf_tests.PerfTests))
     else :
+        s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.build_breaker_tests.BuildBreakerTests))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.build_tests.BuildTest))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.build_factory_tests.BuildFactoryTest))
         s.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(analyse.tests.successful_rate_chart.SuccessfulRateChartTests))
