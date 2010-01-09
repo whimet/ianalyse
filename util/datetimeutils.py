@@ -1,6 +1,7 @@
 from datetime import datetime,timedelta
 import re
 import time
+import _strptime
 
 def days_ago(days = 0, now = datetime.now()) :
     start = datetime.min.replace(year = now.year, month = now.month, day = now.day)

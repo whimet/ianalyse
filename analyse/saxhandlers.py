@@ -2,7 +2,7 @@ from xml.sax.handler import ContentHandler
 from datetime import datetime
 from xml.sax import make_parser
 import util.datetimeutils
-
+import _strptime
 
 import sys
 
