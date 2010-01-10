@@ -40,6 +40,8 @@ class Commitor:
     def add(self, commit, is_passed):
         if commit in self.passed_commits or commit in self.failed_commits:
             return
+        if commit.name != self.name:
+            return
 
         if is_passed:
             self.passed_commits.add(commit)
@@ -56,7 +58,10 @@ class Commitor:
         passed_count = self.passed_count()
         failed_count = self.failed_count()
         return passed_count + failed_count
-        
+
+    def as_array(self):
+        return [self.passed_count(), self.failed_count()]
+
     def __str__(self):
         passed = ""
         for commit in self.passed_commits:
@@ -79,7 +84,7 @@ class Commitors:
     def as_arrays(self):
         arrays = []
         for commitor in self.commitors:
-            arrays.append([commitor.passed_count(), commitor.failed_count()])
+            arrays.append(commitor.as_array())
         return arrays
 
     def max(self):
