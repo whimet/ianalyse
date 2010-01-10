@@ -2,6 +2,24 @@ import os
 from django.conf import settings
 import ConfigParser
 
+def extract_list(file, section, options=None):
+    config = ConfigParser.ConfigParser()
+    config.read(file)
+    items = []
+    all_groups = {}
+    if options == None:
+        items = config.items(section)
+    else:
+        items.append(('plugins', config.get(section, options)))
+
+    for item in items:
+        splits = item[1].split(',')
+        results = []
+        for part in splits:
+            results.append(part.strip())
+        all_groups[item[0]] = results    
+    return all_groups
+
 class Groups:
     def __init__(self, config_dir = None):
         self.groups = {}
@@ -13,18 +31,12 @@ class Groups:
         self.config_dir = configs
         groups_cfg = os.path.join(self.config_dir, 'groups.cfg')
         if os.path.exists(groups_cfg):
-            config = ConfigParser.ConfigParser()
-            config.read(groups_cfg)
-            items = config.items("GROUPS")
-            for item in items:
-                splits = item[1].split(',')
-                results = []
-                for part in splits:
-                    results.append(part.strip())
-                self.groups[item[0]] = Group(self.config_dir, results, group_id=item[0])
+            all_groups = extract_list(groups_cfg, 'GROUPS')
+            for item in all_groups.items():
+                self.groups[item[0]] = Group(self.config_dir, item[1], group_id=item[0])
 
         self.groups['default'] = Group(self.config_dir, group_id='default')            
-
+        
     def __getitem__(self, index):
         return self.groups.items()[index]
 
@@ -159,13 +171,8 @@ class Config:
 
     def plugins(self):
         def anonymous(config): 
-            try:                                        
-                plugins = config.get('CSV', 'plugins')
-                splits = plugins.split(',')
-                results = []
-                for part in splits:
-                    results.append(part.strip())
-                return results
+            try:    
+                return extract_list(self.abspath(), 'CSV', 'plugins').items()[0][1]
             except Exception, e:
                 files = os.list_matched_files(os.path.join(settings.PROJECT_DIR, 'plugins'), '.*.py')
                 files.remove('__init__.py')
