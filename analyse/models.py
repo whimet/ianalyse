@@ -52,13 +52,10 @@ class Commitor:
     def failed_count(self):
         return len(self.failed_commits)
 
-    def max(self):
+    def total(self):
         passed_count = self.passed_count()
         failed_count = self.failed_count()
-        if passed_count > failed_count:
-            return passed_count
-        else:
-            return failed_count        
+        return passed_count + failed_count
         
     def __str__(self):
         passed = ""
@@ -88,7 +85,7 @@ class Commitors:
     def max(self):
         max = 0
         for commitor in self.commitors:
-            tmp_max = commitor.max()
+            tmp_max = commitor.total()
             if tmp_max > max:
                 max = tmp_max
         return max
