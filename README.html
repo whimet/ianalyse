@@ -63,7 +63,7 @@ pre.terminal,div.terminal {
 	<div class="wikistyle">
 		<h2>Install Python</h2>
 		<p>
-Download and install the python installer from http://www.python.org/ftp/python/2.6.4/, Put python into your PATH, to verify you installed python correctly, start up the console and type: 
+Download the python installer from http://www.python.org/ftp/python/2.6.4/, install it on the default location, put python into your PATH, to verify it is installed correctly, start up the console and type: 
 		<div class="terminal">
 			$ python --version
 		</div>
@@ -82,22 +82,39 @@ You should be able to see the output:
 	<div class="wikistyle">
 		<h2>Install Django</h2>
 		<p>
-Download the Django from: and follow their three steps instructions to install the Django framework. 
-		<div class="terminal">
-
-		</div>
+Visit <a href="http://www.djangoproject.com/download/">http://www.djangoproject.com/download/</a> to download and install Django framework, follow the steps on that page.
 	</div>
 
 	<div class="wikistyle">
 		<h2>Start the application</h2>
 		<p>
-			Depends on the operation system you are using, run production_server.bat or production_server.sh accordingly. input your non-lookback ip address (eg.192.168.17.18) when prompt.
+			Depends on the operation system you are using, run production_server.bat or production_server.sh accordingly. input your non-lookback ip address (run ifconfig or ipconfig to get this information) when prompting:
+			<pre class="terminal">
+$ ./production_server.sh 
+please type the non-loopback(not 127.0.0.1 or 0.0.0.0) ip address of your machine:
+192.168.1.94
+			</pre>
+			if the server starts up correctly, you should be able to see the output like those:
+			<pre class="terminal">
+$ ./production_server.sh 
+please type the non-loopback(not 127.0.0.1 or 0.0.0.0) ip address of your machine:
+192.168.1.94
+Validating models...
+0 errors found
+
+Django version 1.1, using settings 'ianalyse.settings'
+Development server is running at http://192.168.1.94:8000/
+Quit the server with CONTROL-C.
+			</pre>
+			<p>
+			By default ianalyse will listen to the port 8000, you can change this by editing the file production_server.bat or production_server.sh(depends on the operation system you are using)
+			</p>
 		</p>
 	</div>
 	<div class="wikistyle">
 		<h2>Using the application</h2>
 		<p>
-			By default ianalyse will listen the port 8000, you can change this by editing the file production_server.bat or production_server.sh, 
+			 
 			To use the application, open up your browser and visit the http://IP Address:8000/, 
 		</p>
 	</div>
