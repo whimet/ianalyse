@@ -16,11 +16,11 @@ class ConfigTests(TestCase):
             os.rmdir_p(project1)
          os.environ["CONFIGS_DIR"] = ConfigTests.original
          
-    def testShouldReturnTheAbsolutePathOfTheDefaultConfigFile(self):
+    def test_should_return_the_absolute_path_of_the_default_config_file(self):
         expected = os.path.abspath(os.path.join(settings.PROJECT_DIR, 'configs'))
         os.environ.pop("CONFIGS_DIR")
-        config = Group()
-        self.assertEquals(expected, config.abspath())
+        groups = Groups()
+        self.assertEquals(expected, groups.default().abspath())
 
     def testShouldReturnSpecificConfigFile(self):
         expected = os.path.abspath(os.path.join(settings.PROJECT_DIR, 'analyse/tests/fixtures/config/'))

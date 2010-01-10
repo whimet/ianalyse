@@ -25,7 +25,7 @@ class TarTests(TestCase):
          
     def test_should_generate_tar_file_with_all_csvs(self):
         self.assertEquals(False, os.path.exists(self.tar_file))
-        group = Group()
+        group = Groups().default()
         group.id = 'default'
         group.configs = self.configs
         pg = ProjectGroup.create(group)

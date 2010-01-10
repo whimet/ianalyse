@@ -50,15 +50,15 @@ class GroupTests(TestCase):
         self.assertEquals(1, len(groups))
 
     def test_should_order_the_config_by_name(self):
-        configs = Group()
-        configs_hash = {
+        group = Groups().default()
+        group_hash = {
         	'safe' : Config('safe'),
         	'acc_ci_commit' : Config('acc_ci_commit'),
         	'acc_ci_all' : Config('acc_ci_all'),
         	'l3' : Config('l3')
         }
-        configs.configs = configs_hash
-        items = configs.items()
+        group.configs = group_hash
+        items = group.items()
         self.assertEquals('acc_ci_all', items[0][0]);
         self.assertEquals('acc_ci_commit', items[1][0]);
         self.assertEquals('l3', items[2][0]);

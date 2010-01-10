@@ -42,6 +42,9 @@ class Groups:
             configs = self.groups.get('default')
         return configs
 
+    def find_config(self, key):
+        return self.default().find(key)
+        
     def default(self):
         return self.groups['default']
 
@@ -56,12 +59,7 @@ class Groups:
 class Group:
     def __init__(self,  config_dir = None, file_patterns = [], group_id=None):
         self.id = group_id
-        configs = config_dir
-        if None ==  configs :            
-            configs = os.environ.get("CONFIGS_DIR")
-        if None == configs :
-            configs = os.path.join(settings.PROJECT_DIR, 'configs')
-        self.config_dir = configs
+        self.config_dir = config_dir
         self.configs = {}
         for file in os.listdir(self.config_dir):
             names = os.path.splitext(file)
@@ -69,7 +67,6 @@ class Group:
                 self.configs[names[0]] = Config(os.path.join(self.config_dir, file))
             if file_patterns != [] and file_patterns.__contains__(file):
                 self.configs[names[0]] = Config(os.path.join(self.config_dir, file))                
-
 
     def abspath(self):
         return os.path.abspath(self.config_dir)                                        
@@ -175,7 +172,7 @@ class Config:
                 files.sort()
                 return files
         return self.__readattr__(anonymous)
-
+        
     def results_dir(self):
         return os.path.join(settings.PROJECT_DIR, 'results')
 

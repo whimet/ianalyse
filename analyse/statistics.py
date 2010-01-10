@@ -10,7 +10,7 @@ from xml.sax import parse, parseString
 from util.datetimeutils import *
 from analyse.openFlashChart import Chart
 import analyse.ordered_dic
-from analyse.config import Group
+from analyse.config import Group,Groups
 from analyse.saxhandlers import *
 from analyse.tar import Tar
 
@@ -180,7 +180,7 @@ class NDaysStatistics :
         field = name[len("generate_"):]
         result = getattr(self, field)()
         
-        total_json_file = os.path.join(Group().find(self.project_id).result_dir(), field + '.txt');
+        total_json_file = os.path.join(Groups().find_config(self.project_id).result_dir(), field + '.txt');
 
         os.write_to_file(total_json_file, result)
         return lambda : {}
@@ -218,6 +218,6 @@ class GlobalStatistics:
         field = name[len("generate_"):]
         result = getattr(self, field)()
 
-        total_json_file = os.path.join(Group().results_dir(), 'group_' + self.project_group.group_id + '_comparation.txt');
+        total_json_file = os.path.join(Groups().default().results_dir(), 'group_' + self.project_group.group_id + '_comparation.txt');
         os.write_to_file(total_json_file, result)
         return lambda : {}
