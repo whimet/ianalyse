@@ -11,17 +11,31 @@
 
 {% group_cmp MEDIA_URL configs group_id %}
 <div style="margin-left:500px;margin-top:0.5em;margin-bottom:0.5em">
+	<input id="export" type="button" value="Export as Image"></input>
 	Group {%group_selection groups group_id %}
 </div>
+<div id="img_chart_1" >
+<b id="img_chart_2"></b>
+</div>	
 <script>
 $(document).ready(function(){
-	    $("#group_selection_box").change(function(e){
+	$("#group_selection_box").change(function(e){
 		var selected = $("#group_selection_box option:selected");   
 		window.location = '/analyse/index.html?groups=' + selected.text()
 	});	     
 	});
 </script>
 <b id="projects_comparation"></b>
+<script>
+$(function() {
+	$('#export').click(function(){
+		$('#img_chart_1').lightBox();
+		$('#img_chart_1').click()
+		OFC.jquery.rasterize('projects_comparation', 'lightbox-container-image-box')
+	})
+});
+
+</script>
 
 <div id="preview_container">
 	<ul class="previews">
