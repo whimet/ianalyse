@@ -11,7 +11,7 @@
 
 {% group_cmp MEDIA_URL configs group_id %}
 <div style="margin-left:500px;margin-top:0.5em;margin-bottom:0.5em">
-	<input id="export" type="button" value="Export as Image"></input>
+	<input id="export" type="button" value="Export as Image" style="cursor:pointer"></input>
 	Group {%group_selection groups group_id %}
 </div>
 <script>
@@ -23,34 +23,7 @@ $(document).ready(function(){
 	});
 </script>
 <b id="projects_comparation"></b>
-<script>
-function findSWF(movieName) {
-	if (navigator.appName.indexOf("Microsoft")!= -1) {
-		return window[movieName];
-	} else {
-		return document[movieName];
-	}
-}
-
-$(function() {
-	$('#export').click(function(){
-		var chartObj = $("#projects_comparation").get(0);
-		$.ajax({
-		    type: "POST",
-		    url: '/analyse/export.html?file=projects_comparation.png',
-		    contentType: 'application/octet-stream',
-		    processData: false,
-		    data: 'data=' + chartObj.get_img_binary(),
-		    dataType: "text",
-		    success: function(data) {
-				$('#light_box').lightBox();
-				$('#light_box').click()
-				$('#lightbox-container-image-box').html(data)
-		    }
-		});
-	})
-});
-</script>
+{%export_as_img "#export" "#projects_comparation" "projects_comparation.png"%}
 
 <div id="preview_container">
 	<ul class="previews">
@@ -81,5 +54,5 @@ $(function() {
 		{% endfor %}
 	</ul>
 </div>
-<div id="light_box" style="display:none"></div>
+<div id="light_box"></div>
 {% endblock %}

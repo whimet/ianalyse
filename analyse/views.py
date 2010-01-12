@@ -69,7 +69,7 @@ def help(request):
    
 def export_as_img(request):
     if request.method == 'POST':        
-        file = request.GET['file']
+        file = request.POST['file']
         result_dir = Groups().default().results_dir()
         os.write_base64_as_binary(os.path.join(result_dir, file), request.POST['data']);
     return render_to_response('analyse/image.html', Context({'url' : '/results/' + file}), context_instance = RequestContext(request))

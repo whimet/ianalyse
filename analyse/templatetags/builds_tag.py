@@ -79,7 +79,30 @@ def group_cmp(url, configs, group_id):
     </script>''' % \
     {'width': width, "height": height, "group_id":group_id, 'url':url}
     
-
+def export_as_img(button_locator, flash_locator, file_path):
+    script = '''<script>
+    $(function() {
+    	$('%(button)s').click(function(){
+    		var chartObj = $('%(flash_locator)s').get(0);
+    		$.ajax({
+    		    type: "POST",
+    		    url: '/analyse/export.html',
+    		    contentType: 'application/octet-stream',
+    		    processData: false,
+    		    data: 'file=%(path)s&data=' + chartObj.get_img_binary(),
+    		    dataType: "text",
+    		    success: function(data) {
+    				$('#light_box').lightBox();
+    				$('#light_box').click()
+    				$('#lightbox-container-image-box').html(data)
+    		    }
+    		});
+    	})
+    });
+    </script>'''
+    return script % \
+        {'button': button_locator, "flash_locator": flash_locator, "path" : file_path}
+    
 register.simple_tag(total_runs)
 register.simple_tag(avg_build_time)
 register.simple_tag(project_id)
@@ -91,3 +114,4 @@ register.simple_tag(last_pass_span)
 register.simple_tag(last_build_span)
 register.simple_tag(group_selection)
 register.simple_tag(group_cmp)
+register.simple_tag(export_as_img)

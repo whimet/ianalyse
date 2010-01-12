@@ -88,12 +88,29 @@
 			 </div>
 		</div>
 	</div>
-	<b id="build_breakers"></b>		
+	<b id="build_breakers"></b>
+	<input id="export_build_breakers" type="button" value="Export as Image" style="cursor:pointer"></input>
+	{%export_as_img "#export_build_breakers" "#build_breakers" "{{project_id}}/build_breakers.png"%}	
+	
 	<b id="run_times_and_pass_count_by_day"></b>
+	<input id="export_run_times_and_pass_count_by_day" type="button" value="Export as Image" style="cursor:pointer"></input>
+	{%export_as_img "#export_run_times_and_pass_count_by_day" "#run_times_and_pass_count_by_day" "{{project_id}}/run_times_and_pass_count_by_day.png"%}
+	
 	<b id="successful_rate"></b>
+	<input id="export_successful_rate" type="button" value="Export as Image" style="cursor:pointer"></input>
+	{%export_as_img "#export_successful_rate" "#successful_rate" "{{project_id}}/successful_rate.png"%}
+	
 	<b id="build_times"></b>
+	<input id="export_build_times" type="button" value="Export as Image" style="cursor:pointer"></input>
+	{%export_as_img "#export_build_times" "#build_times" "{{project_id}}/build_times.png"%}
+	
 	<b id="per_build_time"></b>	
+	<input id="export_per_build_time" type="button" value="Export as Image" style="cursor:pointer"></input>
+	{%export_as_img "#export_per_build_time" "#per_build_time" "{{project_id}}/per_build_time.png"%}
 	<div class="push"></div>
+		
 </div>
+<div id="light_box"></div>
+
 
 {% endblock %}
