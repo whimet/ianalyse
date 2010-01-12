@@ -19,9 +19,9 @@ def rmdir_p(path):
         return
     shutil.rmtree(path, True)
 
-def write_to_file(path, content):
+def write_to_file(path, content, mode='w'):
     makedirs_p(os.path.dirname(path))
-    f = open(path, 'w')
+    f = open(path, mode)
     try:
         f.write(content)
     finally:
@@ -85,7 +85,7 @@ def compare_files_desc(file1, file2):
 def write_base64_as_binary(file, data):
     data = data.replace(u'\a\b\t\n\v\f\r',  u'abtnvfr')
     data = data.replace(' ', '+')
-    write_to_file(file, base64.b64decode(data))
+    write_to_file(file, base64.b64decode(data), 'wb')
 
 os.write_to_file = write_to_file
 os.touch = touch
