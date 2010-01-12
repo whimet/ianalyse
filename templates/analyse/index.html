@@ -14,9 +14,6 @@
 	<input id="export" type="button" value="Export as Image"></input>
 	Group {%group_selection groups group_id %}
 </div>
-<div id="img_chart_1" >
-<b id="img_chart_2"></b>
-</div>	
 <script>
 $(document).ready(function(){
 	$("#group_selection_box").change(function(e){
@@ -27,14 +24,32 @@ $(document).ready(function(){
 </script>
 <b id="projects_comparation"></b>
 <script>
+function findSWF(movieName) {
+	if (navigator.appName.indexOf("Microsoft")!= -1) {
+		return window[movieName];
+	} else {
+		return document[movieName];
+	}
+}
+
 $(function() {
 	$('#export').click(function(){
-		$('#img_chart_1').lightBox();
-		$('#img_chart_1').click()
-		OFC.jquery.rasterize('projects_comparation', 'lightbox-container-image-box')
+		var chartObj = $("#projects_comparation").get(0);
+		$.ajax({
+		    type: "POST",
+		    url: '/analyse/export.html?file=projects_comparation.png',
+		    contentType: 'application/octet-stream',
+		    processData: false,
+		    data: 'data=' + chartObj.get_img_binary(),
+		    dataType: "text",
+		    success: function(data) {
+				$('#light_box').lightBox();
+				$('#light_box').click()
+				$('#lightbox-container-image-box').html(data)
+		    }
+		});
 	})
 });
-
 </script>
 
 <div id="preview_container">
@@ -66,4 +81,5 @@ $(function() {
 		{% endfor %}
 	</ul>
 </div>
+<div id="light_box" style="display:none"></div>
 {% endblock %}

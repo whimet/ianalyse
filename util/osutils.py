@@ -3,6 +3,7 @@ import shutil
 import re 
 import util.datetimeutils
 from datetime import datetime
+import base64
 
 def touch(path):
     makedirs_p(os.path.dirname(path))
@@ -81,7 +82,10 @@ def compare_files_desc(file1, file2):
     return __compare_files(file1, file2, 'desc')                                      
 
     
-    
+def write_base64_as_binary(file, data):
+    data = data.replace(u'\a\b\t\n\v\f\r',  u'abtnvfr')
+    data = data.replace(' ', '+')
+    write_to_file(file, base64.b64decode(data))
 
 os.write_to_file = write_to_file
 os.touch = touch
@@ -90,4 +94,4 @@ os.rmdir_p = rmdir_p
 os.sort_by_rule = sort_by_rule
 os.list_matched_files = list_matched_files
 os.filter_by_days = filter_by_days
-
+os.write_base64_as_binary = write_base64_as_binary

@@ -5,6 +5,7 @@ from analyse.models import Builds, Build
 from analyse.cache import Cache
 from analyse.config import *
 from django.utils.http import urlquote
+import os
 
 def home(request):
     return redirect('/analyse/index.html')
@@ -66,7 +67,12 @@ def help(request):
     }
     return render_to_response('analyse/help.html', Context(results), context_instance = RequestContext(request))
    
-    
+def export_as_img(request):
+    if request.method == 'POST':        
+        file = request.GET['file']
+        result_dir = Groups().default().results_dir()
+        os.write_base64_as_binary(os.path.join(result_dir, file), request.POST['data']);
+    return render_to_response('analyse/image.html', Context({'url' : '/results/' + file}), context_instance = RequestContext(request))
     
     
     
