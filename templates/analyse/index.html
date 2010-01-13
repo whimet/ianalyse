@@ -10,6 +10,7 @@
 {% load builds_tag %}
 
 {% group_cmp MEDIA_URL configs group_id %}
+
 <div style="margin-left:500px;margin-top:0.5em;margin-bottom:0.5em">
 	<input id="export" type="button" value="Export as Image" style="cursor:pointer"></input>
 	Group {%group_selection groups group_id %}
@@ -22,7 +23,9 @@ $(document).ready(function(){
 	});	     
 	});
 </script>
+
 <b id="projects_comparation"></b>
+<div id="light_box"></div>
 {%export_as_img "#export" "#projects_comparation" "projects_comparation.png"%}
 
 <div id="preview_container">
@@ -54,5 +57,4 @@ $(document).ready(function(){
 		{% endfor %}
 	</ul>
 </div>
-<div id="light_box"></div>
 {% endblock %}

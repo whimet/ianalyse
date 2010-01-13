@@ -10,25 +10,6 @@
 	<script type="text/javascript" src="{{ MEDIA_URL }}/js/jquery-1.3.2.min.js"></script>
 	<script type="text/javascript" src="{{ MEDIA_URL }}/js/jquery.lightbox-0.5.js"></script>
 	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/css/jquery.lightbox-0.5.css" media="screen" />
-	
-	<script type="text/javascript">
-	OFC = {};	
-	OFC.jquery = {
-	    name: "jQuery",
-	    version: function(src) { return $('#'+ src)[0].get_version() },
-	    rasterize: function (src, dst) { $('#'+ dst).replaceWith(OFC.jquery.image(src)) },
-	    image: function(src) { return "<img src='data:image/png;base64," + $('#'+src)[0].get_img_binary() + "' />"},
-	    popup: function(src) {
-	        var img_win = window.open('', 'Charts: Export as Image')
-	        with(img_win.document) {
-	            write('<html><head><title>Charts: Export as Image<\/title><\/head><body>' + OFC.jquery.image(src) + '<\/body><\/html>') }
-			img_win.document.close();
-	     }
-	}
-
-	if (typeof(Control == "undefined")) {var Control = {OFC: OFC.jquery}}
-	</script>
-
     {% block extrahead %}{% endblock %}
 </head>
 <body>

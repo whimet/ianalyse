@@ -80,8 +80,10 @@ def group_cmp(url, configs, group_id):
     {'width': width, "height": height, "group_id":group_id, 'url':url}
     
 def export_as_img(button_locator, flash_locator, file_path):
+    
     script = '''<script>
     $(function() {
+        $('#light_box').lightBox();
     	$('%(button)s').click(function(){
     		var chartObj = $('%(flash_locator)s').get(0);
     		$.ajax({
@@ -92,7 +94,6 @@ def export_as_img(button_locator, flash_locator, file_path):
     		    data: 'file=%(path)s&data=' + chartObj.get_img_binary(),
     		    dataType: "text",
     		    success: function(data) {
-    				$('#light_box').lightBox();
     				$('#light_box').click()
     				$('#lightbox-container-image-box').html(data)
     		    }
