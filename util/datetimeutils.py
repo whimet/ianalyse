@@ -31,7 +31,7 @@ def time_delta_as_str(timedelta_param):
     if timedelta_param >= timedelta(hours=24):
         return str(timedelta_param.days) + " Days"
 
-    if timedelta_param < timedelta(hours=24) and timedelta_param > timedelta(hours=1):
+    if timedelta_param < timedelta(hours=24) and timedelta_param >= timedelta(hours=1):
         return str(timedelta_param.seconds / 3600) + " Hours"
     
     if timedelta_param < timedelta(hours=1):
