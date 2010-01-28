@@ -14,6 +14,7 @@ from analyse.saxhandlers import *
 from analyse.tar import Tar
 from analyse.statistics import *
 import logging
+from analyse.cruise_builds import *
 
 class Commit:
     def __init__(self, name = None, revision = None):
@@ -369,10 +370,18 @@ class Builds:
         
     @staticmethod
     def create_builds(config, pattern):
+        if config.isCruise():
+            builds = CruiseBuilds(config).createBuilds();
+        else:
+            builds = Builds.create_cruise_control_builds(config, None)
+        return builds
+
+    @staticmethod
+    def create_cruise_control_builds(config, pattern):
         if pattern == None :
             pattern = "log.*.xml"
 
-        builds_obj = Builds()  
+        builds_obj = Builds()
         builds = list();
 
         all_necessary_files = os.filter_by_days(config.logdir(), pattern, config.days())
@@ -395,6 +404,9 @@ class Builds:
             pattern = "log.*.xml"
         
         values = []
+        if config.isCruise():
+            return values
+            
         all_necessary_files = os.filter_by_days(config.logdir(),"log([0-9]*).*.xml", config.days())
         
         plugins = Plugins.INSTANCE()

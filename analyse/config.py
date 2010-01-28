@@ -143,10 +143,33 @@ class Config:
     def exist(self):
         return os.path.exists(self.abspath())
     
-    def logdir(self): 
-        def anonymous(config): return config.get('Basic', 'logdir', 0)
+    def logdir(self):
+        def anonymous(config):
+            try:
+                return config.get('Basic', 'logdir', 0)
+            except Exception, e:
+                return ''
+        return self.__readattr__(anonymous)
+
+    def __type(self):
+        def anonymous(config):
+            try:
+                return config.get('Basic', 'type', 0)
+            except Exception, e:
+                return 'CruiseControl'
+        return self.__readattr__(anonymous)
+
+    def baseurl(self):
+        def anonymous(config):
+            try:
+                return config.get('Basic', 'baseurl', 0)
+            except Exception, e:
+                return ''
         return self.__readattr__(anonymous)
     
+    def isCruise(self):
+        return self.__type() == 'Cruise'
+
     def logfile(self, name):
         return os.path.join(self.logdir(), name)
 
