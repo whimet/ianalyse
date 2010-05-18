@@ -3,8 +3,10 @@ syntax: glob
 **/*.pyc
 **/*.bak
 .DS_Store
+.idea/*
 *.pyc
 *.bak
+*.iml
 results
 **/._*
 ._*
