@@ -79,6 +79,8 @@ $ mv ianalyse.sample nightly-build.cfg
                     <p>There are only two sections in the file: [Basic] and [CSV]</p>
 
                     <h3>Sections: [Basic]</h3>
+
+					<h4>For CruiseControl builds:</h4>
                     <p>The first option is the logdir, which should be pointed to the directory contains all the CruiseControl logs.
                     for example, if you have directory like this:</p>
             <pre class="terminal">
@@ -103,6 +105,20 @@ Another option under [Basic] section is builds, which means lastest N builds nee
 logdir: /var/logs/connectfour
 builds: 50
             </pre>
+
+			<h4>For Cruise builds:</h4>
+            <p>To configure Cruise builds in Ianalyse, you need a slightly different configuration file. First, the configuration filename should be mapped to Cruise stage level build or job level build by the following naming convention:</p>
+    <pre class="terminal">
+[pipeline_name]__[stage_name]__[job_name].cfg or [pipeline_name]__[stage_name].cfg 
+    </pre>
+<p>Note: Be aware that there are <strong>two underscores</strong> between name parts.</p>	
+
+    <p>Then, you need to tell Ianalyse it's a Cruise build by specifying the type option, and the baseurl of Cruise server:</p>
+<pre class="terminal">
+[Basic]
+type: Cruise
+baseurl:  http://[cruise_host]:[cruise_port]/cruise 
+</pre>
 
                     <h2>Sections: [CSV]</h2>
                     <p>The options defined here are used to tell ianalyse which value need to be exported to CSV file from log.xml, the key is column name, the value is XPATH, Let's see you have many log files like this, and you want to export projectname, build time, buildate to CSV.</p>
