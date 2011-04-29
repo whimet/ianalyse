@@ -22,15 +22,21 @@ class ProjectsConfig(val url: String) extends Iterator[ProjectConfig] with Actor
     }
   }
 
+  private object Stop
 
   def act() {
     while (true) {
       receive {
-        case project: Project => Projects.update(project)
+        case project: Project =>
+          Projects.update(project)
+        case Stop => exit()
       }
     }
   }
 
+  def stop() {
+    this ! Stop
+  }
 
   def get(index: Int) = {
     list(index);
@@ -67,10 +73,7 @@ class ProjectsConfig(val url: String) extends Iterator[ProjectConfig] with Actor
   def parseProjectsFromConfiguration {
     val elem: Elem = XML.load(new URL(this.url))
     val jobSegments = elem \ "job"
-    for (jobSegment <- jobSegments) {
-      val name: String = (jobSegment \ "name").text
-      val url: String = (jobSegment \ "url").text
-      list = list ::: List(new ProjectConfig(name, url))
-    }
+    list = list ::: jobSegments.map(job => new ProjectConfig((job \ "name").text, (job \ "url").text)).toList
   }
 }
+

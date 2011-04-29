@@ -23,9 +23,10 @@ class ProjectsConfigTest extends Spec with ShouldMatchers {
       val configs = new ProjectsConfig("http://deadlock.netbeans.org/hudson/api/xml")
       configs.start
       configs.init
-      Thread.sleep(50000)
+//      Thread.sleep(50000)
       val project: Project = Projects.get(0)
       project.config.name should be === "analytics-server"
+      configs.stop
     }
   }
 }
