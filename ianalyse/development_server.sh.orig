@@ -1,0 +1,4 @@
+export CONFIGS_DIR=./analyse/tests/configs
+rm -fr results/*
+python2.6 manage.py testserver
+

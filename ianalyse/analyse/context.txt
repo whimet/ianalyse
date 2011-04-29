@@ -1,0 +1,2294 @@
+from analyse.background_thread import BackGroundThread
+from analyse.cache import Cache
+
+bgt = BackGroundThread(Cache.INSTANCE().populate, 3600)
+bgt.launch()import threading
+import thread, time
+from threading import Lock
+from datetime import datetime
+import logging
+
+class BackGroundThread:
+    _RUNNING = False
+    
+    def __init__(self, method, interval):
+        self.method = method
+        self.interval = interval
+
+    def method_wrapper(self):
+        logger = logging.getLogger('ianalyse_logger')
+        while(True):
+            try:
+                logger.info("[" + str(datetime.now()) + '] the background thread is processing.')
+                self.method()
+                logger.info("[" + str(datetime.now()) + '] the background thread go sleep..')
+            except Exception, e:
+                logger.error(e)
+                pass
+            time.sleep(self.interval)
+
+    def launch(self):
+        lock = Lock()
+        lock.acquire()
+        if BackGroundThread._RUNNING :
+            return False
+        BackGroundThread._RUNNING = True
+        lock.release()
+        t = threading.Thread(target=self.method_wrapper)
+        t.setDaemon(True)
+        t.start()
+        return True        
+
+        
+from analyse.models import *
+
+
+class Cache:
+    _instance = None
+    
+    def __init__(self):
+        self.project_groups = None
+
+    def find(self, project_id):
+        return self.project_groups.find('default').find(project_id)
+
+    def refresh(self, config = None):
+        builds = Builds.create_builds(config, None)
+        self.project_groups.find('default').append(config.id, builds)
+        builds.gen_all_reports()
+
+    def get_project_group(self, groups):
+        if Cache._instance.project_groups == None:
+            Cache._instance.populate()
+        return Cache._instance.project_groups.find(groups)
+
+    def populate(self):
+        Cache._instance.project_groups = ProjectGroups.create()
+
+    @staticmethod
+    def INSTANCE():
+        if Cache._instance == None:
+            Cache._instance = Cache()
+        
+        return Cache._instance
+
+import os                                                  
+from django.conf import settings
+import ConfigParser
+
+def extract_list(file, section, options=None):
+    config = ConfigParser.ConfigParser()
+    config.read(file)
+    items = []
+    all_groups = {}
+    if options == None:
+        items = config.items(section)
+    else:
+        items.append(('plugins', config.get(section, options)))
+
+    for item in items:
+        splits = item[1].split(',')
+        results = []
+        for part in splits:
+            results.append(part.strip())
+        all_groups[item[0]] = results    
+    return all_groups
+
+class Groups:
+    def __init__(self, config_dir = None):
+        self.groups = {}
+        configs = config_dir
+        if None ==  configs :            
+            configs = os.environ.get("CONFIGS_DIR")
+        if None == configs :
+            configs = os.path.join(settings.PROJECT_DIR, 'configs')
+        self.config_dir = configs
+        groups_cfg = os.path.join(self.config_dir, 'groups.cfg')
+        if os.path.exists(groups_cfg):
+            all_groups = extract_list(groups_cfg, 'GROUPS')
+            for item in all_groups.items():
+                self.groups[item[0]] = Group(self.config_dir, item[1], group_id=item[0])
+
+        self.groups['default'] = Group(self.config_dir, group_id='default')            
+        
+    def __getitem__(self, index):
+        return self.groups.items()[index]
+
+    def __len__(self):
+        return len(self.groups)
+    
+    def __iter__(self):
+        values = self.groups.values()
+        values.sort()
+        return values.__iter__()
+        
+    def find(self, key):
+        configs = self.groups.get(key)
+        if configs == None:
+            configs = self.groups.get('default')
+        return configs
+
+    def find_config(self, key):
+        return self.default().find(key)
+        
+    def default(self):
+        return self.groups['default']
+
+    def exists(self, key):
+        configs = self.groups.get(key)
+        return configs != None
+
+    def is_empty(self):
+        configs = self.default()
+        return configs.is_empty()
+
+class Group:
+    def __init__(self,  config_dir = None, file_patterns = [], group_id=None):
+        self.id = group_id
+        self.config_dir = config_dir
+        self.configs = {}
+        for file in os.listdir(self.config_dir):
+            names = os.path.splitext(file)
+            if file_patterns == [] and names[1] == '.cfg' and file != 'groups.cfg':
+                self.configs[names[0]] = Config(os.path.join(self.config_dir, file))
+            if file_patterns != [] and file_patterns.__contains__(file):
+                self.configs[names[0]] = Config(os.path.join(self.config_dir, file))                
+
+    def abspath(self):
+        return os.path.abspath(self.config_dir)                                        
+
+    def find(self, id):
+        if id == None :
+            return self.configs.items()[0][1]
+        else :
+            return self.configs[id]
+
+    def is_empty(self):
+        return len(self.configs) == 0
+
+    def size(self):
+        return len(self.configs)
+
+    def results_dir(self):
+        return os.path.join(settings.PROJECT_DIR, 'results')
+
+    def items(self):
+        items = self.configs.items()
+        items.sort()
+        return items
+
+    def get(self, key):
+        return self.configs.get(key)
+
+    def __len__(self):
+        return len(self.configs)
+
+    def __iter__(self):
+        items = self.configs.items()
+        items.sort()
+        return items.__iter__()
+    
+    def __getitem__(self, key):
+        return self.configs.__getitem__(key)
+
+    def __str__( self ):
+            return 'the configs dir location is [' + self.config_dir + ']'
+
+    def __cmp__(self, other):
+        if other == None or self.id > other.id:
+            return 1
+        if self.id < other.id:
+            return -1
+        if self.id == other.id:
+            return 0
+        
+class Config:
+    DEFAULT_FILES_TO_PROCESS = 30
+    DEFAULT_DAYS_TO_PROCESS = 14
+    DEFAULT_INTERVAL = 600
+    
+    def __init__(self, config_file):
+        self.config_file = config_file
+        self.id = os.path.splitext(os.path.split(config_file)[1])[0]
+                
+    def abspath(self):
+        return os.path.abspath(self.config_file)                                        
+    
+    def exist(self):
+        return os.path.exists(self.abspath())
+    
+    def logdir(self):
+        def anonymous(config):
+            try:
+                return config.get('Basic', 'logdir', 0)
+            except Exception, e:
+                return ''
+        return self.__readattr__(anonymous)
+
+    def __type(self):
+        def anonymous(config):
+            try:
+                return config.get('Basic', 'type', 0)
+            except Exception, e:
+                return 'CruiseControl'
+        return self.__readattr__(anonymous)
+
+    def baseurl(self):
+        def anonymous(config):
+            try:
+                return config.get('Basic', 'baseurl', 0)
+            except Exception, e:
+                return ''
+        return self.__readattr__(anonymous)
+    
+    def isCruise(self):
+        return self.__type() == 'Cruise'
+
+    def logfile(self, name):
+        return os.path.join(self.logdir(), name)
+
+    def days(self):
+        def anonymous(config): 
+            try:                                        
+                return config.getint('Basic', 'days')
+            except Exception, e:
+                return Config.DEFAULT_DAYS_TO_PROCESS
+        return self.__readattr__(anonymous)
+
+    def csv_settings(self):
+        def anonymous(config): return config.items("CSV")
+        return self.__readattr__(anonymous) 
+    
+    def csv_keys(self):
+        settings = self.csv_settings()
+        array = []
+        for setting in settings :
+            array.append(setting[0])
+        return array
+
+    def plugins(self):
+        def anonymous(config): 
+            try:    
+                return extract_list(self.abspath(), 'CSV', 'plugins').items()[0][1]
+            except Exception, e:
+                files = os.list_matched_files(os.path.join(settings.PROJECT_DIR, 'plugins'), '.*.py')
+                files.remove('__init__.py')
+                files.sort()
+                return files
+        return self.__readattr__(anonymous)
+        
+    def results_dir(self):
+        return os.path.join(settings.PROJECT_DIR, 'results')
+
+    def result_dir(self):
+       return os.path.join(self.results_dir(), self.id)
+
+    def has_result(self):
+        if not os.path.exists(self.result_dir()) :
+             return False
+
+        total_generated_json_files = 4        
+        return len(os.listdir(self.result_dir())) >= total_generated_json_files
+
+    def status(self):
+        if self.has_result() :
+            return 'OK'
+        else :
+            return 'MISSING REPORTS'
+
+    def __readattr__(self, func):
+       config = ConfigParser.ConfigParser()
+       config.read(self.abspath())
+       return func(config)
+
+    def content(self):
+       return open(self.config_file).read()
+    
+    def latest_log(self):
+        files = os.sort_by_rule(self.logdir(),"log([0-9]*).*.xml", 'desc')
+        return os.path.join(self.logdir(), files[0])
+        
+    def __str__( self ):
+        return 'the config file location is [' + self.config_file + ']'
+            
+    def __eq__(self, other):
+        if self != None and other != None:
+            return self.id == other.id
+        else:
+            return False
+from analyse.background_thread import BackGroundThread
+from analyse.cache import Cache
+
+bgt = BackGroundThread(Cache.INSTANCE().populate, 3600)
+bgt.launch()import threading
+import thread, time
+from threading import Lock
+from datetime import datetime
+import logging
+
+class BackGroundThread:
+    _RUNNING = False
+    
+    def __init__(self, method, interval):
+        self.method = method
+        self.interval = interval
+
+    def method_wrapper(self):
+        logger = logging.getLogger('ianalyse_logger')
+        while(True):
+            try:
+                logger.info("[" + str(datetime.now()) + '] the background thread is processing.')
+                self.method()
+                logger.info("[" + str(datetime.now()) + '] the background thread go sleep..')
+            except Exception, e:
+                logger.error(e)
+                pass
+            time.sleep(self.interval)
+
+    def launch(self):
+        lock = Lock()
+        lock.acquire()
+        if BackGroundThread._RUNNING :
+            return False
+        BackGroundThread._RUNNING = True
+        lock.release()
+        t = threading.Thread(target=self.method_wrapper)
+        t.setDaemon(True)
+        t.start()
+        return True        
+
+        
+from analyse.models import *
+
+
+class Cache:
+    _instance = None
+    
+    def __init__(self):
+        self.project_groups = None
+
+    def find(self, project_id):
+        return self.project_groups.find('default').find(project_id)
+
+    def refresh(self, config = None):
+        builds = Builds.create_builds(config, None)
+        self.project_groups.find('default').append(config.id, builds)
+        builds.gen_all_reports()
+
+    def get_project_group(self, groups):
+        if Cache._instance.project_groups == None:
+            Cache._instance.populate()
+        return Cache._instance.project_groups.find(groups)
+
+    def populate(self):
+        Cache._instance.project_groups = ProjectGroups.create()
+
+    @staticmethod
+    def INSTANCE():
+        if Cache._instance == None:
+            Cache._instance = Cache()
+        
+        return Cache._instance
+
+import os                                                  
+from django.conf import settings
+import ConfigParser
+
+def extract_list(file, section, options=None):
+    config = ConfigParser.ConfigParser()
+    config.read(file)
+    items = []
+    all_groups = {}
+    if options == None:
+        items = config.items(section)
+    else:
+        items.append(('plugins', config.get(section, options)))
+
+    for item in items:
+        splits = item[1].split(',')
+        results = []
+        for part in splits:
+            results.append(part.strip())
+        all_groups[item[0]] = results    
+    return all_groups
+
+class Groups:
+    def __init__(self, config_dir = None):
+        self.groups = {}
+        configs = config_dir
+        if None ==  configs :            
+            configs = os.environ.get("CONFIGS_DIR")
+        if None == configs :
+            configs = os.path.join(settings.PROJECT_DIR, 'configs')
+        self.config_dir = configs
+        groups_cfg = os.path.join(self.config_dir, 'groups.cfg')
+        if os.path.exists(groups_cfg):
+            all_groups = extract_list(groups_cfg, 'GROUPS')
+            for item in all_groups.items():
+                self.groups[item[0]] = Group(self.config_dir, item[1], group_id=item[0])
+
+        self.groups['default'] = Group(self.config_dir, group_id='default')            
+        
+    def __getitem__(self, index):
+        return self.groups.items()[index]
+
+    def __len__(self):
+        return len(self.groups)
+    
+    def __iter__(self):
+        values = self.groups.values()
+        values.sort()
+        return values.__iter__()
+        
+    def find(self, key):
+        configs = self.groups.get(key)
+        if configs == None:
+            configs = self.groups.get('default')
+        return configs
+
+    def find_config(self, key):
+        return self.default().find(key)
+        
+    def default(self):
+        return self.groups['default']
+
+    def exists(self, key):
+        configs = self.groups.get(key)
+        return configs != None
+
+    def is_empty(self):
+        configs = self.default()
+        return configs.is_empty()
+
+class Group:
+    def __init__(self,  config_dir = None, file_patterns = [], group_id=None):
+        self.id = group_id
+        self.config_dir = config_dir
+        self.configs = {}
+        for file in os.listdir(self.config_dir):
+            names = os.path.splitext(file)
+            if file_patterns == [] and names[1] == '.cfg' and file != 'groups.cfg':
+                self.configs[names[0]] = Config(os.path.join(self.config_dir, file))
+            if file_patterns != [] and file_patterns.__contains__(file):
+                self.configs[names[0]] = Config(os.path.join(self.config_dir, file))                
+
+    def abspath(self):
+        return os.path.abspath(self.config_dir)                                        
+
+    def find(self, id):
+        if id == None :
+            return self.configs.items()[0][1]
+        else :
+            return self.configs[id]
+
+    def is_empty(self):
+        return len(self.configs) == 0
+
+    def size(self):
+        return len(self.configs)
+
+    def results_dir(self):
+        return os.path.join(settings.PROJECT_DIR, 'results')
+
+    def items(self):
+        items = self.configs.items()
+        items.sort()
+        return items
+
+    def get(self, key):
+        return self.configs.get(key)
+
+    def __len__(self):
+        return len(self.configs)
+
+    def __iter__(self):
+        items = self.configs.items()
+        items.sort()
+        return items.__iter__()
+    
+    def __getitem__(self, key):
+        return self.configs.__getitem__(key)
+
+    def __str__( self ):
+            return 'the configs dir location is [' + self.config_dir + ']'
+
+    def __cmp__(self, other):
+        if other == None or self.id > other.id:
+            return 1
+        if self.id < other.id:
+            return -1
+        if self.id == other.id:
+            return 0
+        
+class Config:
+    DEFAULT_FILES_TO_PROCESS = 30
+    DEFAULT_DAYS_TO_PROCESS = 14
+    DEFAULT_INTERVAL = 600
+    
+    def __init__(self, config_file):
+        self.config_file = config_file
+        self.id = os.path.splitext(os.path.split(config_file)[1])[0]
+                
+    def abspath(self):
+        return os.path.abspath(self.config_file)                                        
+    
+    def exist(self):
+        return os.path.exists(self.abspath())
+    
+    def logdir(self):
+        def anonymous(config):
+            try:
+                return config.get('Basic', 'logdir', 0)
+            except Exception, e:
+                return ''
+        return self.__readattr__(anonymous)
+
+    def __type(self):
+        def anonymous(config):
+            try:
+                return config.get('Basic', 'type', 0)
+            except Exception, e:
+                return 'CruiseControl'
+        return self.__readattr__(anonymous)
+
+    def baseurl(self):
+        def anonymous(config):
+            try:
+                return config.get('Basic', 'baseurl', 0)
+            except Exception, e:
+                return ''
+        return self.__readattr__(anonymous)
+    
+    def isCruise(self):
+        return self.__type() == 'Cruise'
+
+    def logfile(self, name):
+        return os.path.join(self.logdir(), name)
+
+    def days(self):
+        def anonymous(config): 
+            try:                                        
+                return config.getint('Basic', 'days')
+            except Exception, e:
+                return Config.DEFAULT_DAYS_TO_PROCESS
+        return self.__readattr__(anonymous)
+
+    def csv_settings(self):
+        def anonymous(config): return config.items("CSV")
+        return self.__readattr__(anonymous) 
+    
+    def csv_keys(self):
+        settings = self.csv_settings()
+        array = []
+        for setting in settings :
+            array.append(setting[0])
+        return array
+
+    def plugins(self):
+        def anonymous(config): 
+            try:    
+                return extract_list(self.abspath(), 'CSV', 'plugins').items()[0][1]
+            except Exception, e:
+                files = os.list_matched_files(os.path.join(settings.PROJECT_DIR, 'plugins'), '.*.py')
+                files.remove('__init__.py')
+                files.sort()
+                return files
+        return self.__readattr__(anonymous)
+        
+    def results_dir(self):
+        return os.path.join(settings.PROJECT_DIR, 'results')
+
+    def result_dir(self):
+       return os.path.join(self.results_dir(), self.id)
+
+    def has_result(self):
+        if not os.path.exists(self.result_dir()) :
+             return False
+
+        total_generated_json_files = 4        
+        return len(os.listdir(self.result_dir())) >= total_generated_json_files
+
+    def status(self):
+        if self.has_result() :
+            return 'OK'
+        else :
+            return 'MISSING REPORTS'
+
+    def __readattr__(self, func):
+       config = ConfigParser.ConfigParser()
+       config.read(self.abspath())
+       return func(config)
+
+    def content(self):
+       return open(self.config_file).read()
+    
+    def latest_log(self):
+        files = os.sort_by_rule(self.logdir(),"log([0-9]*).*.xml", 'desc')
+        return os.path.join(self.logdir(), files[0])
+        
+    def __str__( self ):
+        return 'the config file location is [' + self.config_file + ']'
+            
+    def __eq__(self, other):
+        if self != None and other != None:
+            return self.id == other.id
+        else:
+            return False
+from analyse.background_thread import BackGroundThread
+from analyse.cache import Cache
+
+bgt = BackGroundThread(Cache.INSTANCE().populate, 3600)
+bgt.launch()import threading
+import thread, time
+from threading import Lock
+from datetime import datetime
+import logging
+
+class BackGroundThread:
+    _RUNNING = False
+    
+    def __init__(self, method, interval):
+        self.method = method
+        self.interval = interval
+
+    def method_wrapper(self):
+        logger = logging.getLogger('ianalyse_logger')
+        while(True):
+            try:
+                logger.info("[" + str(datetime.now()) + '] the background thread is processing.')
+                self.method()
+                logger.info("[" + str(datetime.now()) + '] the background thread go sleep..')
+            except Exception, e:
+                logger.error(e)
+                pass
+            time.sleep(self.interval)
+
+    def launch(self):
+        lock = Lock()
+        lock.acquire()
+        if BackGroundThread._RUNNING :
+            return False
+        BackGroundThread._RUNNING = True
+        lock.release()
+        t = threading.Thread(target=self.method_wrapper)
+        t.setDaemon(True)
+        t.start()
+        return True        
+
+        
+from analyse.models import *
+
+
+class Cache:
+    _instance = None
+    
+    def __init__(self):
+        self.project_groups = None
+
+    def find(self, project_id):
+        return self.project_groups.find('default').find(project_id)
+
+    def refresh(self, config = None):
+        builds = Builds.create_builds(config, None)
+        self.project_groups.find('default').append(config.id, builds)
+        builds.gen_all_reports()
+
+    def get_project_group(self, groups):
+        if Cache._instance.project_groups == None:
+            Cache._instance.populate()
+        return Cache._instance.project_groups.find(groups)
+
+    def populate(self):
+        Cache._instance.project_groups = ProjectGroups.create()
+
+    @staticmethod
+    def INSTANCE():
+        if Cache._instance == None:
+            Cache._instance = Cache()
+        
+        return Cache._instance
+
+import os                                                  
+from django.conf import settings
+import ConfigParser
+
+def extract_list(file, section, options=None):
+    config = ConfigParser.ConfigParser()
+    config.read(file)
+    items = []
+    all_groups = {}
+    if options == None:
+        items = config.items(section)
+    else:
+        items.append(('plugins', config.get(section, options)))
+
+    for item in items:
+        splits = item[1].split(',')
+        results = []
+        for part in splits:
+            results.append(part.strip())
+        all_groups[item[0]] = results    
+    return all_groups
+
+class Groups:
+    def __init__(self, config_dir = None):
+        self.groups = {}
+        configs = config_dir
+        if None ==  configs :            
+            configs = os.environ.get("CONFIGS_DIR")
+        if None == configs :
+            configs = os.path.join(settings.PROJECT_DIR, 'configs')
+        self.config_dir = configs
+        groups_cfg = os.path.join(self.config_dir, 'groups.cfg')
+        if os.path.exists(groups_cfg):
+            all_groups = extract_list(groups_cfg, 'GROUPS')
+            for item in all_groups.items():
+                self.groups[item[0]] = Group(self.config_dir, item[1], group_id=item[0])
+
+        self.groups['default'] = Group(self.config_dir, group_id='default')            
+        
+    def __getitem__(self, index):
+        return self.groups.items()[index]
+
+    def __len__(self):
+        return len(self.groups)
+    
+    def __iter__(self):
+        values = self.groups.values()
+        values.sort()
+        return values.__iter__()
+        
+    def find(self, key):
+        configs = self.groups.get(key)
+        if configs == None:
+            configs = self.groups.get('default')
+        return configs
+
+    def find_config(self, key):
+        return self.default().find(key)
+        
+    def default(self):
+        return self.groups['default']
+
+    def exists(self, key):
+        configs = self.groups.get(key)
+        return configs != None
+
+    def is_empty(self):
+        configs = self.default()
+        return configs.is_empty()
+
+class Group:
+    def __init__(self,  config_dir = None, file_patterns = [], group_id=None):
+        self.id = group_id
+        self.config_dir = config_dir
+        self.configs = {}
+        for file in os.listdir(self.config_dir):
+            names = os.path.splitext(file)
+            if file_patterns == [] and names[1] == '.cfg' and file != 'groups.cfg':
+                self.configs[names[0]] = Config(os.path.join(self.config_dir, file))
+            if file_patterns != [] and file_patterns.__contains__(file):
+                self.configs[names[0]] = Config(os.path.join(self.config_dir, file))                
+
+    def abspath(self):
+        return os.path.abspath(self.config_dir)                                        
+
+    def find(self, id):
+        if id == None :
+            return self.configs.items()[0][1]
+        else :
+            return self.configs[id]
+
+    def is_empty(self):
+        return len(self.configs) == 0
+
+    def size(self):
+        return len(self.configs)
+
+    def results_dir(self):
+        return os.path.join(settings.PROJECT_DIR, 'results')
+
+    def items(self):
+        items = self.configs.items()
+        items.sort()
+        return items
+
+    def get(self, key):
+        return self.configs.get(key)
+
+    def __len__(self):
+        return len(self.configs)
+
+    def __iter__(self):
+        items = self.configs.items()
+        items.sort()
+        return items.__iter__()
+    
+    def __getitem__(self, key):
+        return self.configs.__getitem__(key)
+
+    def __str__( self ):
+            return 'the configs dir location is [' + self.config_dir + ']'
+
+    def __cmp__(self, other):
+        if other == None or self.id > other.id:
+            return 1
+        if self.id < other.id:
+            return -1
+        if self.id == other.id:
+            return 0
+        
+class Config:
+    DEFAULT_FILES_TO_PROCESS = 30
+    DEFAULT_DAYS_TO_PROCESS = 14
+    DEFAULT_INTERVAL = 600
+    
+    def __init__(self, config_file):
+        self.config_file = config_file
+        self.id = os.path.splitext(os.path.split(config_file)[1])[0]
+                
+    def abspath(self):
+        return os.path.abspath(self.config_file)                                        
+    
+    def exist(self):
+        return os.path.exists(self.abspath())
+    
+    def logdir(self):
+        def anonymous(config):
+            try:
+                return config.get('Basic', 'logdir', 0)
+            except Exception, e:
+                return ''
+        return self.__readattr__(anonymous)
+
+    def __type(self):
+        def anonymous(config):
+            try:
+                return config.get('Basic', 'type', 0)
+            except Exceptionimport json as JSON
+import urllib
+import analyse.models
+from datetime import datetime
+import logging
+import analyse.models
+import analyse.models
+import os
+import analyse.models
+from util.datetimeutils import *
+
+class UrlUtils:
+    @staticmethod
+    def get(url):
+        f = urllib.urlopen(url)
+        content = f.read();
+        f.close();
+        return content
+
+class CruiseBuilds:
+    def __init__(self, config):
+        self.baseurl = config.baseurl()
+        ss = config.id.split('__')
+        self.pipelineName = ss[0]
+        if len(ss) > 1:
+            self.stageName = ss[1]
+        else:
+            self.stageName = None
+        if len(ss) > 2:
+            self.jobName = ss[2]
+        else:
+            self.jobName = None
+        self.buildsCnt = 20
+
+    def stageHistory(self):
+        url = '%s/stageHistory.json?pipelineName=%s&stageName=%s&perPage=%d' \
+                    % (self.baseurl, self.pipelineName, self.stageName, self.buildsCnt)
+        logging.getLogger('ianalyse_logger').info('requesting ' + url)
+        json = UrlUtils.get(url)
+        jsonObj = JSON.loads(self.fix_json(json))
+        stageList = jsonObj['history']
+        stageList.reverse()
+        return stageList
+
+    def pipelineHistory(self):
+        url = '%s/pipelineHistory.json?pipelineName=%s&perPage=%s' \
+                        % (self.baseurl, self.pipelineName, self.buildsCnt)
+        logging.getLogger('ianalyse_logger').info('requesting ' + url)
+        json = UrlUtils.get(url)
+        jsonObj = JSON.loads(self.fix_json(json))
+        historyList = []
+        for group in jsonObj['groups']:
+            historyList.extend(group['history'])
+        historyList.reverse()
+        return historyList
+
+    @staticmethod
+    def stageStatusJson(baseurl, pipelineName, pipelineCounter, stageName, stageCounter):
+        url = '%s/stageStatus.json?pipelineName=%s&label=%s&stageName=%s&counter=%s' \
+                % (baseurl, pipelineName, pipelineCounter, stageName, stageCounter)
+        logging.getLogger('ianalyse_logger').info('requesting ' + url)
+        json = UrlUtils.get(url)
+        return JSON.loads(CruiseBuilds.fix_json(json))
+
+    @staticmethod
+    def fix_json(json):
+        return json.replace(r"\'", "").replace("&amp;", "&")
+
+    @staticmethod
+    def getCruiseTime(dateTimeStr):
+        return datetime.strptime(dateTimeStr[0:-6], "%Y-%m-%dT%H:%M:%S") #remove timezone
+
+    @staticmethod
+    def getCommit(json, buildCauseKey = 'buildCause'):
+        revision = json['materialRevisions'][0]['revision']
+        buildCause = json[buildCauseKey]
+        index = buildCause.find('by ')
+        if index > -1:
+            commitor = buildCause[index + 3:]
+            return analyse.models.Commit(commitor, revision)
+
+    def createBuilds(self):
+        if not self.jobName == None:
+            return self.createBuildsForJob()
+        elif not self.stageName == None:
+            return self.createBuildsForStage()
+        else:
+            return self.createBuildsForPipeline()
+
+    def createBuildsForJob(self):
+        result = analyse.models.Builds()
+        for stage in self.stageHistory():
+            for job in stage['builds']:
+                if job['name'] == self.jobName and ( job['result'] == 'Passed' or job['result'] == 'Failed' ):
+                    build = analyse.models.Build()
+                    build.project_id = '%s__%s__%s' % (self.pipelineName, self.stageName, self.jobName)
+                    build.name = job['name']
+                    build.start_time = self.getCruiseTime(job['build_building_date'])
+                    build.build_time = int(job['current_build_duration'])
+                    build.is_passed = job['result'] == 'Passed'
+                    build.commits.add(CruiseBuilds.getCommit(stage))
+                    result.append(build)
+        return result
+
+    def createBuildsForStage(self):
+        result = analyse.models.Builds()
+        for stageJson in self.stageHistory():
+            build = analyse.models.Build()
+            stage = Stage(stageJson)
+            if not stage.isBuilding():
+                build.project_id = '%s__%s' % (self.pipelineName, self.stageName)
+                build.name = stage.name()
+                build.start_time = stage.startTime()
+                build.build_time = stage.buildTime()
+                build.is_passed = stage.isPassed()
+                build.commits.add(stage.commit())
+                
+                if not build.start_time == None:
+                    result.append(build)
+        return result
+
+    def createBuildsForPipeline(self):
+        result = analyse.models.Builds()
+        list = self.pipelineHistory()
+        for pipelineJson in list:
+            build = analyse.models.Build()
+            pipeline = Pipeline(self.pipelineName, pipelineJson, self.baseurl)
+            build.project_id = self.pipelineName
+            build.name = self.pipelineName
+            build.start_time = pipeline.startTime()
+            build.build_time = pipeline.buildTime()
+            build.is_passed = pipeline.isPassed()
+            build.commits.add(pipeline.commit())
+
+            if not build.start_time == None:
+                result.append(build)
+        return result
+
+class Stage:
+    def __init__(self, stageJsonObj):
+        self.json = stageJsonObj
+
+    def name(self):
+        return self.json['stageName']
+
+    def startTime(self):
+        minTime = None
+        for job in self.json['builds']:
+            timeStr = job['build_building_date']
+            if len(timeStr) > 0 and not timeStr == 'N/A' :
+                time = CruiseBuilds.getCruiseTime(timeStr)
+                if minTime == None or minTime > time:
+                    minTime = time
+        return minTime
+
+    def endTime(self):
+        maxTime = None
+        for job in self.json['builds']:
+            timeStr = job['build_completed_date']
+            if len(timeStr) > 0 and not timeStr == 'N/A':
+                time = CruiseBuilds.getCruiseTime(timeStr)
+                if maxTime == None or maxTime < time:
+                    maxTime = time
+        return maxTime
+
+    def buildTime(self):
+        endTime = self.endTime()
+        startTime = self.startTime()
+        if not endTime == None and not startTime == None:
+            return to_unix_timestamp(endTime) - to_unix_timestamp(self.startTime())
+        return 0
+
+    def isBuilding(self):
+        return self.json['current_status'] == 'building'
+
+    def isPassed(self):
+        for job in self.json['builds']:
+            if job['result'] == 'Failed':
+                return False
+        return True
+
+    def commit(self):
+        return CruiseBuilds.getCommit(self.json)
+
+class Pipeline:
+    def __init__(self, name, json, baseurl):
+        self.name = name
+        self.json = json
+        self.baseurl = baseurl
+        self.cache = {}
+
+    def stage(self, stageName, stageCounter):
+        stage_id = stageName + '-' + stageCounter
+        if not self.cache.has_key(stage_id):
+            json = CruiseBuilds.stageStatusJson(self.baseurl, self.name, self.json['counterOrLabel'], stageName, stageCounter)
+            self.cache[id] = Stage(json['stage'])
+        return self.cache[id]
+
+    def startTime(self):
+        minTime = None
+        for stage in self.json['stages']:
+            stage = self.stage(stage['stageName'], stage['stageCounter'])
+            stageStartTime = stage.startTime()
+            if minTime == None or minTime > stageStartTime:
+                minTime = stageStartTime
+        return minTime
+
+    def buildTime(self):
+        time = 0
+        for stage in self.json['stages']:
+            stage = self.stage(stage['stageName'], stage['stageCounter'])
+            time = time + stage.buildTime()
+        return time
+
+    def isPassed(self):
+        for stage in self.json['stages']:
+            stage = self.stage(stage['stageName'], stage['stageCounter'])
+            if not stage.isPassed():
+                return False
+        return True
+
+    def commit(self):
+        return CruiseBuilds.getCommit(self.json, 'buildCauseBy')
+
+
+from datetime import datetime, timedelta
+import os
+import re
+import csv
+
+from xml.sax.handler import ContentHandler
+from xml.sax import parse, parseString
+
+from util.datetimeutils import *
+import analyse.ordered_dic
+from analyse.config import *
+from analyse.plugin import Plugins
+from analyse.saxhandlers import *
+from analyse.tar import Tar
+from analyse.statistics import *
+import logging
+from analyse.cruise_builds import *
+
+class Commit:
+    def __init__(self, name = None, revision = None):
+        self.name = name
+        self.revision = revision
+
+    def __str__(self):
+        return "[" + self.name + ":" + self.revision + "]"
+
+    def __hash__(self):
+        return self.name.__hash__() * 31  +  self.revision.__hash__()
+        
+    def __eq__(self, other):
+        if self != None and other != None:
+            return self.name == other.name and  self.revision == other.revision
+        else:
+            return False
+class Commitor:
+    def __init__(self, name):
+        self.name = name
+        self.passed_commits = set()
+        self.failed_commits = set()
+
+    def add(self, commit, is_passed):
+        if commit in self.passed_commits or commit in self.failed_commits:
+            return
+        if commit.name != self.name:
+            return
+
+        if is_passed:
+            self.passed_commits.add(commit)
+        else:
+            self.failed_commits.add(commit)
+    
+    def passed_count(self):
+        return len(self.passed_commits)
+
+    def failed_count(self):
+        return len(self.failed_commits)
+
+    def total(self):
+        passed_count = self.passed_count()
+        failed_count = self.failed_count()
+        return passed_count + failed_count
+
+    def as_array(self):
+        return [self.passed_count(), self.failed_count()]
+
+    def __str__(self):
+        passed = ""
+        for commit in self.passed_commits:
+            passed = passed + ":" + str(commit)
+        failed = ""
+        for commit in self.failed_commits:
+            failed = failed + ":" + str(commit)
+        return self.name + " \n PASSED \n " + passed + "\n FAILED \n" + failed
+        
+class Commitors:
+    def __init__(self):
+        self.commitors = []
+        
+    def names(self):
+        names = []
+        for commitor in self.commitors:
+            names.append(commitor.name)
+        return names
+
+    def as_arrays(self):
+        arrays = []
+        for commitor in self.commitors:
+            arrays.append(commitor.as_array())
+        return arrays
+
+    def max(self):
+        max = 0
+        for commitor in self.commitors:
+            tmp_max = commitor.total()
+            if tmp_max > max:
+                max = tmp_max
+        return max
+            
+    def find(self, name):
+        for commitor in self.commitors:
+            if commitor.name == name:
+                return commitor
+        commitor = Commitor(name)
+        self.commitors.append(commitor)
+        return commitor
+
+    def add_commits(self, commits, is_passed):
+        for commit in commits:
+            commitor = self.find(commit.name)
+            commitor.add(commit, is_passed)
+
+    def __len__(self):
+        return len(self.commitors)
+
+    def __iter__(self):
+        return self.commitors.__iter__()
+
+class Build:
+    def __init__(self):
+        self.project_id = ""
+        self.name = ""
+        self.start_time = None;
+        self.build_time = 0
+        self.is_passed = False
+        self.last_pass = None
+        self.last_build = None
+        self.commits = set()
+
+    def day_of_start(self):
+        return begining_of_the_day(self.start_time)
+
+    @staticmethod
+    def from_xml(input):
+        build = Build()
+        parseString(input, MultipleHandlers(build))
+        return build
+
+    @staticmethod
+    def from_file(input):
+        build = Build()
+        parse(input, MultipleHandlers(build))
+        return build
+
+    @staticmethod
+    def select_values(file, config, plugins):
+        return plugins.handle(file, config)
+
+    def need_attention(self):
+        if self.is_last_pass_old():
+            return True
+        
+        if self.is_last_build_old():
+            return True
+        
+        return False
+    
+    def is_last_pass_old(self):
+        now = datetime.now()
+        return self.find_last_pass() != None and now - self.find_last_pass() > timedelta(hours=24)
+        
+    def is_last_build_old(self):
+        now = datetime.now()
+        return self.start_time != None and now - self.start_time > timedelta(hours=24)
+
+    def last_build_t(self):
+        return time_delta_as_str(datetime.now() - self.start_time)
+
+    def last_pass_t(self):
+        return time_delta_as_str(datetime.now() - self.find_last_pass())
+
+    def find_last_pass(self):
+        if self.is_passed :
+            return self.start_time
+        else:
+            return self.last_pass
+
+    def add_commitor(self, name, revision):
+        self.commits.add(Commit(name, revision))
+        
+    def __unicode__(self):
+        return self.name + " << " + str(self.is_passed) + " << " + str(self.start_time) + "\n"
+
+class DaySummary:
+    def __init__(self, total, passed, start_time, timestamp):
+        self.total = total
+        self.passed = passed
+        self.start_time = start_time
+        self.timestamp = timestamp
+
+    def pass_rate(self):
+        return {"x" : self.timestamp, "y" :  float('%.2f' % (self.passed / (self.total - 0.0)))  * 100}
+
+    def total_runs(self):
+        return {"x" : self.timestamp, "y" :  self.total}
+
+    def passed_runs(self):
+        return {"x" : self.timestamp, "y" :  self.passed}
+        
+    def failed_runs(self):
+        return {"x" : self.timestamp, "y" :  (self.total - self.passed)}
+
+class NDaysSummary:
+    def __init__(self):
+        self.days_summary = []
+
+    def append(self, day_summary):
+        self.days_summary.append(day_summary)
+
+    def min_timestamp(self):
+        array = []
+        for day_summary in self:
+            array.append(day_summary.timestamp)
+        array.sort()
+        return array[0]
+        
+    def max_timestamp(self):
+        array = []
+        for day_summary in self:
+            array.append(day_summary.timestamp)
+        array.sort()
+        return array[len(array) - 1]
+
+
+    def _run_values(self, method):
+        array = []
+        for day_summary in self:
+            array.append(getattr(day_summary, method)())
+        return array
+
+    def __getattr__(self, name):
+        if not name.endswith("_values"):
+            return lambda : getattr(self, name)
+        else :
+            field = name[0:len(name) - len('_values')]
+            return lambda : self._run_values(field)
+
+    def __len__(self):
+        return len(self.days_summary)
+
+    def __iter__(self):
+       return self.days_summary.__iter__()
+
+    def __getitem__(self, index):
+        return self.days_summary.__getitem__(index)
+
+    
+class Builds:
+    def __init__(self):
+        self.builds = []
+        self.commitors = Commitors()
+
+    def total_count(self):
+        return len(self.builds)
+        
+    def project_id(self):
+        return self.builds[0].project_id
+
+    def last(self):
+        size = len(self.builds)
+        if size == 0 :
+            return None
+        else :
+            return self.builds[size - 1]
+
+    def started_at(self):
+        return self.builds[0].start_time
+
+    def ended_at(self):
+        return self.builds[len(self.builds) - 1].start_time
+
+    def append(self, build):
+        self.builds.append(build)
+        
+    def group_by_each_day(self):
+        grouped_builds = analyse.ordered_dic.ordered_dict()
+
+        for build in self.builds :
+            day_of_start = build.day_of_start()
+            if (day_of_start not in grouped_builds):
+                newbuilds = Builds()
+                newbuilds.builds.append(build)
+                grouped_builds[day_of_start] = newbuilds
+            else :
+                grouped_builds[day_of_start].builds.append(build)
+
+        return grouped_builds
+
+    def get_n_days_summary(self):
+        grped_builds = self.group_by_each_day();
+        ndayssummary = NDaysSummary()
+        for day_of_start in grped_builds.order() :
+            timestamp = int(to_unix_timestamp(day_of_start));
+            builds = grped_builds[day_of_start];
+            ndayssummary.append(DaySummary(builds.total_count(), builds.pass_count(), day_of_start, timestamp))
+        return ndayssummary
+        
+    def build_times(self):
+        arry = []
+        min_date = None;
+        max_date = None;
+        max_time = None
+        for build in self.builds :
+            timestamp = int(to_unix_timestamp(build.start_time));
+            arry.append({"x" : timestamp, "y" : build.build_time})
+            if min_date == None or timestamp < min_date:
+                min_date = timestamp;
+
+            if max_date == None or timestamp >  max_date:
+                max_date = timestamp;
+
+            if max_time == None or build.build_time > max_time:
+                max_time = build.build_time
+
+        return arry,min_date, max_date, max_time    
+
+    def per_build_time(self):
+        arry = []
+        labels = []
+        max_time = None
+        for build in self.builds :
+            timestamp = int(to_unix_timestamp(build.start_time));
+            color = None;
+            if build.is_passed:
+                color = '#1C9E05'
+            else:
+                color = '#FF368D'                           
+
+            arry.append({"top" : build.build_time, "colour": color})
+            labels.append(str(build.start_time))
+            if max_time == None or build.build_time > max_time:
+                max_time = build.build_time
+        return arry, labels, max_time
+
+    def pass_count(self) :
+        count = 0
+        for build in self.builds :
+            if build.is_passed :
+                count = count + 1
+        return count
+
+    def pass_rate(self) :
+        if len(self.builds) == 0:
+            return 0
+
+        return float('%.2f' % (self.pass_count() / (len(self.builds) - 0.0)))
+    
+    def avg_build_time(self):
+        array = []
+        for build in self.builds :
+            array.append(build.build_time)
+        if len(array) == 0:
+            return '0'
+
+        average = float(sum(array)) / len(array)
+        return "%.2f" % average
+    
+    def avg_runs(self):
+        min = self.builds[0]
+        max = self.builds[len(self.builds) - 1]
+        delta = max.start_time - min.start_time
+        len_builds = len(self.builds)
+        if delta.days <= 1 :
+            return '%.2f' % len_builds
+        return '%.2f' % (len_builds / (delta.days - 0.0))
+
+    def build_breakers(self):
+        for build in self.builds:
+            self.commitors.add_commits(build.commits, build.is_passed)
+        return self.commitors
+        
+    @staticmethod
+    def create_builds(config, pattern):
+        if config.isCruise():
+            builds = CruiseBuilds(config).createBuilds();
+        else:
+            builds = Builds.create_cruise_control_builds(config, None)
+        return builds
+
+    @staticmethod
+    def create_cruise_control_builds(config, pattern):
+        if pattern == None :
+            pattern = "log.*.xml"
+
+        builds_obj = Builds()
+        builds = list();
+
+        all_necessary_files = os.filter_by_days(config.logdir(), pattern, config.days())
+        for eachfile in all_necessary_files:
+            if None != re.match(pattern, eachfile) :
+                try :
+                    build = Build.from_file(config.logfile(eachfile))
+                    build.project_id = config.id
+                    builds.append(build)
+                except Exception, e :
+                    logging.getLogger('ianalyse_logger').error(e)
+                    pass
+
+        builds_obj.builds = builds
+        return builds_obj;
+
+    @staticmethod  
+    def select_values_from(config, pattern):
+        if pattern == None :
+            pattern = "log.*.xml"
+        
+        values = []
+        if config.isCruise():
+            return values
+            
+        all_necessary_files = os.filter_by_days(config.logdir(),"log([0-9]*).*.xml", config.days())
+        
+        plugins = Plugins.INSTANCE()
+        for eachfile in all_necessary_files:
+            if None != re.match(pattern, eachfile) :
+                try :
+                    values.append(Build.select_values(config.logfile(eachfile), config, plugins))
+                except Exception, e :
+                    logging.getLogger('ianalyse_logger').error(e)
+                    pass
+        return values
+        
+    
+    def gen_all_reports(self):
+        stat = NDaysStatistics(self)
+        stat.generate_overall_pass_rate()
+        stat.generate_pass_rate_by_day()
+        stat.generate_build_time_over_time()
+        stat.generate_per_build_info()
+        stat.generate_run_times_and_pass_count_by_day()
+        stat.generate_build_breakers()
+        self.create_csv()
+        return
+
+    def create_csv(self):
+        project_id = self.project_id()
+        config = Groups().default().find(project_id)
+        arrays = Builds.select_values_from(config, None)
+        folder = config.result_dir()
+        writer = csv.writer(open(os.path.join(folder, project_id + '.csv'), 'w'), delimiter=',')
+        writer.writerow(Plugins.INSTANCE().columns(config))
+        writer.writerows(arrays)
+
+    def __unicode__(self):
+        return "<Builds " + str(self.builds) + ">\n"
+
+    def __len__(self):
+        return len(self.builds)
+
+    def __iter__(self):
+       return self.builds.__iter__()
+
+    def __getitem__(self, index):
+        return self.builds.__getitem__(index)
+    
+class ProjectGroup:
+    def __init__(self):
+        self.projects = {}
+
+    def append(self, config, builds):
+        if isinstance(config, Config):
+            self.projects[config.id] = builds
+        else:
+            self.projects[config] = builds
+
+    def find(self, id):
+        builds = self.projects.get(id)
+        if builds == None:
+            return Builds()
+        else:
+            return builds
+
+    def latest_build_of(self, id):
+        builds = self.find(id)
+        return builds.last()
+
+
+    def projects_comparation(self):
+        names = []
+        values = []
+        max = 0
+
+        for project in self:
+            project_id = project[0]
+            builds = project[1]
+            names.append(project_id)
+
+            pass_count = builds.pass_count()
+            total_count = builds.total_count()
+            if total_count > max:
+                max = total_count
+
+            value = [pass_count,  total_count - pass_count]
+
+            values.append(value)
+        return values, names, max
+
+
+    @staticmethod        
+    def create(group):
+        pg = ProjectGroup()
+        pg.group_id = group.id
+        for config in group:
+            try:
+                logging.getLogger('ianalyse_logger').info('processing [' + config[0] + ']..........')
+                builds = Builds.create_builds(config[1], None)
+                pg.append(config[1], builds)
+                builds.gen_all_reports()
+            except Exception, e:
+                logging.getLogger('ianalyse_logger').error(e)
+                pass
+        try:
+            tar = Tar(group).create()
+        except Exception, e:
+            logging.getLogger('ianalyse_logger').error(e)
+            pass
+
+        stat = GlobalStatistics(pg)
+        stat.generate_projects_comparation()                    
+        return pg
+
+    def __iter__(self):
+        items = self.projects.items()
+        items.sort()
+        return items.__iter__()
+
+
+class ProjectGroups:
+    def __init__(self):
+        self.project_groups = {}
+
+    @staticmethod        
+    def create():
+        pgs = ProjectGroups()
+        for group in Groups():
+            pgs.project_groups[group.id] = ProjectGroup.create(group)
+        return pgs
+        
+    def find(self, key):
+        return self.project_groups.get(key)
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 2 of the License.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# Author: Eugene Kin Chee Yip
+# Date:   14 June 2009
+
+try:
+	NO_CJSON = False
+	import	cjson
+except ImportError:
+	NO_CJSON = True
+	import json
+import	copy
+
+class Chart(dict):
+	# Dictionary for replacing attribute names
+	replaceKeyDictionary =	{
+		"on_show": "on-show",			"on_click": "on-click",
+		"start_angle": "start-angle",
+
+		"threeD": "3d",					"tick_height": "tick-height",
+		"grid_colour": "grid-colour",	"tick_length": "tick-length",
+
+		"dot_style": "dot-style",		"dot_size": "dot-size",
+		"halo_size": "halo-size",
+
+		"line_style": "line-style",		"outline_colour": "outline-colour",
+		"fill_alpha": "fill-alpha",		"gradient_fill": "gradient-fill",
+	}
+
+	# Redefine to allow for nested attributes.
+	# E.g. when calling the leaf attribute, text, in chart.title.text
+	#      without previously defining the branch attribute, title.
+	def __getattribute__(self, key):
+		try:
+			return dict.__getattribute__(self, key)
+		except AttributeError:
+			self.__dict__[key] = Chart()
+			return dict.__getattribute__(self, key)
+
+	# This copy function is called when we want to get all the attributes of the
+	# chart instance so we can pass it off to cjson to create the JSON string.
+	# Recursive trick to get leaf attributes.  Have to be careful of list types.
+	# Also, replace certain underscored keys.
+	# E.g. getting the leaf attribute, text, from the parent Chart instance where a
+	#      previous assignment was to chart.title.text
+	def __copy__(self):
+		attributes = dict()
+		for key, value in self.__dict__.items():
+			if isinstance(value, list):
+				attributes[self.replaceKey(key)] = [copy.copy(item) for item in value]
+			else:
+				attributes[self.replaceKey(key)] = copy.copy(value)
+		return attributes
+
+	# If key has an underscore, replace with a dash.
+	# Python does not allow dash in object names.
+	def replaceKey(self, key):
+		if (key in self.replaceKeyDictionary):
+			return self.replaceKeyDictionary[key]
+		else:
+			return key
+
+	# Encode the chart attributes as JSON
+	def create(self):
+		attributes = copy.copy(self)
+		if NO_CJSON:
+			return json.dumps(attributes)
+		else:
+			return cjson.encode(attributes)
+
+
+class ordered_dict(dict):
+    def __init__(self, *args, **kwargs):
+        dict.__init__(self, *args, **kwargs)
+        self._order = self.keys()
+
+    def __setitem__(self, key, value):
+        dict.__setitem__(self, key, value)
+        if key in self._order:
+            self._order.remove(key)
+        self._order.append(key)
+
+    def __delitem__(self, key):
+        dict.__delitem__(self, key)
+        self._order.remove(key)
+
+    def order(self):
+        return self._order[:]
+
+    def ordered_items(self):
+        return [(key,self[key]) for key in self._order]
+from xml.sax.handler import ContentHandler
+from xml.sax import parse, parseString
+from django.conf import settings
+import os
+
+class MultiplePluginHandlers(ContentHandler):
+    def __init__(self, handles):
+        self.handlers = handles
+
+    def startElement(self, name, attrs):
+        for handler in self.handlers :
+            handler.startElement(name, attrs)
+    
+    def __iter__(self):
+        return self.handlers.__iter__()
+
+    def __getitem__(self, key):
+        return self.handlers.__getitem__(key)
+
+class Plugins:
+    _instance = None
+
+    def __init__(self, plugins_folder=None):
+        self.plugins = {}
+        self.current_plugin = None;
+        self.plugins_folder = plugins_folder
+        if plugins_folder == None:
+            self.plugins_folder = os.path.join(settings.PROJECT_DIR, 'plugins');
+            
+    def load_plugins(self):        
+        files = os.list_matched_files(self.plugins_folder);
+        for file in files:
+            self.current_plugin = Plugin(file)
+            try:
+                execfile(os.path.join(self.plugins_folder, file))
+            except Exception, e:
+                pass
+    def columns(self, config):
+        names = []
+        for defined_plugin in config.plugins():
+            plugin = self.find_plugin(defined_plugin)
+            plugin.append_column_name_to(names)
+        return names
+        
+
+    def find_plugin(self, key):
+        plugin = self.plugins.get(key)
+        if plugin == None:
+            plugin = NullPlugin(key)
+        return plugin
+
+    def multiple_handlers(self, config):
+        all_plugins = self.plugins.values();
+        handlers = []
+        for defined_plugin in config.plugins():
+            plugin = self.find_plugin(defined_plugin)
+            plugin.append_handler_to(handlers)
+        return MultiplePluginHandlers(handlers)
+
+    def handle(self, input, config):
+        handlers = self.multiple_handlers(config)
+        parse(input, handlers)
+        result = []
+        for defined_plugin in config.plugins():
+            plugin = self.find_plugin(defined_plugin)
+            plugin.append_csv_cell_to(result)
+        return result
+
+    @staticmethod
+    def register(column_name, handler):
+        Plugins.INSTANCE()._register(column_name, handler)
+
+    def _register(self, column_name, handler):
+        self.current_plugin.update(column_name, handler)
+        self.plugins[self.current_plugin.file_name]=self.current_plugin
+
+    @staticmethod
+    def INSTANCE(plugins_folder = None):
+        if Plugins._instance == None:
+            Plugins._instance = Plugins(plugins_folder)
+            Plugins._instance.load_plugins()
+        return Plugins._instance
+    
+
+    
+    def __len__(self):
+        return len(self.plugins)
+
+    def clear(self):
+        self.plugins.clear()
+
+class Plugin:
+    def __init__(self, file_name):
+        self.file_name = file_name
+        self.column_name = None
+        self.handler = None
+        
+    def update(self, column_name, handler):
+        self.column_name = column_name
+        self.handler = handler
+
+    def append_handler_to(self, handlers):
+        handlers.append(self.handler)
+
+    def append_csv_cell_to(self, result):
+        try:
+            result.append(self.handler.csv_cell())
+        except Exception, e:
+            result.append("")
+
+    def append_column_name_to(self, names):
+        names.append(self.column_name)    
+
+class NullPlugin(Plugin):
+    def __init__(self, file_name):
+        self.file_name = file_name
+
+    def append_handler_to(self, handlers):pass
+
+    def append_csv_cell_to(self, result):pass
+    
+    def append_column_name_to(self, names):pass
+    from xml.sax.handler import ContentHandler
+from datetime import datetime
+from xml.sax import make_parser
+import util.datetimeutils
+import _strptime
+
+import sys
+
+class LabelHandler(ContentHandler):
+    def __init__(self, build):
+        self.build = build
+
+    def startElement(self, name, attrs):
+        if (name == "property" and attrs['name'] == 'label') :
+            self.build.number = attrs["value"];
+
+class ProjNameHandler(ContentHandler):
+    def __init__(self, build):
+        self.build = build
+
+    def startElement(self, name, attrs):
+        if (name == "property" and attrs['name'] == 'projectname') :
+            self.build.name = attrs["value"];
+
+class TimeStampHandler(ContentHandler):
+    def __init__(self, build):
+        self.build = build
+
+    def startElement(self, name, attrs):
+        if (name == "property" and attrs['name'] == 'cctimestamp') :
+            self.build.start_time = datetime.strptime(attrs["value"], "%Y%m%d%H%M%S") ;
+
+class ResultHandler(ContentHandler):
+    def __init__(self, build):
+        self.build = build
+
+    def startElement(self, name, attrs):
+        if (name == "property" and attrs['name'] == 'logfile') :
+            self.build.is_passed = attrs["value"].find('Lbuild') > -1
+
+class LastPassHandler(ContentHandler):
+    def __init__(self, build):
+        self.build = build
+
+    def startElement(self, name, attrs):
+        if (name == "property" and attrs['name'] == 'lastsuccessfulbuild') :
+            self.build.last_pass = datetime.strptime(attrs["value"], "%Y%m%d%H%M%S")
+
+class LastBuildHandler(ContentHandler):
+    def __init__(self, build):
+        self.build = build
+
+    def startElement(self, name, attrs):
+        if (name == "property" and attrs['name'] == 'lastbuild') :
+            self.build.last_build = datetime.strptime(attrs["value"], "%Y%m%d%H%M%S")
+
+class BuildTimeHandler(ContentHandler):
+    def __init__(self, build):
+        self.build = build
+
+    def startElement(self, name, attrs):
+        if (name == "build") :
+            build_time = util.datetimeutils.evaluate_time_to_seconds(attrs["time"])
+            self.build.build_time = build_time
+
+class CommitHandler(ContentHandler):
+    def __init__(self, build):
+        self.build = build
+        self.should_capture = False
+        self.is_user = False
+        self.is_revision = False
+        self.user = ""
+        self.revision = ""
+
+    def startElement(self, name, attrs):
+        self.buffer = ""
+        if name == 'modification':
+            self.should_capture = True            
+        if name == 'user':
+            self.is_user = True
+        if name == 'revision':
+            self.is_revision = True
+
+    def characters(self, data):
+        self.buffer += data
+
+    def endElement(self, name):
+        if self.should_capture:
+            if name == 'user':
+                self.user = self.buffer
+            if name == 'revision':
+                self.revision = self.buffer
+
+        if name == 'modification':
+            self.build.add_commitor(self.user, self.revision)
+            self.should_capture = False
+            self.is_user = False
+            self.is_revision = False
+            self.user = ""
+            self.revision = ""            
+
+class MultipleHandlers(ContentHandler):
+    def __init__(self, build):
+        self.handlers = [LabelHandler(build), ProjNameHandler(build), TimeStampHandler(build), ResultHandler(build),
+                         LastPassHandler(build), LastBuildHandler(build), BuildTimeHandler(build), CommitHandler(build)]
+
+    def startElement(self, name, attrs):
+        for handler in self.handlers :
+            handler.startElement(name, attrs)
+
+    def characters(self, data):
+        for handler in self.handlers :
+            handler.characters(data)
+
+    def endElement(self, name):
+        for handler in self.handlers :
+            handler.endElement(name)
+
+from datetime import datetime, timedelta
+import os
+import re
+import csv
+
+from django.db import settings
+from xml.sax.handler import ContentHandler
+from xml.sax import parse, parseString
+
+from util.datetimeutils import *
+from analyse.openFlashChart import Chart
+import analyse.ordered_dic
+from analyse.config import Group,Groups
+from analyse.saxhandlers import *
+from analyse.tar import Tar
+
+FAILED_BUILD_COLOR_CODE =  '#FF368D'
+PASSED_BUILD_COLOR_CODE = '#1C9E05'
+BLUE_COLOR_CODE = "#0000ff"
+
+class DateXAxis:
+    '''use this class to workaround the bug in open flash chart, if the min date and the max date are equal, browser will hang.'''
+    def __init__(self, min, max):
+        self.min = min
+        self.max = max
+    
+    def min_date(self):
+        return self.min
+    
+    def max_date(self):
+        if self.min == self.max:
+            return self.max + 200
+        return self.max
+
+class NDaysStatistics :
+    def __init__(self, builds):
+        self.builds = builds
+        self.project_id = builds.project_id()
+
+
+    def build_breakers(self):
+        chart = Chart()
+        element = Chart()
+        element.type = "bar_stack"
+        element.colours = [ '#1C9E05','#FF368D']
+        build_breakers = self.builds.build_breakers()
+        element.values =  build_breakers.as_arrays()
+
+        element.keys =  [
+            { "colour": FAILED_BUILD_COLOR_CODE, "text": "Failed builds", "font-size": 13 },
+            { "colour": PASSED_BUILD_COLOR_CODE, "text": "Passed builds", "font-size": 13 }]
+        element.tip = "#val# runs are trigger by #x_label#' commits"
+
+        chart.title = { "text": "Passed/Failed builds caused by him/her", "style": "{font-size: 20px; color: #F24062; text-align: center;}" }
+        chart.x_axis = { "labels": { "labels": build_breakers.names(), "rotate": 45} }
+        chart.y_axis = { "min": 0, "max": build_breakers.max() + 2, "steps": 5 }
+        chart.tooltip =  { "mouse": 2 } 
+        chart.elements = [element]
+
+        return chart.create()
+
+
+    def build_time_over_time(self):
+        chart = Chart()
+
+        element = Chart()
+        element.type = "line"
+        element.dot_style = { "type": "dot" }
+        element.width = 2
+        element.colour = BLUE_COLOR_CODE
+        element.fill = FAILED_BUILD_COLOR_CODE
+        element.fill_alpha = 0.7
+
+        values, min_date, max_date, max_time = self.builds.build_times()
+
+        element.values = values
+        chart.elements = [element]
+        all_percentage = []
+
+        dateXAxis = DateXAxis(min_date, max_date)
+        chart.y_axis   = { "min": 0, "max": max_time + 10, "steps": max_time / 10}
+        chart.x_axis   = { "min": dateXAxis.min_date(), "max": dateXAxis.max_date(), "steps": 86400,
+                           "labels": { "text": "#date:Y-m-d at H:i#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
+        chart.title    = { "text": "Build time over time."}
+        return chart.create()
+
+    def overall_pass_rate(self):
+        total  = self.builds.total_count()
+        passed = self.builds.pass_count()
+        failed = total - passed        
+        
+        chart = Chart()
+        element1 = Chart()
+        element1.values =  [passed, failed]
+        element1.type = "pie"
+        element1.alpha = 0.6
+        element1.animate = False
+        element1.angle = 35
+        element1.tip = '#val# of #total#<br>#percent# of 100%';
+        element1.colours = [PASSED_BUILD_COLOR_CODE, FAILED_BUILD_COLOR_CODE ]
+
+        chart.elements = [element1]
+        chart.title = {"text": str(self.builds.total_count()) + ' Runs', "style": "{font-size: 15px; font-family: Times New Roman; font-weight: bold; color: #4183C4; text-align: center;}" }
+        chart.bg_colour = "#FFFFFF" 
+        return chart.create()
+
+    def per_build_info(self):
+        chart = Chart()
+
+        values, labels, max_time = self.builds.per_build_time();
+        element = Chart()
+        element.type = "bar_glass"
+        element.values = values
+        
+
+        chart.elements = [element]
+        chart.y_axis = { "min": 0, "max": max_time + 10, "steps": max_time / 10}
+        chart.x_axis = {"labels" : {"labels" : labels, "visible-steps": 2, "rotate": 90}}
+        return chart.create()
+
+    def pass_rate_by_day(self):
+        chart = Chart()
+
+        element = Chart()
+        element.type = "line"
+        element.dot_style = { "type": "dot" }
+        element.width = 2
+        element.colour = "#C4B86A"
+        element.fill = "#1C9E05"
+        element.fill_alpha = 0.7
+
+        n_days_summary = self.builds.get_n_days_summary()
+
+        element.values = n_days_summary.pass_rate_values()
+        chart.elements = [element]
+        all_percentage = []
+
+        for i in range(110):
+            all_percentage.append(str(i) + "%");
+
+        dateXAxis = DateXAxis(n_days_summary.min_timestamp(),  n_days_summary.max_timestamp())
+        chart.y_axis   = { "min": 0, "max": 110, "steps": 10,  "labels" : {"labels" : all_percentage, "steps" : 20}}
+        chart.x_axis   = { "min": dateXAxis.min_date(), "max":dateXAxis.max_date(), "steps": 86400,
+                           "labels": { "text": "#date:Y-m-d at H:i#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
+        chart.title    = { "text": "Pass rate over time."}
+        return chart.create()
+
+    def _create_line(self, values, colour, text, width=2):
+        element1 = Chart()
+
+        element1.type ='line'
+        element1.values = values
+        element1.dot_style={ "type": "dot", "dot-size": 5, "colour": colour }
+        element1.width = width
+        element1.colour = colour
+        element1.text = text
+        return element1
+        
+    def run_times_and_pass_count_by_day(self):
+        chart = Chart()
+        summary = self.builds.get_n_days_summary()
+        total_runs_values = summary.total_runs_values();
+        
+        chart.elements = [self._create_line(summary.total_runs_values(),   BLUE_COLOR_CODE, 'Total runs', 5),
+                          self._create_line(summary.passed_runs_values(),  PASSED_BUILD_COLOR_CODE, 'Passed runs'),
+                          self._create_line(summary.failed_runs_values(),  FAILED_BUILD_COLOR_CODE, 'Failed runs')]
+        chart.title = { "text": "Run times and pass count by day" }
+        chart.y_axis = { "min": 0, "max": 20, "steps": 5 }
+        
+        dateXAxis = DateXAxis(total_runs_values[0].get('x'), total_runs_values[len(summary) - 1].get('x'))
+        
+        chart.x_axis   = { "min": dateXAxis.min_date(), "max": dateXAxis.max_date(), "steps": 86400,
+                           "labels": { "text": "#date:Y-m-d at H:i#", "steps": 86400, "visible-steps": 2, "rotate": 90 }}
+
+        return chart.create()
+
+    def __getattr__(self, name):
+        if not name.startswith("generate_"):
+            raise AttributeError(name)
+        field = name[len("generate_"):]
+        result = getattr(self, field)()
+        
+        total_json_file = os.path.join(Groups().find_config(self.project_id).result_dir(), field + '.txt');
+
+        os.write_to_file(total_json_file, result)
+        return lambda : {}
+        
+        
+class GlobalStatistics:
+    def __init__(self, project_group):
+       self.project_group = project_group
+
+    def projects_comparation(self):
+        chart = Chart()
+        element = Chart()
+        element.type = "bar_stack"
+        element.colours = [ '#1C9E05','#FF368D']
+        values, names, max = self.project_group.projects_comparation()
+        element.values =  values
+
+        element.keys =  [
+            { "colour": FAILED_BUILD_COLOR_CODE, "text": "Failed builds", "font-size": 13 },
+            { "colour": PASSED_BUILD_COLOR_CODE, "text": "Passed builds", "font-size": 13 }]
+        element.tip = "#val# runs of #total# in project #x_label#"
+        
+        chart.title = { "text": "Passed/Failed builds between projects", "style": "{font-size: 20px; color: #F24062; text-align: center;}" }
+        chart.x_axis = { "labels": { "labels": names, "rotate": 45} }
+        chart.y_axis = { "min": 0, "max": max + 2, "steps": 5 }
+        chart.tooltip =  { "mouse": 2 } 
+        chart.elements = [element]
+        
+        return chart.create()
+            
+        
+    def __getattr__(self, name):
+        if not name.startswith("generate_"):
+            raise AttributeError(name)
+        field = name[len("generate_"):]
+        result = getattr(self, field)()
+
+        total_json_file = os.path.join(Groups().default().results_dir(), 'group_' + self.project_group.group_id + '_comparation.txt');
+        os.write_to_file(total_json_file, result)
+        return lambda : {}
+from analyse.config import *
+import os
+import tarfile
+
+class Tar:
+    def __init__(self, group):
+        self.group = group
+    
+    def create(self):
+        result_dir = self.group.results_dir()
+        tar = tarfile.open(os.path.join(result_dir, 'all.tar'), "w")
+
+        for config in self.group:
+            project_folder = os.path.join(result_dir, config[0])
+            csv = os.path.join(project_folder, config[0] + '.csv')
+            if os.path.exists(csv):
+                tar.add(csv, config[0] + '.csv')
+        tar.close()templatetags is a directory
+tests is a directory
+import unittest
+
+class AnimalTestCase(unittest.TestCase):
+   def test_should_pass(self):
+       pass
+from django.template import Context, loader, RequestContext
+from django.shortcuts import render_to_response, redirect
+from django.http import HttpResponse
+from analyse.models import Builds, Build
+from analyse.cache import Cache
+from analyse.config import *
+from django.utils.http import urlquote
+import os
+
+def home(request):
+    return redirect('/analyse/index.html')
+
+def index(request):
+    groups = Groups()
+    if (groups.is_empty()) :
+        return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
+    group_id = request.GET.get('groups')
+    
+    if group_id == None or not groups.exists(group_id):
+        return redirect('index.html?groups=default')
+
+    configs = groups.find(group_id)    
+    results = {'group_id' : group_id, 'groups' : groups, 'configs' : configs, 'project_groups' : Cache.INSTANCE().get_project_group(group_id)}
+    return render_to_response('analyse/index.html', Context(results), context_instance = RequestContext(request))
+
+def setup(request):
+    groups = Groups()
+    if (groups.is_empty()) :
+        return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
+
+    current = groups.default().find(request.GET.get('id'))
+    results = {"configs" : groups.default(), 'current' : current}
+    return render_to_response('analyse/setup.html', Context(results), context_instance = RequestContext(request))
+
+def generate(request) :
+    groups = Groups()
+    if (groups.is_empty()) :
+        return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
+
+    id = request.POST.get('id')
+    if id == None:
+        Cache.INSTANCE().populate()
+    else:
+        Cache.INSTANCE().refresh(groups.default().find(id))
+    return redirect('index.html')
+
+def show(request):
+    groups = Groups()
+    if (groups.is_empty()) :
+        return render_to_response('analyse/hint.html', Context({}), context_instance = RequestContext(request))
+    project_id = request.GET['id']
+    config = groups.default().find(project_id)
+
+    if not config.has_result() :
+        return redirect('setup.html?id=' + urlquote(project_id))
+
+    builds = Cache.INSTANCE().find(project_id)
+    over_all_result = {
+        "builds" : builds
+    }    
+    return render_to_response('analyse/show.html', Context(over_all_result), context_instance = RequestContext(request))
+
+def help(request):
+    configs = Groups().default()
+    results = {
+        "configs" : configs,
+    }
+    return render_to_response('analyse/help.html', Context(results), context_instance = RequestContext(request))
+   
+def export_as_img(request):
+    if request.method == 'POST':        
+        file = request.POST['file']
+        result_dir = Groups().default().results_dir()
+        os.write_base64_as_binary(os.path.join(result_dir, file), request.POST['data']);
+    return render_to_response('analyse/image.html', Context({'url' : '/results/' + file}), context_instance = RequestContext(request))
+    
+    
+    

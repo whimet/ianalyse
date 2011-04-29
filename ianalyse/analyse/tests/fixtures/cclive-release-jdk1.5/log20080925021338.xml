@@ -1,0 +1,2331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cruisecontrol>
+  <modifications>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4006</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/.classpath</filename>
+      </file>
+      <date>09/09/2008 21:39:12</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[junit-3.8.1 --> junit-4.4]]></comment>
+      <revision>4006</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4007</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/test/unit/net/sourceforge/cruisecontrol/dashboard/web/AdminControllerTest.java</filename>
+      </file>
+      <date>09/09/2008 21:40:21</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[lowercase two path comparisons to avoid problems on cygwin with the case of the drive letter]]></comment>
+      <revision>4007</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4008</revision>
+        <filename>/trunk/cruisecontrol/reporting/jsp/build.sh</filename>
+      </file>
+      <date>09/09/2008 22:06:39</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[quoting paths for cygwin]]></comment>
+      <revision>4008</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4009</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/test/unit/net/sourceforge/cruisecontrol/dashboard/web/AdminControllerTest.java</filename>
+      </file>
+      <date>09/10/2008 01:14:50</date>
+      <user>bhamail</user>
+      <comment><![CDATA[fix style violation]]></comment>
+      <revision>4009</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4010</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/build.xml</filename>
+      </file>
+      <date>09/16/2008 14:39:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[start unwinding some of the hairball of aliases. much work left to do.]]></comment>
+      <revision>4010</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4011</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/build.xml</filename>
+      </file>
+      <date>09/16/2008 14:40:52</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[make default target dist to avoid the problem of CC-849 where the default target built something broken.]]></comment>
+      <revision>4011</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4012</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/build.xml</filename>
+      </file>
+      <date>09/16/2008 14:45:21</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix old references from --compress to compress]]></comment>
+      <revision>4012</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4013</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/build.xml</filename>
+      </file>
+      <date>09/16/2008 14:50:32</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix old reference of --run.smoke.tests to smoke]]></comment>
+      <revision>4013</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/src/net/sourceforge/cruisecontrol/sourcecontrols/AllFusionHarvest.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo/lib</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/test/net/sourceforge/cruisecontrol/sourcecontrols/StarTeamTest.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime/src</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/StarTeamPluginRegistryTest.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/test</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo/test/net/sourceforge/cruisecontrol/publishers/YahooPublisherTest.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/test/net/sourceforge/cruisecontrol/sourcecontrols</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/test/net/sourceforge/cruisecontrol/bootstrappers/AllFusionHarvestBootstrapperTest.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo/src/net/sourceforge/cruisecontrol/publishers/YahooPublisher.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo/test/net/sourceforge</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/src/net/sourceforge/cruisecontrol/sourcecontrols</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime/test/net</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/sourcecontrols/StarTeamTest.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime/lib</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime/src/net/sourceforge/cruisecontrol/publishers</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/src/net/sourceforge</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/test/net/sourceforge</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo/test/net/sourceforge/cruisecontrol/publishers</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/src/net/sourceforge/cruisecontrol/bootstrappers</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/sourcecontrols/StarTeam.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/test/net/sourceforge/cruisecontrol/bootstrappers</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime/test/net/sourceforge/cruisecontrol</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/common.xml</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/src/net/sourceforge</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/src/net/sourceforge/cruisecontrol/bootstrappers</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo/src/net</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime/src/net/sourceforge/cruisecontrol/publishers/SametimeAnnouncementPublisher.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo/test</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo/test/net/sourceforge/cruisecontrol</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/src</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/test</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/test/net/sourceforge/cruisecontrol/sourcecontrols/AllFusionHarvestTest.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/bootstrappers/StarTeamBootstrapper.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/test/net/sourceforge/cruisecontrol</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/src</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime/src/net</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/sourcecontrols/AllFusionHarvestTest.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/src/net/sourceforge/cruisecontrol</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime/test/net/sourceforge/cruisecontrol/publishers/SametimeAnnouncementPublisherTest.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/test/net</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/lib</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/build.xml</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/test/net/sourceforge/cruisecontrol/sourcecontrols</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/sourcecontrols/AllFusionHarvest.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime/test/net/sourceforge</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime/src/net/sourceforge/cruisecontrol</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/lib</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/main/build.xml</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime/build.xml</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/test/net/sourceforge/cruisecontrol</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/src/net/sourceforge/cruisecontrol/bootstrappers/AllFusionHarvestBootstrapper.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/bootstrappers/AllFusionHarvestBootstrapperTest.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/test/net/sourceforge/cruisecontrol/StarTeamPluginRegistryTest.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo/src/net/sourceforge</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/publishers/YahooPublisherTest.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/publishers/SametimeAnnouncementPublisherTest.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/bootstrappers/AllFusionHarvestBootstrapper.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime/test</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo/test/net</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/main/docs/configxml.html</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/src/net/sourceforge/cruisecontrol/bootstrappers/StarTeamBootstrapper.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo/src/net/sourceforge/cruisecontrol/publishers</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/publishers/SametimeAnnouncementPublisher.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/publishers/YahooPublisher.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/src/net</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/test/net</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/src/net/sourceforge/cruisecontrol/sourcecontrols/StarTeam.java</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/src/net/sourceforge/cruisecontrol/sourcecontrols</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime/src/net/sourceforge</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo/src</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest/src/net</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Sametime/test/net/sourceforge/cruisecontrol/publishers</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/test/net/sourceforge</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo/src/net/sourceforge/cruisecontrol</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/src/net/sourceforge/cruisecontrol</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo/build.xml</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4014</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/StarTeam/build.xml</filename>
+      </file>
+      <date>09/20/2008 05:08:48</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Move plugins that require external jars out of main and into contrib/plugins]]></comment>
+      <revision>4014</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4015</revision>
+        <filename>/trunk/cruisecontrol/main/docs/configxml.html</filename>
+      </file>
+      <date>09/20/2008 06:14:15</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix foo/bar inversion in veto documentation (CC-787). Reported by Mathieu Champlon]]></comment>
+      <revision>4015</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4016</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/publishers/sfee/SfeeTestUtils.java</filename>
+      </file>
+      <date>09/20/2008 06:35:05</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix eclipse warnings]]></comment>
+      <revision>4016</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4016</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/sourcecontrols/PlasticSCMTest.java</filename>
+      </file>
+      <date>09/20/2008 06:35:05</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix eclipse warnings]]></comment>
+      <revision>4016</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4016</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/PluginXMLHelper.java</filename>
+      </file>
+      <date>09/20/2008 06:35:05</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix eclipse warnings]]></comment>
+      <revision>4016</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/Project.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/sourcecontrols/P4.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/util/XMLLogHelperTest.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/CruiseControlConfigTest.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/bootstrappers/CurrentBuildStatusBootstrapperTest.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/util/CurrentBuildFileWriter.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/listeners/CurrentBuildStatusListenerTest.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/sourcecontrols/clearcase-history.xml</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/testconfig.xml</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/default-plugins.properties</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/ProgressImplTest.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/util/XMLLogHelper.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/listeners/CurrentBuildStatusPageListener.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/listeners/CurrentBuildStatusFTPListenerTest.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/ProgressImpl.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/PluginTypeTest.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/sourcecontrols/clearcase-history-alt.xml</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/sourcecontrols/ClearCaseModification.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/ProjectConfig.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/ModificationTest.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/sourcecontrols/ClearCaseTest.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/PluginType.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/Modification.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/docs/configxml.html</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/sourcecontrols/UCM.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/ModificationSetTest.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/LogTest.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/DateFormatFactory.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/reporting/jsp/webcontent/index.jsp</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/ModificationSet.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/Log.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/bootstrappers/CurrentBuildStatusFTPBootstrapperTest.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/CCDateFormat.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/publishers/CurrentBuildStatusPublisherTest.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/ProjectTest.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/sourcecontrols/P4Test.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4017</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/SourceControl.java</filename>
+      </file>
+      <date>09/20/2008 11:38:13</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[DateFormat: The ability to set the date format in the build loop has been removed. This fixes the issue where setting the date format on one project would affect all of them (CC-355), would cause build status messages to not display in the reporting application (CC-797). Build loop now uses ISO 8601 format for storing date stamp information (CC-353) which is a change from the previous default format.]]></comment>
+      <revision>4017</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4018</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/20/2008 15:09:50</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[clarify that default date format changed]]></comment>
+      <revision>4018</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4019</revision>
+        <filename>/trunk/cruisecontrol/contrib/distributed/test/net/sourceforge/cruisecontrol/builders/DistributedMasterBuilderTest.java</filename>
+      </file>
+      <date>09/21/2008 16:42:56</date>
+      <user>bhamail</user>
+      <comment><![CDATA[update unit test for core Date format changes]]></comment>
+      <revision>4019</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4020</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/util/DateUtil.java</filename>
+      </file>
+      <date>09/21/2008 17:45:28</date>
+      <user>bhamail</user>
+      <comment><![CDATA[Updates for date format changes - remove refs to log4j classes in DateUtil class. Required now that DateUtil is used directly in reporting apps (where log4j is not available).     
+@todo Find alternative "logging" approach for classes used where log4j may not be available]]></comment>
+      <revision>4020</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4021</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/util/DateUtil.java</filename>
+      </file>
+      <date>09/21/2008 17:49:35</date>
+      <user>bhamail</user>
+      <comment><![CDATA[Updates for date format changes - remove refs to log4j classes in DateUtil class. Required now that DateUtil is used directly in reporting apps (where log4j is not available).     
+@todo Find alternative "logging" approach for classes used where log4j may not be available]]></comment>
+      <revision>4021</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4022</revision>
+        <filename>/trunk/cruisecontrol/reporting/jsp/webcontent/index.jsp</filename>
+      </file>
+      <date>09/21/2008 20:03:50</date>
+      <user>bhamail</user>
+      <comment><![CDATA[avoid duplicate call of Info.getProgressMsg()]]></comment>
+      <revision>4022</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4023</revision>
+        <filename>/trunk/cruisecontrol/main/build.xml</filename>
+      </file>
+      <date>09/21/2008 21:15:43</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[reorganizing build file a bit. renaming default target 'dist']]></comment>
+      <revision>4023</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4024</revision>
+        <filename>/trunk/cruisecontrol/build.xml</filename>
+      </file>
+      <date>09/21/2008 21:21:01</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[minor reformatting]]></comment>
+      <revision>4024</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4025</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/Progress.java</filename>
+      </file>
+      <date>09/21/2008 21:43:33</date>
+      <user>bhamail</user>
+      <comment><![CDATA[add new getters for plan text (not date prefix) and raw Date object on Progress interface. Done to break implict coupling to date format of currentBuildStatus. (getValue() and getText() are goofy, but don't want to change behavior of getValue() to preserve backwards compatibility.)]]></comment>
+      <revision>4025</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4025</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/ProgressImpl.java</filename>
+      </file>
+      <date>09/21/2008 21:43:33</date>
+      <user>bhamail</user>
+      <comment><![CDATA[add new getters for plan text (not date prefix) and raw Date object on Progress interface. Done to break implict coupling to date format of currentBuildStatus. (getValue() and getText() are goofy, but don't want to change behavior of getValue() to preserve backwards compatibility.)]]></comment>
+      <revision>4025</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4026</revision>
+        <filename>/trunk/cruisecontrol/main/docs/configxml.html</filename>
+      </file>
+      <date>09/21/2008 21:44:18</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Add attributes to support connections profiles and non-default encodings (CC-853). Patch by Dmitry Malenok.]]></comment>
+      <revision>4026</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4026</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/21/2008 21:44:18</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Add attributes to support connections profiles and non-default encodings (CC-853). Patch by Dmitry Malenok.]]></comment>
+      <revision>4026</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4026</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/sourcecontrols/TeamFoundationServer.java</filename>
+      </file>
+      <date>09/21/2008 21:44:18</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Add attributes to support connections profiles and non-default encodings (CC-853). Patch by Dmitry Malenok.]]></comment>
+      <revision>4026</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4027</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/builders/AntScriptTest.java</filename>
+      </file>
+      <date>09/21/2008 21:44:39</date>
+      <user>bhamail</user>
+      <comment><![CDATA[use common MockProgressImpl]]></comment>
+      <revision>4027</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4027</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/ModificationSetTest.java</filename>
+      </file>
+      <date>09/21/2008 21:44:39</date>
+      <user>bhamail</user>
+      <comment><![CDATA[use common MockProgressImpl]]></comment>
+      <revision>4027</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4027</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/ProgressImplTest.java</filename>
+      </file>
+      <date>09/21/2008 21:44:39</date>
+      <user>bhamail</user>
+      <comment><![CDATA[use common MockProgressImpl]]></comment>
+      <revision>4027</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4028</revision>
+        <filename>/trunk/cruisecontrol/contrib/distributed/src/net/sourceforge/cruisecontrol/distributed/core/ProgressRemote.java</filename>
+      </file>
+      <date>09/21/2008 21:47:10</date>
+      <user>bhamail</user>
+      <comment><![CDATA[implement remote versions of getLastUpdated() and getText() for Progress interface.]]></comment>
+      <revision>4028</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4028</revision>
+        <filename>/trunk/cruisecontrol/contrib/distributed/src/net/sourceforge/cruisecontrol/distributed/core/ProgressRemoteImpl.java</filename>
+      </file>
+      <date>09/21/2008 21:47:10</date>
+      <user>bhamail</user>
+      <comment><![CDATA[implement remote versions of getLastUpdated() and getText() for Progress interface.]]></comment>
+      <revision>4028</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4028</revision>
+        <filename>/trunk/cruisecontrol/contrib/distributed/src/net/sourceforge/cruisecontrol/distributed/BuildAgentServiceImpl.java</filename>
+      </file>
+      <date>09/21/2008 21:47:10</date>
+      <user>bhamail</user>
+      <comment><![CDATA[implement remote versions of getLastUpdated() and getText() for Progress interface.]]></comment>
+      <revision>4028</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4029</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/Progress.java</filename>
+      </file>
+      <date>09/21/2008 22:21:26</date>
+      <user>bhamail</user>
+      <comment><![CDATA[change CurrentBuildStatusListener to use new core CC date format. (jsp will need updating).]]></comment>
+      <revision>4029</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4029</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/listeners/CurrentBuildStatusListener.java</filename>
+      </file>
+      <date>09/21/2008 22:21:26</date>
+      <user>bhamail</user>
+      <comment><![CDATA[change CurrentBuildStatusListener to use new core CC date format. (jsp will need updating).]]></comment>
+      <revision>4029</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4029</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/ProgressImpl.java</filename>
+      </file>
+      <date>09/21/2008 22:21:26</date>
+      <user>bhamail</user>
+      <comment><![CDATA[change CurrentBuildStatusListener to use new core CC date format. (jsp will need updating).]]></comment>
+      <revision>4029</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4029</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/listeners/CurrentBuildStatusListenerTest.java</filename>
+      </file>
+      <date>09/21/2008 22:21:26</date>
+      <user>bhamail</user>
+      <comment><![CDATA[change CurrentBuildStatusListener to use new core CC date format. (jsp will need updating).]]></comment>
+      <revision>4029</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4029</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/ProgressImplTest.java</filename>
+      </file>
+      <date>09/21/2008 22:21:26</date>
+      <user>bhamail</user>
+      <comment><![CDATA[change CurrentBuildStatusListener to use new core CC date format. (jsp will need updating).]]></comment>
+      <revision>4029</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4030</revision>
+        <filename>/trunk/cruisecontrol/contrib/distributed/src/net/sourceforge/cruisecontrol/distributed/core/ProgressRemote.java</filename>
+      </file>
+      <date>09/21/2008 22:22:00</date>
+      <user>bhamail</user>
+      <comment><![CDATA[change CurrentBuildStatusListener to use new core CC date format. (jsp will need updating).]]></comment>
+      <revision>4030</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4031</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/ModificationSetTest.java</filename>
+      </file>
+      <date>09/21/2008 22:24:51</date>
+      <user>bhamail</user>
+      <comment><![CDATA[change CurrentBuildStatusListener to use new core CC date format. (jsp will need updating).]]></comment>
+      <revision>4031</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4032</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/builders/AntScriptTest.java</filename>
+      </file>
+      <date>09/21/2008 22:27:22</date>
+      <user>bhamail</user>
+      <comment><![CDATA[change CurrentBuildStatusListener to use new core CC date format. (jsp will need updating).]]></comment>
+      <revision>4032</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4033</revision>
+        <filename>/trunk/cruisecontrol/reporting/jsp/webcontent/index.jsp</filename>
+      </file>
+      <date>09/21/2008 22:44:38</date>
+      <user>bhamail</user>
+      <comment><![CDATA[change Progress/CurrentBuildStatusListener to use new core CC date format.]]></comment>
+      <revision>4033</revision>
+    </modification>
+    <modification type="svn">
+      <file action="added">
+        <revision>4034</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/sourcecontrols/pvcs_output.txt</filename>
+      </file>
+      <date>09/21/2008 22:47:41</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[rename pvcs test file from vlog.txt to pvcs_output.txt]]></comment>
+      <revision>4034</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4034</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/sourcecontrols/PVCSTest.java</filename>
+      </file>
+      <date>09/21/2008 22:47:41</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[rename pvcs test file from vlog.txt to pvcs_output.txt]]></comment>
+      <revision>4034</revision>
+    </modification>
+    <modification type="svn">
+      <file action="deleted">
+        <revision>4034</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/sourcecontrols/vlog.txt</filename>
+      </file>
+      <date>09/21/2008 22:47:41</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[rename pvcs test file from vlog.txt to pvcs_output.txt]]></comment>
+      <revision>4034</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4035</revision>
+        <filename>/trunk/cruisecontrol/reporting/jsp/src/net/sourceforge/cruisecontrol/taglib/CurrentBuildStatusTag.java</filename>
+      </file>
+      <date>09/21/2008 22:52:59</date>
+      <user>bhamail</user>
+      <comment><![CDATA[remove redundant initializer]]></comment>
+      <revision>4035</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4036</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/ProgressImpl.java</filename>
+      </file>
+      <date>09/21/2008 23:34:17</date>
+      <user>bhamail</user>
+      <comment><![CDATA[change getText() in Progress interface to return <null> if value is null (instead of <"null">).]]></comment>
+      <revision>4036</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4036</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/builders/AntScriptTest.java</filename>
+      </file>
+      <date>09/21/2008 23:34:17</date>
+      <user>bhamail</user>
+      <comment><![CDATA[change getText() in Progress interface to return <null> if value is null (instead of <"null">).]]></comment>
+      <revision>4036</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4036</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/ModificationSetTest.java</filename>
+      </file>
+      <date>09/21/2008 23:34:17</date>
+      <user>bhamail</user>
+      <comment><![CDATA[change getText() in Progress interface to return <null> if value is null (instead of <"null">).]]></comment>
+      <revision>4036</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4036</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/ProgressImplTest.java</filename>
+      </file>
+      <date>09/21/2008 23:34:17</date>
+      <user>bhamail</user>
+      <comment><![CDATA[change getText() in Progress interface to return <null> if value is null (instead of <"null">).]]></comment>
+      <revision>4036</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4037</revision>
+        <filename>/trunk/cruisecontrol/main/docs/configxml.html</filename>
+      </file>
+      <date>09/22/2008 00:44:00</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[BuildStatus: Add attribute 'vetoIfFailing'. Will abort the build if the project being monitored had the last build fail (CC-842).]]></comment>
+      <revision>4037</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4037</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/sourcecontrols/BuildStatus.java</filename>
+      </file>
+      <date>09/22/2008 00:44:00</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[BuildStatus: Add attribute 'vetoIfFailing'. Will abort the build if the project being monitored had the last build fail (CC-842).]]></comment>
+      <revision>4037</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4037</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/22/2008 00:44:00</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[BuildStatus: Add attribute 'vetoIfFailing'. Will abort the build if the project being monitored had the last build fail (CC-842).]]></comment>
+      <revision>4037</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4037</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/sourcecontrols/BuildStatusTest.java</filename>
+      </file>
+      <date>09/22/2008 00:44:00</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[BuildStatus: Add attribute 'vetoIfFailing'. Will abort the build if the project being monitored had the last build fail (CC-842).]]></comment>
+      <revision>4037</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4038</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/sourcecontrols/ConcurrentVersionsSystem.java</filename>
+      </file>
+      <date>09/22/2008 01:06:51</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CVS: Add attribute skipEmailsFetching for people who don't have CVSROOT/users and don't want the (harmless) messages in the log when that file isn't found (CC-841). Patch by Grzegorz Oledzki]]></comment>
+      <revision>4038</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4038</revision>
+        <filename>/trunk/cruisecontrol/main/docs/configxml.html</filename>
+      </file>
+      <date>09/22/2008 01:06:51</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CVS: Add attribute skipEmailsFetching for people who don't have CVSROOT/users and don't want the (harmless) messages in the log when that file isn't found (CC-841). Patch by Grzegorz Oledzki]]></comment>
+      <revision>4038</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4038</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/22/2008 01:06:51</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CVS: Add attribute skipEmailsFetching for people who don't have CVSROOT/users and don't want the (harmless) messages in the log when that file isn't found (CC-841). Patch by Grzegorz Oledzki]]></comment>
+      <revision>4038</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4039</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/Builder.java</filename>
+      </file>
+      <date>09/22/2008 01:29:21</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[should we remove the unused group attribute from Builder?]]></comment>
+      <revision>4039</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4040</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/Builder.java</filename>
+      </file>
+      <date>09/22/2008 01:37:31</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[don't allow negative values for time]]></comment>
+      <revision>4040</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4040</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/BuilderTest.java</filename>
+      </file>
+      <date>09/22/2008 01:37:31</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[don't allow negative values for time]]></comment>
+      <revision>4040</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4041</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/ScheduleTest.java</filename>
+      </file>
+      <date>09/22/2008 02:03:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Fixed a bug where time builders could be hidden by a multiple builder earlier in the file (CC-839). Now Builders are evaluated by time, then by multiple and then by day.]]></comment>
+      <revision>4041</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4041</revision>
+        <filename>/trunk/cruisecontrol/main/docs/configxml.html</filename>
+      </file>
+      <date>09/22/2008 02:03:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Fixed a bug where time builders could be hidden by a multiple builder earlier in the file (CC-839). Now Builders are evaluated by time, then by multiple and then by day.]]></comment>
+      <revision>4041</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4041</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/Builder.java</filename>
+      </file>
+      <date>09/22/2008 02:03:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Fixed a bug where time builders could be hidden by a multiple builder earlier in the file (CC-839). Now Builders are evaluated by time, then by multiple and then by day.]]></comment>
+      <revision>4041</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4041</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/22/2008 02:03:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Fixed a bug where time builders could be hidden by a multiple builder earlier in the file (CC-839). Now Builders are evaluated by time, then by multiple and then by day.]]></comment>
+      <revision>4041</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4041</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/Schedule.java</filename>
+      </file>
+      <date>09/22/2008 02:03:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Fixed a bug where time builders could be hidden by a multiple builder earlier in the file (CC-839). Now Builders are evaluated by time, then by multiple and then by day.]]></comment>
+      <revision>4041</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4042</revision>
+        <filename>/trunk/cruisecontrol/reporting/jsp/docs/install.html</filename>
+      </file>
+      <date>09/22/2008 02:10:57</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix typo of wrong file name (CC-835). Reported by Jurgen Mossgraber]]></comment>
+      <revision>4042</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4043</revision>
+        <filename>/trunk/cruisecontrol/main/docs/configxml.html</filename>
+      </file>
+      <date>09/22/2008 02:19:30</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[ArtifactsPublisher: Add option to move instead of copy artifacts which can save time (CC-833). Patch by Grzegorz Oledzki.]]></comment>
+      <revision>4043</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4043</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/publishers/ArtifactsPublisherTest.java</filename>
+      </file>
+      <date>09/22/2008 02:19:30</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[ArtifactsPublisher: Add option to move instead of copy artifacts which can save time (CC-833). Patch by Grzegorz Oledzki.]]></comment>
+      <revision>4043</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4043</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/22/2008 02:19:30</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[ArtifactsPublisher: Add option to move instead of copy artifacts which can save time (CC-833). Patch by Grzegorz Oledzki.]]></comment>
+      <revision>4043</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4043</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/publishers/ArtifactsPublisher.java</filename>
+      </file>
+      <date>09/22/2008 02:19:30</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[ArtifactsPublisher: Add option to move instead of copy artifacts which can save time (CC-833). Patch by Grzegorz Oledzki.]]></comment>
+      <revision>4043</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4044</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/22/2008 03:44:14</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[ModificationSet: When there are multiple source controls attempt to merge conflicting properties by choosing the 'largest' value, to address situation where multiple source controls should return the newest version number or date (CC-830).]]></comment>
+      <revision>4044</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4044</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/ModificationSetTest.java</filename>
+      </file>
+      <date>09/22/2008 03:44:14</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[ModificationSet: When there are multiple source controls attempt to merge conflicting properties by choosing the 'largest' value, to address situation where multiple source controls should return the newest version number or date (CC-830).]]></comment>
+      <revision>4044</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4044</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/ModificationSet.java</filename>
+      </file>
+      <date>09/22/2008 03:44:14</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[ModificationSet: When there are multiple source controls attempt to merge conflicting properties by choosing the 'largest' value, to address situation where multiple source controls should return the newest version number or date (CC-830).]]></comment>
+      <revision>4044</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4045</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/22/2008 04:26:23</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Dashboard: Fix bug where tests that took > 1000 seconds would cause an exception that prevented the build detail page from displaying (CC-828).]]></comment>
+      <revision>4045</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4045</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/test/unit/net/sourceforge/cruisecontrol/dashboard/service/BuildServiceTest.java</filename>
+      </file>
+      <date>09/22/2008 04:26:23</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Dashboard: Fix bug where tests that took > 1000 seconds would cause an exception that prevented the build detail page from displaying (CC-828).]]></comment>
+      <revision>4045</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4045</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/src/net/sourceforge/cruisecontrol/dashboard/saxhandler/TestSuiteExtractor.java</filename>
+      </file>
+      <date>09/22/2008 04:26:23</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Dashboard: Fix bug where tests that took > 1000 seconds would cause an exception that prevented the build detail page from displaying (CC-828).]]></comment>
+      <revision>4045</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4045</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/test/data/logs/project1/log20051209122104.xml</filename>
+      </file>
+      <date>09/22/2008 04:26:23</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Dashboard: Fix bug where tests that took > 1000 seconds would cause an exception that prevented the build detail page from displaying (CC-828).]]></comment>
+      <revision>4045</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/test/functional/net/sourceforge/cruisecontrol/dashboard/seleniumtests/BuildDetailTest.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/test/unit/net/sourceforge/cruisecontrol/dashboard/web/LatestBuildsListingControllerTest.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/test/unit/net/sourceforge/cruisecontrol/dashboard/web/GetProjectBuildStatusControllerTest.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/test/unit/net/sourceforge/cruisecontrol/dashboard/service/BuildSummaryUIServiceTest.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/test/functional/net/sourceforge/cruisecontrol/dashboard/seleniumtests/ActiveBuildPageTest.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/test/functional/net/sourceforge/cruisecontrol/dashboard/seleniumtests/NoDeadLinkTest.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/src/net/sourceforge/cruisecontrol/dashboard/utils/CCDateFormatter.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/test/functional/net/sourceforge/cruisecontrol/dashboard/seleniumtests/InactiveProjectTest.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/test/unit/net/sourceforge/cruisecontrol/dashboard/service/LatestBuildSummariesServiceTest.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/src/net/sourceforge/cruisecontrol/dashboard/repository/BuildInformationRepositoryInMemoImpl.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/src/net/sourceforge/cruisecontrol/dashboard/web/GetProjectBuildStatusController.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/src/net/sourceforge/cruisecontrol/dashboard/web/GetProjectBuildStatusXmlController.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/src/net/sourceforge/cruisecontrol/dashboard/saxhandler/TestSuiteExtractor.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/src/net/sourceforge/cruisecontrol/dashboard/web/GetCommitMessageController.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4046</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/test/unit/net/sourceforge/cruisecontrol/dashboard/service/HistoricalBuildSummariesServiceTest.java</filename>
+      </file>
+      <date>09/22/2008 04:47:46</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[fix warnings from Eclipse]]></comment>
+      <revision>4046</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4047</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/22/2008 04:53:52</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CompositeBuilder: Improve processing of build results to make it faster with large log files (CC-826). Patch by David Webster.]]></comment>
+      <revision>4047</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4047</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/builders/CompositeBuilder.java</filename>
+      </file>
+      <date>09/22/2008 04:53:52</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CompositeBuilder: Improve processing of build results to make it faster with large log files (CC-826). Patch by David Webster.]]></comment>
+      <revision>4047</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4048</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/src/net/sourceforge/cruisecontrol/dashboard/web/view/FileView.java</filename>
+      </file>
+      <date>09/22/2008 05:44:37</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Dashboard: Added ability for users to override the maximum artifact file size that can be viewed without downloading by setting the context parameter 'download.threshhold' (CC-821).]]></comment>
+      <revision>4048</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4048</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/22/2008 05:44:37</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Dashboard: Added ability for users to override the maximum artifact file size that can be viewed without downloading by setting the context parameter 'download.threshhold' (CC-821).]]></comment>
+      <revision>4048</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4048</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/test/unit/net/sourceforge/cruisecontrol/dashboard/web/view/FileViewTest.java</filename>
+      </file>
+      <date>09/22/2008 05:44:37</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Dashboard: Added ability for users to override the maximum artifact file size that can be viewed without downloading by setting the context parameter 'download.threshhold' (CC-821).]]></comment>
+      <revision>4048</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4048</revision>
+        <filename>/trunk/cruisecontrol/reporting/dashboard/webapp/WEB-INF/web.xml</filename>
+      </file>
+      <date>09/22/2008 05:44:37</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[Dashboard: Added ability for users to override the maximum artifact file size that can be viewed without downloading by setting the context parameter 'download.threshhold' (CC-821).]]></comment>
+      <revision>4048</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4049</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/sourcecontrols/ConcurrentVersionsSystem.java</filename>
+      </file>
+      <date>09/22/2008 07:37:20</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CVS: Add attribute 'recurseLocalWorkingCopy' which allows localWorkingCopy to point at a directory not under version control; reduces effort when project has multiple projects in parallel directories under a non-versioned root (CC-820). Based on patch by Detlef Keil.]]></comment>
+      <revision>4049</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4049</revision>
+        <filename>/trunk/cruisecontrol/main/docs/configxml.html</filename>
+      </file>
+      <date>09/22/2008 07:37:20</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CVS: Add attribute 'recurseLocalWorkingCopy' which allows localWorkingCopy to point at a directory not under version control; reduces effort when project has multiple projects in parallel directories under a non-versioned root (CC-820). Based on patch by Detlef Keil.]]></comment>
+      <revision>4049</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4049</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/22/2008 07:37:20</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CVS: Add attribute 'recurseLocalWorkingCopy' which allows localWorkingCopy to point at a directory not under version control; reduces effort when project has multiple projects in parallel directories under a non-versioned root (CC-820). Based on patch by Detlef Keil.]]></comment>
+      <revision>4049</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4049</revision>
+        <filename>/trunk/cruisecontrol/main/test/net/sourceforge/cruisecontrol/sourcecontrols/ConcurrentVersionsSystemTest.java</filename>
+      </file>
+      <date>09/22/2008 07:37:20</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CVS: Add attribute 'recurseLocalWorkingCopy' which allows localWorkingCopy to point at a directory not under version control; reduces effort when project has multiple projects in parallel directories under a non-versioned root (CC-820). Based on patch by Detlef Keil.]]></comment>
+      <revision>4049</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4050</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/22/2008 15:27:28</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[add note that we're moving JDK to 1.5]]></comment>
+      <revision>4050</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4051</revision>
+        <filename>/trunk/cruisecontrol/main/docs/configxml.html</filename>
+      </file>
+      <date>09/23/2008 00:53:14</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CruiseControlConfig: LabelIncrementers are no longer special cased, they are now treated like any other plugin. They must now be added to a project to get a non-default label incrementer and they can be registered with any name; are no longer forced to be named 'labelincrementer'. You can no longer set the labelincrementer classname via JMX. This change is not backwards compatible for users that were registering an alternative label incrementer but not placing the <labelincrementer> element in each project.]]></comment>
+      <revision>4051</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4051</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/jmx/ProjectMBean.java</filename>
+      </file>
+      <date>09/23/2008 00:53:14</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CruiseControlConfig: LabelIncrementers are no longer special cased, they are now treated like any other plugin. They must now be added to a project to get a non-default label incrementer and they can be registered with any name; are no longer forced to be named 'labelincrementer'. You can no longer set the labelincrementer classname via JMX. This change is not backwards compatible for users that were registering an alternative label incrementer but not placing the <labelincrementer> element in each project.]]></comment>
+      <revision>4051</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4051</revision>
+        <filename>/trunk/cruisecontrol/RELEASENOTES.txt</filename>
+      </file>
+      <date>09/23/2008 00:53:14</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CruiseControlConfig: LabelIncrementers are no longer special cased, they are now treated like any other plugin. They must now be added to a project to get a non-default label incrementer and they can be registered with any name; are no longer forced to be named 'labelincrementer'. You can no longer set the labelincrementer classname via JMX. This change is not backwards compatible for users that were registering an alternative label incrementer but not placing the <labelincrementer> element in each project.]]></comment>
+      <revision>4051</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4051</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/jmx/ProjectController.java</filename>
+      </file>
+      <date>09/23/2008 00:53:14</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CruiseControlConfig: LabelIncrementers are no longer special cased, they are now treated like any other plugin. They must now be added to a project to get a non-default label incrementer and they can be registered with any name; are no longer forced to be named 'labelincrementer'. You can no longer set the labelincrementer classname via JMX. This change is not backwards compatible for users that were registering an alternative label incrementer but not placing the <labelincrementer> element in each project.]]></comment>
+      <revision>4051</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4051</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/ProjectConfig.java</filename>
+      </file>
+      <date>09/23/2008 00:53:14</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CruiseControlConfig: LabelIncrementers are no longer special cased, they are now treated like any other plugin. They must now be added to a project to get a non-default label incrementer and they can be registered with any name; are no longer forced to be named 'labelincrementer'. You can no longer set the labelincrementer classname via JMX. This change is not backwards compatible for users that were registering an alternative label incrementer but not placing the <labelincrementer> element in each project.]]></comment>
+      <revision>4051</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4051</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/default-plugins.properties</filename>
+      </file>
+      <date>09/23/2008 00:53:14</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CruiseControlConfig: LabelIncrementers are no longer special cased, they are now treated like any other plugin. They must now be added to a project to get a non-default label incrementer and they can be registered with any name; are no longer forced to be named 'labelincrementer'. You can no longer set the labelincrementer classname via JMX. This change is not backwards compatible for users that were registering an alternative label incrementer but not placing the <labelincrementer> element in each project.]]></comment>
+      <revision>4051</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4051</revision>
+        <filename>/trunk/cruisecontrol/main/src/net/sourceforge/cruisecontrol/CruiseControlConfig.java</filename>
+      </file>
+      <date>09/23/2008 00:53:14</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[CruiseControlConfig: LabelIncrementers are no longer special cased, they are now treated like any other plugin. They must now be added to a project to get a non-default label incrementer and they can be registered with any name; are no longer forced to be named 'labelincrementer'. You can no longer set the labelincrementer classname via JMX. This change is not backwards compatible for users that were registering an alternative label incrementer but not placing the <labelincrementer> element in each project.]]></comment>
+      <revision>4051</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4052</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/Yahoo</filename>
+      </file>
+      <date>09/23/2008 01:00:47</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[add target to ignore list]]></comment>
+      <revision>4052</revision>
+    </modification>
+    <modification type="svn">
+      <file action="modified">
+        <revision>4053</revision>
+        <filename>/trunk/cruisecontrol/contrib/plugins/AllFusionHarvest</filename>
+      </file>
+      <date>09/23/2008 01:01:32</date>
+      <user>jfredrick</user>
+      <comment><![CDATA[add target to ignore list]]></comment>
+      <revision>4053</revision>
+    </modification>
+  </modifications>
+  <info>
+    <property name="projectname" value="cclive-release-jdk1.5" />
+    <property name="lastbuild" value="20080923005446" />
+    <property name="lastsuccessfulbuild" value="20080906021547" />
+    <property name="builddate" value="09/23/2008 02:13:38" />
+    <property name="cctimestamp" value="20080923021338" />
+    <property name="label" value="build.6" />
+    <property name="interval" value="300" />
+    <property name="lastbuildsuccessful" value="false" />
+    <property name="logdir" value="/home/cruise/work/logs/cclive-release-jdk1.5" />
+    <property name="logfile" value="log20080923021338.xml" />
+  </info>
+  <build error="/home/cruise/work/projects/cruisecontrol/build.xml:185: the archive doesn't exist" time="2 minutes 45 seconds"/>    
+</cruisecontrol>
+
