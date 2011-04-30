@@ -8,7 +8,8 @@ class ProjectConfig(val name: String, val url: String) {
 
   def instantiate() = {
     val project: Project = new Project(this)
-    //val builds = HudonBuildParser.parse(this)
+    val builds = HudonBuildParser.parse(this)
+    project.update(builds)
     project
   }
 

@@ -12,7 +12,7 @@ class ProjectConfigTest extends Spec with ShouldMatchers {
         "http://deadlock.netbeans.org/hudson/job/analytics-server/")
       val project = config.instantiate;
       val build = project.get(0);
-      build.number.toInt should be >= 1167
+      build.number.toInt should be >= 1049
     }
   }
 }

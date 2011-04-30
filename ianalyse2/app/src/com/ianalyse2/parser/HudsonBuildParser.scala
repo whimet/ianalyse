@@ -17,18 +17,28 @@ object HudonBuildParser {
   }
 
   def parse(config: ProjectConfig) = {
-    val in = new URL(config.jobUrl).openStream();
-    try {
-      val elem: Elem = XML.load(in)
-      val jobSegments = elem \ "job"
-      for (jobSegment <- jobSegments) {
-        val name: String = (jobSegment \ "name").text
-        val url: String = (jobSegment \ "url").text
-        //list = list ::: List(new ProjectConfig(name, url))
-      }
-    } finally {
-      IOUtils.closeQuietly(in);
+    val elem: Elem = XML.load(new URL(config.jobUrl))
+    val buildSegments = elem \ "build"
+    var builds = new Builds()
+    for (buildSegment <- buildSegments) {
+
+      val name: String = (buildSegment \ "name").text
+      val url: String = (buildSegment \ "url").text
+      val job = parseJob(url + "/api/xml");
+      builds = builds.:::(job)
     }
+    builds
+  }
+
+  def parseJob(url: String) = {
+    val elem: Elem = XML.load(new URL(url))
+    val commitor = parseCommiter(elem)
+    new Build(name((elem \ "url").text),
+      (elem \ "number").text,
+      new DateTime(),
+      (elem \ "duration").text.toInt,
+      result((elem \ "result").text),
+      commitor);
   }
 
   def parseJob(stream: InputStream) = {
@@ -43,7 +53,7 @@ object HudonBuildParser {
   }
 
   def parseCommiter(elem: Elem) = {
-    var commiters:List[String] = List[String]()
+    var commiters: List[String] = List[String]()
     var commitorSegment = elem \ "culprit"
     for (commitor <- commitorSegment) {
       commiters = commiters ::: List((commitor \ "fullName").text)
