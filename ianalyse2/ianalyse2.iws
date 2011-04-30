@@ -59,37 +59,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ProjectsConfig.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/domain/ProjectsConfig.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="35" selection-start="565" selection-end="565" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ProjectsConfigTest.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/test/com/ianalyse2/domain/ProjectsConfigTest.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="18" selection-start="1088" selection-end="1088" vertical-scroll-proportion="0.0">
+            <state line="23" column="17" selection-start="878" selection-end="878" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HudsonBuildParserTest.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/test/com/ianalyse2/parser/HudsonBuildParserTest.scala">
+      <file leaf-file-name="Actor.scala" pinned="false" current="true" current-in-tab="true">
+        <entry file="jar://$USER_HOME$/sdk/scala-2.8.1.final/src/scala-library-src.jar!/scala/actors/Actor.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="6" selection-start="159" selection-end="159" vertical-scroll-proportion="0.0">
+            <state line="674" column="15" selection-start="20222" selection-end="20222" vertical-scroll-proportion="0.3326572">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProjectConfig.scala" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Projects.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/domain/Projects.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="6" selection-start="251" selection-end="251" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProjectsConfig.scala" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/domain/ProjectsConfig.scala">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="36" selection-start="566" selection-end="566" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProjectConfig.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/domain/ProjectConfig.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="4" selection-start="325" selection-end="325" vertical-scroll-proportion="0.5069638">
+            <state line="12" column="30" selection-start="348" selection-end="389" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -98,43 +107,7 @@
       <file leaf-file-name="HudsonBuildParser.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/parser/HudsonBuildParser.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="0" selection-start="544" selection-end="773" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="List.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/sdk/scala-2.8.1.final/src/scala-library-src.jar!/scala/collection/immutable/List.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="6" selection-start="2926" selection-end="2926" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Project.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/domain/Project.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="6" selection-start="211" selection-end="211" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Builds.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/domain/Builds.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="18" selection-start="667" selection-end="667" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ProjectConfigTest.scala" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/test/com/ianalyse2/domain/ProjectConfigTest.scala">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="42" selection-start="487" selection-end="487" vertical-scroll-proportion="0.0">
+            <state line="22" column="0" selection-start="544" selection-end="544" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -158,14 +131,14 @@
         <option value="$PROJECT_DIR$/app/src/com/ianalyse2/util/a.scala" />
         <option value="$PROJECT_DIR$/app/src/com/ianalyse2/util/A/Actor.scala" />
         <option value="$PROJECT_DIR$/app/src/com/ianalyse2/util/A/ActorExample.scala" />
-        <option value="$PROJECT_DIR$/app/src/com/ianalyse2/domain/ProjectsConfig.scala" />
         <option value="$PROJECT_DIR$/app/src/com/ianalyse2/domain/Projects.scala" />
         <option value="$PROJECT_DIR$/app/src/com/ianalyse2/domain/Project.scala" />
         <option value="$PROJECT_DIR$/app/src/com/ianalyse2/domain/Builds.scala" />
         <option value="$PROJECT_DIR$/app/test/com/ianalyse2/domain/ProjectConfigTest.scala" />
         <option value="$PROJECT_DIR$/app/test/com/ianalyse2/domain/ProjectsConfigTest.scala" />
-        <option value="$PROJECT_DIR$/app/src/com/ianalyse2/parser/HudsonBuildParser.scala" />
         <option value="$PROJECT_DIR$/app/src/com/ianalyse2/domain/ProjectConfig.scala" />
+        <option value="$PROJECT_DIR$/app/src/com/ianalyse2/domain/ProjectsConfig.scala" />
+        <option value="$PROJECT_DIR$/app/src/com/ianalyse2/parser/HudsonBuildParser.scala" />
       </list>
     </option>
   </component>
@@ -607,7 +580,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="22" width="1375" height="878" extended-state="0" />
+    <frame x="48" y="22" width="1392" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -621,9 +594,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18778281" sideWeight="0.53825855" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18778281" sideWeight="0.7097625" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46174142" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29419526" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -682,80 +655,84 @@
         <state line="263" column="30" selection-start="8670" selection-end="8670" vertical-scroll-proportion="0.3964365" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/domain/Projects.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="3" selection-start="274" selection-end="274" vertical-scroll-proportion="0.6199095" />
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/sdk/scala-2.8.1.final/src/scala-library-src.jar!/scala/actors/Actor.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="6" selection-start="4066" selection-end="4066" vertical-scroll-proportion="0.34731933" />
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/sdk/scala-2.8.1.final/src/scala-library-src.jar!/scala/actors/DaemonActor.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state line="19" column="6" selection-start="838" selection-end="838" vertical-scroll-proportion="0.7316017" />
       </provider>
     </entry>
-    <entry file="jar://$USER_HOME$/sdk/scala-2.8.1.final/src/scala-library-src.jar!/scala/collection/immutable/List.scala">
+    <entry file="file://$PROJECT_DIR$/app/test/com/ianalyse2/parser/HudsonBuildParserTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="6" selection-start="2926" selection-end="2926" vertical-scroll-proportion="0.0">
+        <state line="6" column="6" selection-start="159" selection-end="159" vertical-scroll-proportion="0.2647059">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/domain/Builds.scala">
+    <entry file="jar://$USER_HOME$/sdk/scala-2.8.1.final/src/scala-library-src.jar!/scala/collection/immutable/List.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="18" selection-start="667" selection-end="667" vertical-scroll-proportion="0.0">
+        <state line="75" column="6" selection-start="2926" selection-end="2926" vertical-scroll-proportion="0.2983871">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/domain/Project.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="6" selection-start="211" selection-end="211" vertical-scroll-proportion="0.0">
+        <state line="12" column="6" selection-start="211" selection-end="211" vertical-scroll-proportion="0.4950884">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/domain/Builds.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="18" selection-start="667" selection-end="667" vertical-scroll-proportion="0.6286837">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/test/com/ianalyse2/domain/ProjectConfigTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="42" selection-start="487" selection-end="487" vertical-scroll-proportion="0.0">
+        <state line="14" column="42" selection-start="487" selection-end="487" vertical-scroll-proportion="0.57760316">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/test/com/ianalyse2/parser/HudsonBuildParserTest.scala">
+    <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/domain/Projects.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="6" selection-start="159" selection-end="159" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/test/com/ianalyse2/domain/ProjectsConfigTest.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="18" selection-start="1088" selection-end="1088" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/domain/ProjectsConfig.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="35" selection-start="565" selection-end="565" vertical-scroll-proportion="0.0">
+        <state line="18" column="6" selection-start="251" selection-end="251" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/parser/HudsonBuildParser.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="544" selection-end="773" vertical-scroll-proportion="0.0">
+        <state line="22" column="0" selection-start="544" selection-end="544" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/domain/ProjectConfig.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="4" selection-start="325" selection-end="325" vertical-scroll-proportion="0.5069638">
+        <state line="12" column="30" selection-start="348" selection-end="389" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/com/ianalyse2/domain/ProjectsConfig.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="36" selection-start="566" selection-end="566" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/test/com/ianalyse2/domain/ProjectsConfigTest.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="17" selection-start="878" selection-end="878" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/sdk/scala-2.8.1.final/src/scala-library-src.jar!/scala/actors/Actor.scala">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="674" column="15" selection-start="20222" selection-end="20222" vertical-scroll-proportion="0.3326572">
           <folding />
         </state>
       </provider>

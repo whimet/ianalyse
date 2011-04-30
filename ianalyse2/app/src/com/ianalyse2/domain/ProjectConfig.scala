@@ -10,6 +10,7 @@ class ProjectConfig(val name: String, val url: String) {
     val project: Project = new Project(this)
     val builds = HudonBuildParser.parse(this)
     project.update(builds)
+    System.out.println("return project")
     project
   }
 

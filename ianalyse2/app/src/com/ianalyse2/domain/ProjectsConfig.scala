@@ -27,8 +27,7 @@ class ProjectsConfig(val url: String) extends Iterator[ProjectConfig] with Actor
   def act() {
     while (true) {
       receive {
-        case project: Project =>
-          Projects.update(project)
+        case project: Project =>  System.out.println("here.........");
         case Stop => exit()
       }
     }
@@ -65,7 +64,7 @@ class ProjectsConfig(val url: String) extends Iterator[ProjectConfig] with Actor
       try {
         actor ! exit
       } catch {
-        case e => System.out.println(e.printStackTrace)
+        case e =>
       }
     }
   }

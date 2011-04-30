@@ -21,7 +21,6 @@ object HudonBuildParser {
     val buildSegments = elem \ "build"
     var builds = new Builds()
     for (buildSegment <- buildSegments) {
-
       val name: String = (buildSegment \ "name").text
       val url: String = (buildSegment \ "url").text
       val job = parseJob(url + "/api/xml");
