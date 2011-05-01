@@ -3,10 +3,10 @@ package com.ianalyse2.domain
 import java.net.URL
 import xml.{Elem, XML}
 import collection.immutable.List
-import scala.actors.Actor._
-import actors.{Actor, DaemonActor}
+import actors.Actor
+import com.ianalyse2.actors.DaemonActorWrapper
 
-class ProjectsConfig(val url: String) extends Iterator[ProjectConfig] with Actor {
+class ProjectsConfig(val url: String) extends Iterator[ProjectConfig] with DaemonActorWrapper {
   private var list: List[ProjectConfig] = List()
   private var actors: List[Actor] = List()
 
@@ -15,7 +15,7 @@ class ProjectsConfig(val url: String) extends Iterator[ProjectConfig] with Actor
     var projects: List[Project] = List();
     val caller = this;
     for (projectConfig <- list) {
-      val myActor: Actor = actor {
+      val myActor: Actor = deamonactor {
         caller ! projectConfig.instantiate
       }
       actors = actors ::: List(myActor)
@@ -27,7 +27,7 @@ class ProjectsConfig(val url: String) extends Iterator[ProjectConfig] with Actor
   def act() {
     while (true) {
       receive {
-        case project: Project =>  System.out.println("here.........");
+        case project: Project => Projects.update(project);
         case Stop => exit()
       }
     }

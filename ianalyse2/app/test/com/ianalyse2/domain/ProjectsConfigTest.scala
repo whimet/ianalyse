@@ -1,36 +1,43 @@
 package com.ianalyse2.domain
 
-import org.scalatest.Spec
 import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{BeforeAndAfterEach, Spec}
 
-class ProjectsConfigTest extends Spec with ShouldMatchers {
+class ProjectsConfigTest extends Spec with ShouldMatchers with BeforeAndAfterEach {
+  var configs: ProjectsConfig = new ProjectsConfig("http://deadlock.netbeans.org/hudson/api/xml");
+
+  override def beforeEach() {
+
+  }
+
+  override def afterEach() {
+    configs.destory
+    configs.stop
+  }
+
   describe("analyse the jobs") {
+    it("should parse get the project") {
+      configs = new ProjectsConfig("http://deadlock.netbeans.org/hudson/api/xml")
+      configs.start
+      configs.init
+      Thread.sleep(20000)
+      Projects.length should be > 1
+    }
+
     it("should pass the all the jobs") {
-      val config = new ProjectsConfig("http://deadlock.netbeans.org/hudson/api/xml");
-      config.init
-      config.count should be > 0
+      configs = new ProjectsConfig("http://deadlock.netbeans.org/hudson/api/xml");
+      configs.init
+      configs.count should be > 0
     }
 
     it("should parse the single config correct") {
-      val configs = new ProjectsConfig("http://deadlock.netbeans.org/hudson/api/xml")
+      configs = new ProjectsConfig("http://deadlock.netbeans.org/hudson/api/xml")
       configs.init
       val config: ProjectConfig = configs.get(0)
       config.name should be === "analytics-server"
       config.url should be === "http://deadlock.netbeans.org/hudson/job/analytics-server/"
     }
 
-    it("should parse get the project") {
-      val configs = new ProjectsConfig("http://deadlock.netbeans.org/hudson/api/xml")
-      configs.start
-      try {
-        configs.init
-        Thread.sleep(20000)
-        val project: Project = Projects.get(0)
-        project.config.name should be === "analytics-server"
-      } finally {
-        configs.destory
-        configs.stop
-      }
-    }
+
   }
 }
