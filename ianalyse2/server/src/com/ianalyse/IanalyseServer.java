@@ -29,16 +29,12 @@ public class IanalyseServer {
         }
     }
 
-    private static  String getResourceBase() throws IOException {
+    private static String getResourceBase() throws IOException {
+        FileUtils.cleanDirectory(new File("/Users/twer/Workspace/ianalyse/ianalyse2/app/webapp/WEB-INF/classes"));
         FileUtils.copyDirectory(
-                new File("/Users/twer/Workspace/ianalyse2/out/production/app"),
-                new File("/Users/twer/Workspace/ianalyse2/app/webapp/WEB-INF/classes")
-                );
-        return "/Users/twer/Workspace/ianalyse2/app/webapp";
-//        if (System.getProperty("env").equals("development")) {
-//            return "/Users/twer/Workspace/ianalyse2/app/webapp";
-//        }else {
-//            return new File("ianalyse").getAbsolutePath();
-//        }
+                new File("/Users/twer/Workspace/ianalyse/ianalyse2/out/production/app"),
+                new File("/Users/twer/Workspace/ianalyse/ianalyse2/app/webapp/WEB-INF/classes")
+        );
+        return "/Users/twer/Workspace/ianalyse/ianalyse2/app/webapp";
     }
 }

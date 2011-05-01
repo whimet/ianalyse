@@ -7,10 +7,8 @@
          http://www.springframework.org/schema/context
          http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    <!--<context:component-scan base-package="com.ianalyse2"/>-->
+    <context:component-scan base-package="com.ianalyse2"/>
     <context:annotation-config/>
-
-    <bean class="com.ianalyse2.controller.ProjectsController"/>
 
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/ftls/"/>
@@ -21,5 +19,22 @@
         <property name="prefix" value=""/>
         <property name="suffix" value=".ftl"/>
         <property name="exposeSpringMacroHelpers" value="true"/>
+    </bean>
+
+
+    <bean id="scheduledTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+        <property name="delay" value="1"/>
+        <!-- run every 30 seconds -->
+        <property name="period" value="5"/>
+        <property name="timerTask" ref="analyseService"/>
+    </bean>
+
+
+    <bean id="timerFactory" class="org.springframework.scheduling.timer.TimerFactoryBean">
+        <property name="scheduledTimerTasks">
+            <list>
+                <ref bean="scheduledTask"/>
+            </list>
+        </property>
     </bean>
 </beans>

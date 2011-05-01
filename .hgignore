@@ -16,3 +16,4 @@ db/ianalyse
 ianalyse.log
 ianalyse.log.*
 ianalyse2/out/*
+ianalyse2/app/webapp/WEB-INF/classes
