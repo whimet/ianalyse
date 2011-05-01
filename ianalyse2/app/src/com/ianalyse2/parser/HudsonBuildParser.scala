@@ -7,7 +7,6 @@ import org.apache.commons.lang.{StringUtils}
 import java.io.{InputStream}
 import java.util.regex.{Matcher, Pattern}
 import com.ianalyse2.domain.{ProjectConfig, Builds, Build}
-import org.apache.commons.io.IOUtils
 import java.net.URL
 
 object HudonBuildParser {

@@ -23,9 +23,9 @@
 
 
     <bean id="scheduledTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
-        <property name="delay" value="1"/>
+        <property name="delay" value="10000"/>
         <!-- run every 30 seconds -->
-        <property name="period" value="5"/>
+        <property name="period" value="3600000"/>
         <property name="timerTask" ref="analyseService"/>
     </bean>
 

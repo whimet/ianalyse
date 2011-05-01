@@ -8,7 +8,7 @@ class Builds {
     builds.filter(_.passed).size
   }
 
-  def totalCount = {
+  def length = {
     builds.size
   }
 

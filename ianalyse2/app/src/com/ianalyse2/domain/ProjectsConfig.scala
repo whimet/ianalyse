@@ -5,8 +5,11 @@ import xml.{Elem, XML}
 import collection.immutable.List
 import actors.Actor
 import com.ianalyse2.actors.DaemonActorWrapper
+import com.ianalyse2.util.LogHelper
 
-class ProjectsConfig(val url: String) extends Iterator[ProjectConfig] with DaemonActorWrapper {
+class ProjectsConfig(val url: String) extends Iterator[ProjectConfig]
+                                      with DaemonActorWrapper
+                                      with LogHelper {
   private var list: List[ProjectConfig] = List()
   private var actors: List[Actor] = List()
 

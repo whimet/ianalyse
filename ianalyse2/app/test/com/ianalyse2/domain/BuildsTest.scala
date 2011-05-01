@@ -27,7 +27,7 @@ class BuildsTest extends Spec with ShouldMatchers {
       builds.add(new Build("a", "111", new DateTime(), 0, true, List()))
       builds.add(new Build("a", "111", new DateTime(), 0, false, List()))
       builds.add(new Build("a", "111", new DateTime(), 0, false, List()))
-      builds.totalCount should be === 3
+      builds.length should be === 3
     }
   }
 }
