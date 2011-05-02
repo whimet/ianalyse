@@ -1,9 +1,10 @@
 package com.ianalyse2.domain
 
-import scala.util.control._
+import collection.mutable.LinkedHashMap
 
 object Projects {
-  var projects: List[Project] = List();
+  var projects: LinkedHashMap[String, Project]
+  = new LinkedHashMap[String, Project]();
 
   def passRates = {
     new PassRates()
@@ -14,18 +15,18 @@ object Projects {
   }
 
   def update(project: Project) {
-    projects = projects ::: List(project)
+    projects.put(project.config.name, project)
   }
 
   def find(name: String) = {
-    projects.filter(project => project.config.name == name)
+    projects.contains(name)
   }
 
-  def get(index: Int) = {
-    projects(index)
-  }
+  //  def get(index: Int) = {
+  //    projects(index)
+  //  }
 
   def length = {
-    projects.length
+    projects.size
   }
 }

@@ -18,7 +18,7 @@ class ProjectsController extends LogHelper {
   }
 
   @RequestMapping(value = Array("/compare"), method = Array(RequestMethod.GET))
-  def comparation() = {
+  def compare() = {
     val json: String = Projects.passRates.asJson
     new JsonView(json);
   }

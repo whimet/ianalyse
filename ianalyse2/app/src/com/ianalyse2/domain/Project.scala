@@ -10,6 +10,18 @@ class Project(val config: ProjectConfig) {
     builds.get(index);
   }
 
+  def passCount = {
+    builds.passCount
+  }
+
+  def failedCount = {
+    builds.failedCount
+  }
+
+  def passRate = {
+    builds.passRate
+  }
+
   def update(builds: Builds) = {
     this.builds = this.builds ::: builds
   }
