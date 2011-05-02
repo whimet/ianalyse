@@ -15,11 +15,13 @@ class PassRates() {
     }
     String.format("""
 {
+    "names"  : %s,
     "passed"   : %s,
     "failed" : %s,
     "rate"   : %s
 }
 """,
+      pjs.keys.mkString("[\"", "\",\"", "\"]"),
       passCount.mkString("[", ",", "]"),
       failedCount.mkString("[", ",", "]"),
       passRate.mkString("[", ",", "]"))

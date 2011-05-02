@@ -55,11 +55,12 @@ class PassRatesTest extends Spec with ShouldMatchers with BeforeAndAfterEach {
       Projects.update(somePassedProject);
       Projects.passRates.asJson should be === String.format("""
 {
+    "names"  : %s,
     "passed"   : %s,
     "failed" : %s,
     "rate"   : %s
 }
-""", "[1]", "[2]", "[33.3]");
+""", "['analystic-server']", "[1]", "[2]", "[33.3]");
     }
 
     it("should pass the multiple jobs on the same day") {
@@ -67,11 +68,12 @@ class PassRatesTest extends Spec with ShouldMatchers with BeforeAndAfterEach {
       Projects.update(allPassedProject);
       Projects.passRates.asJson should be === String.format("""
 {
+    "names"  : %s,
     "passed"   : %s,
     "failed" : %s,
     "rate"   : %s
 }
-""", "[1,3]", "[2,0]", "[33.3,100.0]")
+""", "['analystic-server','lnp']","[1,3]", "[2,0]", "[33.3,100.0]")
     }
   }
 }

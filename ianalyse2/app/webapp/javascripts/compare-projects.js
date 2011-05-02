@@ -1,12 +1,14 @@
 jQuery(document).ready(function() {
-    render_compare_projects(
-            ['analystic-server', 'lnp'],
-            [3, 1],
-            [10, 12],
-            [49.9, 71.5])
+$.ajax({
+  url: "compare.json",
+  success: function(data, textStatus, jqXHR){
+        var obj = jQuery.parseJSON(jqXHR.responseText);
+        render_compare_projects(obj)
+  }
+});
 })
 
-function render_compare_projects(names, failed, passed, rate) {
+function render_compare_projects(json) {
         var chart = new Highcharts.Chart({
         chart: {
             renderTo: 'container'
@@ -15,7 +17,7 @@ function render_compare_projects(names, failed, passed, rate) {
             text: 'Pass rate and build times between projects'
         },
         xAxis: {
-            categories: names
+            categories: json["names"]
         },
         yAxis: [{ // Primary yAxis
             labels: {
@@ -76,19 +78,19 @@ function render_compare_projects(names, failed, passed, rate) {
             name: 'Builds',
             color: 'red',
             type: 'column',
-            data: failed
+            data: json["failed"]
         },{
             name: 'Builds',
             color: '#89A54E',
             type: 'column',
-            data: passed
+            data: json["passed"]
         }
         ,{
             name: 'Pass rate',
             color: '#4572A7',
             type: 'spline',
             yAxis: 1,
-            data: rate
+            data: json["rate"]
 
         }]
     });
