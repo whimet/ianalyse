@@ -10,6 +10,7 @@
 	Highcharts.theme = { colors: ['#4572A7'] };// prevent errors in default theme
 	var highchartsOptions = Highcharts.getOptions();
 </script>
+
 <script type="text/javascript">
 		var chart;
 		jQuery(document).ready(function() {
@@ -18,11 +19,43 @@
 					renderTo: 'container'
 				},
 				title: {
-					text: 'Combination chart'
+					text: 'Pass rate and build times between projects'
 				},
 				xAxis: {
-					categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
+					categories: ['analystic-server', 'lnp']
 				},
+				yAxis: [{ // Primary yAxis
+					labels: {
+						formatter: function() {
+							return this.value +'times';
+						},
+						style: {
+							color: '#89A54E'
+						}
+					},
+					title: {
+						text: 'Builds',
+						style: {
+							color: '#89A54E'
+						}
+					}
+				}, { // Secondary yAxis
+					title: {
+						text: 'Pass rate',
+						style: {
+							color: '#4572A7'
+						}
+					},
+					labels: {
+						formatter: function() {
+							return this.value +' %';
+						},
+						style: {
+							color: '#4572A7'
+						}
+					},
+					opposite: true
+				}],
 				tooltip: {
 					formatter: function() {
 						var s = ''+
@@ -32,7 +65,7 @@
 				},
 				labels: {
 					items: [{
-						html: 'Total fruit consumption',
+						html: '',
 						style: {
 							left: '40px',
 							top: '8px',
@@ -40,22 +73,30 @@
 						}
 					}]
 				},
-				series: [{
+				plotOptions: {
+					column: {
+						stacking: 'normal'
+					}
+				},
+				series: [
+				{
+					name: 'Builds',
+					color: 'red',
 					type: 'column',
-					name: 'Jane',
-					data: [3, 2, 1, 3, 4]
-				}, {
+					data: [3, 1]
+				},{
+					name: 'Builds',
+					color: '#89A54E',
 					type: 'column',
-					name: 'John',
-					data: [2, 3, 5, 7, 6]
-				}, {
-					type: 'column',
-					name: 'Joe',
-					data: [4, 3, 3, 9, 0]
-				}, {
+					data: [10, 12]
+				}
+				,{
+					name: 'Pass rate',
+					color: '#4572A7',
 					type: 'spline',
-					name: 'Average',
-					data: [3, 2.67, 3, 6.33, 3.33]
+					yAxis: 1,
+					data: [49.9, 71.5]
+
 				}]
 			});
 
@@ -63,7 +104,7 @@
 		});
 </script>
 
-<h1>Passed/Failed builds between projects<h1>
+<h1>Passed/Failed builds between projects hah<h1>
 <div id="container"></div>
 
 

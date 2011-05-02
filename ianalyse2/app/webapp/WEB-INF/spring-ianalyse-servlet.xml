@@ -15,7 +15,7 @@
     </bean>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-        <property name="cache" value="true"/>
+        <property name="cache" value="false"/>
         <property name="prefix" value=""/>
         <property name="suffix" value=".ftl"/>
         <property name="exposeSpringMacroHelpers" value="true"/>

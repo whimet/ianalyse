@@ -15,7 +15,7 @@ class PassRates() {
     }
     String.format("""
 {
-    "pass"   : %s,
+    "passed"   : %s,
     "failed" : %s,
     "rate"   : %s
 }

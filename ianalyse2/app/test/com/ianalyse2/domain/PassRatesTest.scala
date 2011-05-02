@@ -55,7 +55,7 @@ class PassRatesTest extends Spec with ShouldMatchers with BeforeAndAfterEach {
       Projects.update(somePassedProject);
       Projects.passRates.asJson should be === String.format("""
 {
-    "pass"   : %s,
+    "passed"   : %s,
     "failed" : %s,
     "rate"   : %s
 }
@@ -67,7 +67,7 @@ class PassRatesTest extends Spec with ShouldMatchers with BeforeAndAfterEach {
       Projects.update(allPassedProject);
       Projects.passRates.asJson should be === String.format("""
 {
-    "pass"   : %s,
+    "passed"   : %s,
     "failed" : %s,
     "rate"   : %s
 }
