@@ -1,11 +1,19 @@
 package com.ianalyse2.domain
 
 import org.scalatest.matchers.ShouldMatchers
-import org.scalatest.Spec
 import org.joda.time.DateTime
+import org.scalatest.{BeforeAndAfterEach, Spec}
 
+class PassRatesTest extends Spec with ShouldMatchers with BeforeAndAfterEach {
 
-class PassRatesTest extends Spec with ShouldMatchers {
+  override def beforeEach() {
+    Projects.reset()
+  }
+
+  override def afterEach() {
+    Projects.reset()
+  }
+
   def somePassedProject: Project = {
     val b1 = new Build("analystic-server", "1", new DateTime(), 12, false, List("jack", "ying"))
     val b2 = new Build("analystic-server", "2", new DateTime(), 12, true, List("jack"))

@@ -7,10 +7,11 @@ class ProjectsConfigTest extends Spec with ShouldMatchers with BeforeAndAfterEac
   var configs: ProjectsConfig = new ProjectsConfig("http://deadlock.netbeans.org/hudson/api/xml");
 
   override def beforeEach() {
-
+    Projects.reset
   }
 
   override def afterEach() {
+    Projects.reset
     configs.destory
     configs.stop
   }
@@ -21,7 +22,7 @@ class ProjectsConfigTest extends Spec with ShouldMatchers with BeforeAndAfterEac
       configs.start
       configs.init
       Thread.sleep(20000)
-      Projects.length should be > 1
+      Projects.length should be > 0
     }
 
     it("should pass the all the jobs") {

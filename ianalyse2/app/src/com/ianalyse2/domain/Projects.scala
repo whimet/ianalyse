@@ -10,8 +10,8 @@ object Projects {
     new PassRates()
   }
 
-  def clearAndReset() {
-
+  def reset() {
+    projects.clear
   }
 
   def update(project: Project) {
