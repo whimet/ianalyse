@@ -60,7 +60,7 @@ class PassRatesTest extends Spec with ShouldMatchers with BeforeAndAfterEach {
     "failed" : %s,
     "rate"   : %s
 }
-""", "['analystic-server']", "[1]", "[2]", "[33.3]");
+""", "[\"analystic-server\"]", "[1]", "[2]", "[33.3]");
     }
 
     it("should pass the multiple jobs on the same day") {
@@ -73,7 +73,7 @@ class PassRatesTest extends Spec with ShouldMatchers with BeforeAndAfterEach {
     "failed" : %s,
     "rate"   : %s
 }
-""", "['analystic-server','lnp']","[1,3]", "[2,0]", "[33.3,100.0]")
+""", "[\"analystic-server\",\"lnp\"]","[1,3]", "[2,0]", "[33.3,100.0]")
     }
   }
 }
