@@ -8,6 +8,12 @@ import org.joda.time.DateTime
 class BuildsTest extends Spec with ShouldMatchers {
   describe("analyse the builds") {
 
+    it("should handle the empty builds correctly") {
+      val builds = new Builds()
+      builds.passCount should be === 0
+      builds.failedCount should be === 0
+      builds.passRate should be === BigDecimal(0)
+    }
 
     it("should calculate the pass count") {
       val builds = new Builds()

@@ -57,7 +57,7 @@ class PassRatesTest extends Spec with ShouldMatchers with BeforeAndAfterEach {
 {
     "pass"   : %s,
     "failed" : %s,
-    "rate"   : %s,
+    "rate"   : %s
 }
 """, "[1]", "[2]", "[33.3]");
     }
@@ -69,7 +69,7 @@ class PassRatesTest extends Spec with ShouldMatchers with BeforeAndAfterEach {
 {
     "pass"   : %s,
     "failed" : %s,
-    "rate"   : %s,
+    "rate"   : %s
 }
 """, "[1,3]", "[2,0]", "[33.3,100.0]")
     }

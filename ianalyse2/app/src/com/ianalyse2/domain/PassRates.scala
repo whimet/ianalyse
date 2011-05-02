@@ -1,7 +1,6 @@
 package com.ianalyse2.domain
 
 import collection.mutable.LinkedHashMap
-import java.util.Arrays
 
 class PassRates() {
   def asJson = {
@@ -18,7 +17,7 @@ class PassRates() {
 {
     "pass"   : %s,
     "failed" : %s,
-    "rate"   : %s,
+    "rate"   : %s
 }
 """,
       passCount.mkString("[", ",", "]"),
@@ -26,7 +25,7 @@ class PassRates() {
       passRate.mkString("[", ",", "]"))
   }
 
-  def decimalToString(a: List[BigDecimal]) ={
+  def decimalToString(a: List[BigDecimal]) = {
     val b: StringBuilder = new StringBuilder();
     b.append('[');
     var result = ""

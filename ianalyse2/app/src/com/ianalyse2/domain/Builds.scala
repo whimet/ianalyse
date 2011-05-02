@@ -1,8 +1,9 @@
 package com.ianalyse2.domain
 
+import com.ianalyse2.util.LogHelper
 
 
-class Builds {
+class Builds extends LogHelper {
   var builds: List[Build] = List[Build]()
 
   def failedCount = {
@@ -10,11 +11,16 @@ class Builds {
   }
 
   def passRate = {
-    val mc = java.math.MathContext.DECIMAL128
-    val result:BigDecimal = BigDecimal(passCount)(mc)./(BigDecimal(length))
-    val percentage = result(mc) * BigDecimal(100)
-    val a = percentage.setScale(1, scala.math.BigDecimal.RoundingMode.HALF_DOWN)
-    a
+    if (length > 0) {
+      val mc = java.math.MathContext.DECIMAL128
+      val result: BigDecimal = BigDecimal(passCount)(mc)./(BigDecimal(length))
+      val percentage = result(mc) * BigDecimal(100)
+      val a = percentage.setScale(1, scala.math.BigDecimal.RoundingMode.HALF_DOWN)
+      a
+    } else {
+      BigDecimal(0)
+    }
+
   }
 
   def passCount = {
