@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="cruise" basedir="." default="test">
+<project name="cruise" basedir="." default="pkg">
     <property name="scala.home" value="/Users/twer/sdk/scala-2.8.1.final"/>
     <property name="scala-compiler.jar" value="${scala.home}/lib/scala-compiler.jar"/>
     <property name="scala-library.jar" value="${scala.home}/lib/scala-library.jar"/>
     <property name="test.dir" value="app/test"></property>
     <property name="src.dir" value="app/src"></property>
+    <property name="server.src.dir" value="server/src"></property>
     <property name="target.dir" value="target"></property>
     <property name="dist.dir" value="dist"></property>
 
+    <property name="compiled.server.dir" value="${target.dir}/server/classes"></property>
     <property name="compiled.src.dir" value="${target.dir}/production/classes"></property>
     <property name="compiled.test.dir" value="${target.dir}/test/classes"></property>
 
@@ -33,12 +35,19 @@
         <path refid="source.lib.classpath"></path>
     </path>
 
+
+    <path id="server.source.classpath">
+        <fileset dir="server/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+
     <path id="compile.test.classpath">
         <fileset dir="app/lib">
             <include name="**/*.jar"/>
         </fileset>
         <path refid="compile.source.classpath"></path>
-        <pathelement location="${compiled.src.dir}"/>
+        <pathelement location="${dist.dir}/ianalyse.jar"/>
     </path>
 
     <path id="run.test.classpath">
@@ -47,13 +56,14 @@
     </path>
 
 
-
     <target name="prepare">
         <delete dir="${target.dir}"/>
-        <delete dir="app/dist/expanded"/>
+        <delete dir="${dist.dir}"/>
         <mkdir dir="${compiled.src.dir}"/>
         <mkdir dir="${compiled.test.dir}"/>
-        <mkdir dir="dist/expanded"/>
+        <mkdir dir="${compiled.server.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${dist.dir}/expanded"/>
     </target>
 
     <target name="compile.src" depends="prepare">
@@ -67,7 +77,24 @@
         </javac>
     </target>
 
-    <target name="compile.test" depends="prepare,compile.src">
+    <target name="compile.server" depends="prepare">
+        <javac srcdir="${server.src.dir}" destdir="${compiled.server.dir}"
+               classpathref="server.source.classpath">
+            <include name="**/*.java"/>
+        </javac>
+        <jar destfile="${dist.dir}/start.jar">
+            <fileset dir="${compiled.server.dir}"/>
+            <zipfileset includes="**/*" src="server/lib/commons-io-2.0.1.jar"/>
+            <zipfileset includes="**/*" src="server/lib/jetty-6.1.26.jar"/>
+            <zipfileset includes="**/*" src="server/lib/jetty-util-6.1.26.jar"/>
+            <zipfileset includes="**/*" src="server/lib/servlet-api-2.5-20081211.jar"/>
+            <manifest>
+                <attribute name="Main-Class" value="com.ianalyse.IanalyseServer"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="compile.test" depends="prepare,jar.source">
         <scalac srcdir="${test.dir}" destdir="${compiled.test.dir}" classpathref="compile.test.classpath">
             <include name="**/*.scala"/>
             <exclude name="**/*.java"/>
@@ -87,11 +114,22 @@
         </scalatest>
     </target>
 
-    <target name="pkg">
-        <mkdir dir="app/dist/expanded"/>
-        <copy todir="app/dist/expanded/ianalyse">
+    <target name="jar.source" depends="compile.src">
+        <jar destfile="${dist.dir}/ianalyse.jar"
+             basedir="${compiled.src.dir}"
+                />
+    </target>
+
+    <target name="copy.app.jar" depends="compile.src,jar.source">
+        <copy file="${dist.dir}/ianalyse.jar" todir="app/webapp/WEB-INF/lib"/>
+    </target>
+
+    <target name="pkg" depends="compile.server, copy.app.jar">
+        <copy file="${dist.dir}/start.jar" todir="${dist.dir}/expanded"/>
+        <copy todir="${dist.dir}/expanded/ianalyse2">
             <fileset dir="app/webapp">
-                <include name="*"/>
+                <include name="**/*"/>
+                <exclude name="**/classes/**/*"/>
             </fileset>
         </copy>
     </target>

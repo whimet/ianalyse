@@ -19,3 +19,5 @@ ianalyse2/out/*
 ianalyse2/app/webapp/WEB-INF/classes
 *.iws
 target/*
+ianalyse2/app/webapp/WEB-INF/lib/ianalyse.jar
+dist/*
