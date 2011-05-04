@@ -26,18 +26,5 @@ class PassRates() {
       failedCount.mkString("[", ",", "]"),
       passRate.mkString("[", ",", "]"))
   }
-
-  def decimalToString(a: List[BigDecimal]) = {
-    val b: StringBuilder = new StringBuilder();
-    b.append('[');
-    var result = ""
-    for (i <- 0 until a.length) {
-      b.append(a(i));
-      if (i == a.length - 1)
-        result = b.append(']').toString();
-      b.append(", ");
-    }
-    result
-  }
 }
 

@@ -5,6 +5,9 @@ class Project(val config: ProjectConfig) {
   private var builds: Builds = new Builds()
   //private var builds:Builds;
 
+  def commitorSummary = {
+      builds.commitorSummary
+  }
 
   def get(index: Int) = {
     builds.get(index);

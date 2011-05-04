@@ -19,7 +19,7 @@ object Projects {
   }
 
   def find(name: String) = {
-    projects.contains(name)
+    projects(name)
   }
 
   //  def get(index: Int) = {

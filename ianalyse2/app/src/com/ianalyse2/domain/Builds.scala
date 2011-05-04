@@ -1,6 +1,7 @@
 package com.ianalyse2.domain
 
 import com.ianalyse2.util.LogHelper
+import collection.immutable.HashMap
 
 
 class Builds extends LogHelper {
@@ -9,6 +10,16 @@ class Builds extends LogHelper {
   def failedCount = {
     length - passCount
   }
+
+  def commitorSummary = {
+    val commitResults: CommitResults = new CommitResults()
+    for (build <- builds) {
+        commitResults.add(build.passed, build.commitors)
+    }
+    new CommitorSummary(commitResults.commitorsSummary);
+  }
+
+
 
   def passRate = {
     if (length > 0) {

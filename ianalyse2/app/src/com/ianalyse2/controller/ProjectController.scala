@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.{PathVariable, RequestMethod, Req
 class ProjectController extends LogHelper {
   @RequestMapping(value = Array("/{project}/commitors"), method = Array(RequestMethod.GET))
   def commitors(@PathVariable project: String) = {
-    new JsonView(project);
+    new JsonView(Projects.find(project).commitorSummary.asJson);
   }
 }
