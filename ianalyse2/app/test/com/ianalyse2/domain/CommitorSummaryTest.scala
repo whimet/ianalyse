@@ -16,7 +16,7 @@ class CommitorSummaryTest extends Spec with ShouldMatchers with BeforeAndAfterEa
       val builds = new Builds()
       builds.add(new Build("a", "111", new DateTime(), 0, true, List("james")))
       builds.add(new Build("a", "111", new DateTime(), 0, false, List("james")))
-      builds.commitorSummary.asJson should be === String.format("""
+      builds.commitResults.asJson should be === String.format("""
 {
     "names"  : %s,
     "passed"   : %s,
@@ -30,13 +30,13 @@ class CommitorSummaryTest extends Spec with ShouldMatchers with BeforeAndAfterEa
       builds.add(new Build("a", "111", new DateTime(), 0, true, List("james")))
       builds.add(new Build("a", "111", new DateTime(), 0, true, List("jane", "james")))
       builds.add(new Build("a", "111", new DateTime(), 0, false, List("bob")))
-      builds.commitorSummary.asJson should be === String.format("""
+      builds.commitResults.asJson should be === String.format("""
 {
     "names"  : %s,
     "passed"   : %s,
     "failed" : %s
 }
-""", "[\"bob\",\"james\", \"jane\"]", "[0,2,1]", "[1,0,0]");
+""", "[\"bob\",\"james\",\"jane\"]", "[0,2,1]", "[1,0,0]");
     }
 
   }

@@ -1,20 +1,10 @@
-jQuery(document).ready(function() {
-$.ajax({
-  url: "compare.json",
-  success: function(data, textStatus, jqXHR){
-        var obj = jQuery.parseJSON(jqXHR.responseText);
-        render_compare_projects(obj)
-  }
-});
-})
-
-function render_compare_projects(json) {
+function render_commitors(json, id) {
         var chart = new Highcharts.Chart({
         chart: {
-            renderTo: 'container'
+            renderTo: id
         },
         title: {
-            text: 'Pass rate and build times between projects'
+            text: 'Result for each commitor'
         },
         xAxis: {
             categories: json["names"]
@@ -34,22 +24,6 @@ function render_compare_projects(json) {
                     color: '#89A54E'
                 }
             }
-        }, { // Secondary yAxis
-            title: {
-                text: 'Pass rate',
-                style: {
-                    color: '#4572A7'
-                }
-            },
-            labels: {
-                formatter: function() {
-                    return this.value +' %';
-                },
-                style: {
-                    color: '#4572A7'
-                }
-            },
-            opposite: true
         }],
         tooltip: {
             formatter: function() {
@@ -84,14 +58,6 @@ function render_compare_projects(json) {
             color: '#89A54E',
             type: 'column',
             data: json["passed"]
-        }
-        ,{
-            name: 'Pass rate',
-            color: '#4572A7',
-            type: 'line',
-            yAxis: 1,
-            data: json["rate"]
-
         }]
     });
 }

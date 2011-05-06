@@ -22,6 +22,15 @@ object Projects {
     projects(name)
   }
 
+  def inOrder = {
+    val sorted = projects.toSeq.sortBy(_._1)
+    var names: List[String] = List()
+    for (val summary <- sorted) {
+      names = names ::: List(summary._1)
+    }
+    names
+  }
+
   //  def get(index: Int) = {
   //    projects(index)
   //  }

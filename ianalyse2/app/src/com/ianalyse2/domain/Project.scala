@@ -6,7 +6,7 @@ class Project(val config: ProjectConfig) {
   //private var builds:Builds;
 
   def commitorSummary = {
-      builds.commitorSummary
+      builds.commitResults
   }
 
   def get(index: Int) = {

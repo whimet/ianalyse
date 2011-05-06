@@ -1,6 +1,7 @@
 package com.ianalyse2.domain
 
 import collection.mutable.HashMap
+import collection.Seq
 
 
 class CommitResults {
@@ -21,5 +22,27 @@ class CommitResults {
 
   def failedCount(name:String) = {
       commitorsSummary(name).failedCount
+  }
+
+  def asJson = {
+    var passCount: List[Int] = List()
+    var failedCount: List[Int] = List()
+    var names: List[String] = List()
+    val sorted: Seq[(String, CommitResult)] = commitorsSummary.toSeq.sortBy(_._1)
+    for (val summary <- sorted) {
+      names = names ::: List(summary._1)
+      passCount = passCount ::: List(summary._2.passedCount)
+      failedCount = failedCount ::: List(summary._2.failedCount)
+    }
+    String.format("""
+{
+    "names"  : %s,
+    "passed"   : %s,
+    "failed" : %s
+}
+""",
+      names.mkString("[\"", "\",\"", "\"]"),
+      passCount.mkString("[", ",", "]"),
+      failedCount.mkString("[", ",", "]"))
   }
 }

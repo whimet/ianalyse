@@ -4,7 +4,9 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.{RequestMethod, RequestMapping}
 import org.springframework.web.servlet.ModelAndView
 import com.ianalyse2.util.LogHelper
-import com.ianalyse2.domain.Projects
+import java.util.HashMap
+import com.ianalyse2.domain.{Project, Projects}
+import collection.JavaConversions
 
 @Controller
 @RequestMapping(Array("/projects"))
@@ -12,7 +14,10 @@ class ProjectsController extends LogHelper {
 
   @RequestMapping(value = Array("/index"), method = Array(RequestMethod.GET))
   def index() = {
-    new ModelAndView("dashboard")
+    val data:HashMap[String, java.util.List[String]] =
+      new HashMap[String, java.util.List[String]]();
+    data.put("projects", JavaConversions.asJavaList(Projects.inOrder))
+    new ModelAndView("dashboard", data)
   }
 
   @RequestMapping(value = Array("/compare"), method = Array(RequestMethod.GET))

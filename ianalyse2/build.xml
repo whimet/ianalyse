@@ -134,4 +134,10 @@
         </copy>
     </target>
 
+    <target name="s" depends="pkg">
+        <java dir="dist/expanded" jar="dist/expanded/start.jar" fork='true'>
+            <sysproperty key="url" value="http://deadlock.netbeans.org/hudson/api/xml"></sysproperty>
+        </java>
+    </target>
+
 </project>

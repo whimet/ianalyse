@@ -7,7 +7,7 @@ class CommitResult(val passedCount:Int, val failedCount:Int) {
     if (result) {
       new CommitResult(passedCount + 1, failedCount)
     } else {
-      new CommitResult(failedCount + 1, passedCount)
+      new CommitResult(passedCount, failedCount + 1)
     }
   }
 }
