@@ -120,12 +120,10 @@
                 />
     </target>
 
-    <target name="copy.app.jar" depends="compile.src,jar.source">
-        <copy file="${dist.dir}/ianalyse.jar" todir="app/webapp/WEB-INF/lib"/>
-    </target>
 
-    <target name="pkg" depends="compile.server, copy.app.jar">
+    <target name="pkg" depends="compile.server">
         <copy file="${dist.dir}/start.jar" todir="${dist.dir}/expanded"/>
+        <copy file="${dist.dir}/ianalyse.jar" todir="app/webapp/WEB-INF/lib"/>
         <copy todir="${dist.dir}/expanded/ianalyse2">
             <fileset dir="app/webapp">
                 <include name="**/*"/>

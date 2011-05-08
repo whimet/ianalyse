@@ -21,12 +21,20 @@ public class IanalyseServer {
         if (System.getProperty("env") == "production") {
             wac.setResourceBase("./ianalyse2");
         } else {
-            wac.setResourceBase("./ianalyse2");
+            System.setProperty("url", "http://deadlock.netbeans.org/hudson/api/xml");
+            if (new File("./app/webapp/WEB-INF/classes").exists()) {
+                FileUtils.cleanDirectory(new File("./app/webapp/WEB-INF/classes"));
+            }
+
+            FileUtils.copyDirectory(
+                    new File("./out/production/app"),
+                    new File("./app/webapp/WEB-INF/classes")
+            );
+            wac.setResourceBase("./app/webapp");
         }
         wac.setDescriptor("WEB-INF/web.xml");
         wac.setContextPath("/ianalyse2");
         server.setHandler(wac);
         server.start();
     }
-
 }
