@@ -7,7 +7,8 @@ function render_commitors(json, id) {
             text: 'Result for each commitor'
         },
         xAxis: {
-            categories: json["names"]
+            categories:json["names"],
+            labels: { rotation: 45, align: 'left' }
         },
         yAxis: [{ // Primary yAxis
             labels: {

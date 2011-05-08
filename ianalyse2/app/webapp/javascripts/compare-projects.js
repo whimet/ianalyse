@@ -17,7 +17,8 @@ function render_compare_projects(json) {
             text: 'Pass rate and build times between projects'
         },
         xAxis: {
-            categories: json["names"]
+            categories:json["names"],
+            labels: { rotation: 45, align: 'left' }
         },
         yAxis: [{ // Primary yAxis
             labels: {

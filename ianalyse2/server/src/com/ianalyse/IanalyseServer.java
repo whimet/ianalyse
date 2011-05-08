@@ -18,7 +18,11 @@ public class IanalyseServer {
         con.setPort(8000);
         server.addConnector(con);
         WebAppContext wac = new WebAppContext();
-        wac.setResourceBase("./ianalyse2");
+        if (System.getProperty("env") == "production") {
+            wac.setResourceBase("./ianalyse2");
+        } else {
+            wac.setResourceBase("./ianalyse2");
+        }
         wac.setDescriptor("WEB-INF/web.xml");
         wac.setContextPath("/ianalyse2");
         server.setHandler(wac);
