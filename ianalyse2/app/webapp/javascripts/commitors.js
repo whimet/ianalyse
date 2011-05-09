@@ -50,12 +50,12 @@ function render_commitors(json, id) {
         },
         series: [
         {
-            name: 'Builds',
+            name: 'Failed',
             color: 'red',
             type: 'column',
             data: json["failed"]
         },{
-            name: 'Builds',
+            name: 'Passed',
             color: '#89A54E',
             type: 'column',
             data: json["passed"]

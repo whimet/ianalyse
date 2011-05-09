@@ -24,7 +24,7 @@
 	<br/>
 
 	<div class="container">
-		<h2>Passed and failed checkins for each commitor</h2>
+		<h2>Build times and success rate comparison</h2>
 		<div id="compare-pass-rate"></div>
 	</div>
 	<br/>

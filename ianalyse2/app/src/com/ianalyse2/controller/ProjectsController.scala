@@ -17,7 +17,7 @@ class ProjectsController extends LogHelper {
     val data:HashMap[String, java.util.List[Project]] =
       new HashMap[String, java.util.List[Project]]();
     data.put("projects", JavaConversions.asJavaList(Projects.inOrder))
-    new ModelAndView("dashboard", data)
+    new ModelAndView("projects/index", data)
   }
 
   @RequestMapping(value = Array("/compare.html"), method = Array(RequestMethod.GET))
@@ -25,7 +25,7 @@ class ProjectsController extends LogHelper {
     val data:HashMap[String, java.util.List[Project]] =
       new HashMap[String, java.util.List[Project]]();
     data.put("projects", JavaConversions.asJavaList(Projects.inOrder))
-    new ModelAndView("compare", data)
+    new ModelAndView("projects/compare", data)
   }
 
   @RequestMapping(value = Array("/compare.json"), method = Array(RequestMethod.GET))

@@ -18,8 +18,7 @@ public class IanalyseServer {
         con.setPort(8000);
         server.addConnector(con);
         WebAppContext wac = new WebAppContext();
-        System.out.println(System.getProperty("env"));
-        if (System.getProperty("env").equals("production")) {
+        if ("production".equals(System.getProperty("env"))) {
             wac.setResourceBase("./ianalyse2");
         } else {
             System.setProperty("url", "http://deadlock.netbeans.org/hudson/api/xml");

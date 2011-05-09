@@ -23,7 +23,7 @@
 	<br/>
 
 	<div class="container">
-		<h2>Build times and success rate comparison</h2>
+		<h2>Passed and failed checkins for the commitors</h2>
         <div id="projects-${project}">
         </div>
         <script>
