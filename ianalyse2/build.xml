@@ -121,7 +121,7 @@
     </target>
 
 
-    <target name="pkg" depends="compile.server">
+    <target name="pkg" depends="compile.server, jar.source">
         <copy file="${dist.dir}/start.jar" todir="${dist.dir}/expanded"/>
         <copy file="${dist.dir}/ianalyse.jar" todir="app/webapp/WEB-INF/lib"/>
         <copy todir="${dist.dir}/expanded/ianalyse2">
@@ -135,7 +135,8 @@
     <target name="s" depends="pkg">
         <java dir="dist/expanded" jar="dist/expanded/start.jar" fork='true'>
             <sysproperty key="url" value="http://deadlock.netbeans.org/hudson/api/xml"></sysproperty>
-        </java>
+            <sysproperty key="env" value="production"></sysproperty>
+        </java>                           
     </target>
 
 </project>
