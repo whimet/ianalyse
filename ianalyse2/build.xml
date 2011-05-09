@@ -139,4 +139,10 @@
         </java>                           
     </target>
 
+    <target name="rea">
+        <java dir="dist/expanded" jar="dist/expanded/start.jar" fork='true'>
+            <sysproperty key="url" value="http://10.113.192.70:9080/api/xml"></sysproperty>
+            <sysproperty key="env" value="production"></sysproperty>
+        </java>
+    </target>
 </project>
