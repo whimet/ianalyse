@@ -14,14 +14,22 @@ class ProjectsController extends LogHelper {
 
   @RequestMapping(value = Array("/index"), method = Array(RequestMethod.GET))
   def index() = {
-    val data:HashMap[String, java.util.List[String]] =
-      new HashMap[String, java.util.List[String]]();
+    val data:HashMap[String, java.util.List[Project]] =
+      new HashMap[String, java.util.List[Project]]();
     data.put("projects", JavaConversions.asJavaList(Projects.inOrder))
     new ModelAndView("dashboard", data)
   }
 
-  @RequestMapping(value = Array("/compare"), method = Array(RequestMethod.GET))
+  @RequestMapping(value = Array("/compare.html"), method = Array(RequestMethod.GET))
   def compare() = {
+    val data:HashMap[String, java.util.List[Project]] =
+      new HashMap[String, java.util.List[Project]]();
+    data.put("projects", JavaConversions.asJavaList(Projects.inOrder))
+    new ModelAndView("compare", data)
+  }
+
+  @RequestMapping(value = Array("/compare.json"), method = Array(RequestMethod.GET))
+  def compareJson() = {
     val json: String = Projects.passRates.asJson
     new JsonView(json);
   }

@@ -11,7 +11,7 @@ $.ajax({
 function render_compare_projects(json) {
         var chart = new Highcharts.Chart({
         chart: {
-            renderTo: 'container'
+            renderTo: 'compare-pass-rate'
         },
         title: {
             text: 'Pass rate and build times between projects'
@@ -76,12 +76,12 @@ function render_compare_projects(json) {
         },
         series: [
         {
-            name: 'Builds',
+            name: 'Failed',
             color: 'red',
             type: 'column',
             data: json["failed"]
         },{
-            name: 'Builds',
+            name: 'Passed',
             color: '#89A54E',
             type: 'column',
             data: json["passed"]

@@ -4,7 +4,7 @@ function render_commitors(json, id) {
             renderTo: id
         },
         title: {
-            text: 'Result for each commitor'
+            text: ''
         },
         xAxis: {
             categories:json["names"],

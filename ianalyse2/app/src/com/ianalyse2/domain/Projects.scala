@@ -24,9 +24,9 @@ object Projects {
 
   def inOrder = {
     val sorted = projects.toSeq.sortBy(_._1)
-    var names: List[String] = List()
+    var names: List[Project] = List()
     for (val summary <- sorted) {
-      names = names ::: List(summary._1)
+      names = names ::: List(summary._2)
     }
     names
   }

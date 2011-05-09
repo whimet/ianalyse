@@ -16,55 +16,29 @@
     <script type="text/javascript" src="/ianalyse2/javascripts/commitors.js"></script>
 </head>
 <body>
-	<div class="container" id="header">
+    <div class="container" id="header">
 		<span id="title">iAnalyze</span>
 		<span id="subtitle">&nbsp;&nbsp;&nbsp;&nbsp;Tell more about your builds</span>
 	</div>
 	<br/>
-	<div class="container frame">
-		<div>We have analyzed 1 hudson server and get</div>
-		<div class="span-6 border big-text-box">
-			<div class="number">34</div> <div class="desc">projects</div>
-		</div>
-		<div class="span-6 border big-text-box build-success">
-			<div class="number">20</div> <div class="desc">successful</div>
-		</div>
-		<div class="span-6 border big-text-box build-failed">
-			<div class="number">9</div> <div class="desc">failed</div>
-		</div>
-	</div>
-    <div class="container">
-		<hr/>
-		<p>Select <a>all</a>, <a>none</a> projects to <a href="compare.html">compare them</a>.</p>
-		<form action="compare.html" method="GET">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<thead>
-					<tr>
-						<th class="span-8">Name</th>
-						<th class="span-4">Pass Count</th>
-						<th class="span-4">Failed Count</th>
-						<th class="span-4">Success Rate</th>
-						<th class="span-4">Avg Duration</th>
-					</tr>
-				</thead>
-				<tbody>
-				    <#list projects as project>
-					<tr>
-						<td><input type="checkbox" disabled checked><a href="/ianalyse2/project/${project.name()}.html">${project.name()}</a></td>
-						<td class="build-success">${project.passCount()}</td>
-						<td class="build-failed">${project.failedCount()}</td>
-						<td>${project.passRate()}%</td>
-						<td>${project.avgDuration()} min</td>
-					</tr>
-					</#list>
-				</tbody>
-			</table>
-			<button class="positive">Compare all </button>
-		</form>
+
+	<div class="container">
+		<h2>Build times and success rate comparison</h2>
+        <div id="projects-${project}">
+        </div>
+        <script>
+        jQuery(document).ready(function() {
+        $.ajax({
+          url: "/ianalyse2/project/${project}/commitors.json",
+          success: function(data, textStatus, jqXHR){
+                var obj = jQuery.parseJSON(jqXHR.responseText);
+                render_commitors(obj, "projects-${project}")
+          }
+        });
+        })
+        </script>
 	</div>
 
-	<br/>
-	<br/>
 	<br/>
 	<div id="footer" class="container">
 		<hr/>

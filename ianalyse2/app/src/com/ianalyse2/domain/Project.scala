@@ -5,8 +5,16 @@ class Project(val config: ProjectConfig) {
   private var builds: Builds = new Builds()
   //private var builds:Builds;
 
+  def name = {
+    config.name
+  }
+
   def commitorSummary = {
-      builds.commitResults
+    builds.commitResults
+  }
+
+  def length = {
+    builds.length
   }
 
   def get(index: Int) = {
@@ -23,6 +31,10 @@ class Project(val config: ProjectConfig) {
 
   def passRate = {
     builds.passRate
+  }
+
+  def avgDuration = {
+    builds.avgDuration / 60000
   }
 
   def update(builds: Builds) = {

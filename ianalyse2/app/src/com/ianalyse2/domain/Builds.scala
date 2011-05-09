@@ -40,6 +40,24 @@ class Builds extends LogHelper {
     builds.size
   }
 
+  def avgDuration = {
+    var count = 0;
+    var totalDuration = 0;
+    for (build <- builds) {
+      if (build.passed) {
+        count += 1
+        totalDuration += build.duration
+      }
+    }
+    if (count == 0) {
+      0
+    } else {
+      totalDuration / count
+    }
+
+  }
+
+
   def add(build: Build) = {
     builds = builds ::: List(build)
   }
