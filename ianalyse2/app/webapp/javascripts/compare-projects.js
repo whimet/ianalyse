@@ -71,7 +71,8 @@ function render_compare_projects(json) {
         },
         plotOptions: {
             column: {
-                stacking: 'normal'
+                stacking: 'normal',
+                borderWidth: 0
             }
         },
         series: [

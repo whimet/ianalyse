@@ -45,7 +45,8 @@ function render_commitors(json, id) {
         },
         plotOptions: {
             column: {
-                stacking: 'normal'
+                stacking: 'normal',
+                borderWidth: 0
             }
         },
         series: [
