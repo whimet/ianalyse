@@ -14,7 +14,7 @@ function render_compare_projects(json) {
             renderTo: 'compare-pass-rate'
         },
         title: {
-            text: 'Pass rate and build times between projects'
+            text: ''
         },
         xAxis: {
             categories:json["names"],
@@ -77,12 +77,12 @@ function render_compare_projects(json) {
         series: [
         {
             name: 'Failed',
-            color: 'red',
+            color: '#B90016',
             type: 'column',
             data: json["failed"]
         },{
             name: 'Passed',
-            color: '#89A54E',
+            color: '#52A622',
             type: 'column',
             data: json["passed"]
         }
