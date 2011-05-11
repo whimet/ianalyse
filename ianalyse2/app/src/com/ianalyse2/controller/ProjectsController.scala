@@ -14,8 +14,10 @@ class ProjectsController extends LogHelper {
 
   @RequestMapping(value = Array("/index"), method = Array(RequestMethod.GET))
   def index() = {
-    val data:HashMap[String, java.util.List[Project]] =
-      new HashMap[String, java.util.List[Project]]();
+    val data:HashMap[String, Object] = new HashMap[String, Object]();
+    data.put("count", new Integer(Projects.length))
+    data.put("failedCount", new Integer(Projects.failedCount))
+    data.put("passedCount", new Integer(Projects.passedCount))
     data.put("projects", JavaConversions.asJavaList(Projects.inOrder))
     new ModelAndView("projects/index", data)
   }

@@ -9,7 +9,19 @@ object Projects {
   def passRates = {
     new PassRates()
   }
+  def passedCount = {
+    var i = 0;
+    for (project <- projects) {
+      if (project._2.passed) {
+        i = i+ 1
+      }
+    }
+    i
+  }
 
+  def failedCount = {
+    length - passedCount
+  }
   def reset() {
     projects.clear
   }

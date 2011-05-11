@@ -21,6 +21,15 @@ class Project(val config: ProjectConfig) {
     builds.get(index);
   }
 
+  def passed = {
+    if (builds.length > 1) {
+      val i: Int = builds.length - 1
+      builds.builds(i).passed
+    } else {
+      false
+    }
+  }
+
   def passCount = {
     builds.passCount
   }

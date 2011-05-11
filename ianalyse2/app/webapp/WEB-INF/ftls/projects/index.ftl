@@ -24,13 +24,13 @@
 	<div class="container frame">
 		<div>We have analyzed 1 hudson server and get</div>
 		<div class="span-6 border big-text-box">
-			<div class="number">34</div> <div class="desc">projects</div>
+			<div class="number">${count}</div> <div class="desc">projects</div>
 		</div>
 		<div class="span-6 border big-text-box build-success">
-			<div class="number">20</div> <div class="desc">successful</div>
+			<div class="number">${passedCount}</div> <div class="desc">successful</div>
 		</div>
 		<div class="span-6 border big-text-box build-failed">
-			<div class="number">9</div> <div class="desc">failed</div>
+			<div class="number">${failedCount}</div> <div class="desc">failed</div>
 		</div>
 	</div>
     <div class="container">
