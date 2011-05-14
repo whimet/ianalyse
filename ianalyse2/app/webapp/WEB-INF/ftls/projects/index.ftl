@@ -24,13 +24,13 @@
 	<div class="container frame">
 		<div>We have analyzed 1 hudson server and get</div>
 		<div class="span-6 border big-text-box">
-			<div class="number">${count}</div> <div class="desc">projects</div>
+			<div class="number">${projects.count()}</div> <div class="desc">projects</div>
 		</div>
 		<div class="span-6 border big-text-box build-success">
-			<div class="number">${passedCount}</div> <div class="desc">successful</div>
+			<div class="number">${projects.passedCount()}</div> <div class="desc">successful</div>
 		</div>
 		<div class="span-6 border big-text-box build-failed">
-			<div class="number">${failedCount}</div> <div class="desc">failed</div>
+			<div class="number">${projects.failedCount()}</div> <div class="desc">failed</div>
 		</div>
 	</div>
     <div class="container">
@@ -48,9 +48,14 @@
 					</tr>
 				</thead>
 				<tbody>
-				    <#list projects as project>
+				    <#list projects.names() as name>
 					<tr>
-						<td><input type="checkbox" disabled checked><a href="/ianalyse2/project/${project.name()}.html">${project.name()}</a></td>
+						<td>
+						    <input type="checkbox" disabled checked>
+						    <a href="/ianalyse2/project/${project.name()}.html">
+						        ${project.name()}
+						    </a>
+						</td>
 						<td class="build-success">${project.passCount()}</td>
 						<td class="build-failed">${project.failedCount()}</td>
 						<td>${project.passRate()}%</td>

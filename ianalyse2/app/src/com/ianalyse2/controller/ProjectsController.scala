@@ -7,24 +7,21 @@ import com.ianalyse2.util.LogHelper
 import java.util.HashMap
 import com.ianalyse2.domain.{Project, Projects}
 import collection.JavaConversions
+import collection.immutable.Map
+import java.lang.String
 
 @Controller
 @RequestMapping(Array("/projects"))
 class ProjectsController extends LogHelper {
-
   @RequestMapping(value = Array("/index"), method = Array(RequestMethod.GET))
   def index() = {
-    val data:HashMap[String, Object] = new HashMap[String, Object]();
-    data.put("count", new Integer(Projects.length))
-    data.put("failedCount", new Integer(Projects.failedCount))
-    data.put("passedCount", new Integer(Projects.passedCount))
-    data.put("projects", JavaConversions.asJavaList(Projects.inOrder))
-    new ModelAndView("projects/index", data)
+    new ModelAndView("projects/index",
+      JavaConversions.asJavaMap(Map("projects" -> Projects)))
   }
 
   @RequestMapping(value = Array("/compare.html"), method = Array(RequestMethod.GET))
   def compare() = {
-    val data:HashMap[String, java.util.List[Project]] =
+    val data: HashMap[String, java.util.List[Project]] =
       new HashMap[String, java.util.List[Project]]();
     data.put("projects", JavaConversions.asJavaList(Projects.inOrder))
     new ModelAndView("projects/compare", data)

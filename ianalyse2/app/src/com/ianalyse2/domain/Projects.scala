@@ -1,8 +1,10 @@
 package com.ianalyse2.domain
 
 import collection.mutable.LinkedHashMap
+import collection.JavaConversions
+import java.util.ArrayList
 
-object Projects {
+object Projects  {
   var projects: LinkedHashMap[String, Project]
   = new LinkedHashMap[String, Project]();
 
@@ -46,6 +48,18 @@ object Projects {
   //  def get(index: Int) = {
   //    projects(index)
   //  }
+  def count = {
+    length
+  }
+
+  def names = {
+    JavaConversions.asJavaList(List(projects.keys))
+  }
+
+  @Override
+  def remove() {
+    //
+  }
 
   def length = {
     projects.size
