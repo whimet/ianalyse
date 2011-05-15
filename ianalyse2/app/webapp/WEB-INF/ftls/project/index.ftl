@@ -17,9 +17,28 @@
     <script type="text/javascript" src="/ianalyse2/javascripts/per-build.js"></script>
 </head>
 <body>
-    <div class="container" id="header">
+	<div class="container" id="header">
 		<span id="title">iAnalyze</span>
 		<span id="subtitle">&nbsp;&nbsp;&nbsp;&nbsp;Tell more about your builds</span>
+	</div>
+	<br/>
+	<div class="container frame">
+		<h1>Project ${project.name()}</h1>
+		<div class="span-4 border big-text-box">
+			<div class="number">${project.length()}</div> <div class="desc">build</div>
+		</div>
+		<div class="span-4 border big-text-box build-success">
+			<div class="number">${project.passCount()}</div> <div class="desc">successful</div>
+		</div>
+		<div class="span-4 border big-text-box build-failed">
+			<div class="number">${project.failedCount()}</div> <div class="desc">failed</div>
+		</div>
+		<div class="span-6 border big-text-box build-running">
+			<div class="number">${project.passRate()}%</div> <div class="desc">success rate</div>
+		</div>
+		<div class="span-6 last big-text-box build-running">
+			<div class="number">${project.avgDuration()} min</div> <div class="desc">taken by last build</div>
+		</div>
 	</div>
 	<br/>
 
@@ -30,10 +49,10 @@
         <script>
         jQuery(document).ready(function() {
         $.ajax({
-          url: "/ianalyse2/project/${project}/commitors.json",
+          url: "/ianalyse2/project/${project.name()}/commitors.json",
           success: function(data, textStatus, jqXHR){
                 var obj = jQuery.parseJSON(jqXHR.responseText);
-                render_commitors(obj, "projects-${project}")
+                render_commitors(obj)
           }
         });
         })
@@ -46,7 +65,7 @@
         <script type="text/javascript">
         jQuery(document).ready(function() {
         $.ajax({
-          url: "/ianalyse2/project/${project}/perbuild.json",
+          url: "/ianalyse2/project/${project.name()}/perbuild.json",
           success: function(data, textStatus, jqXHR){
                 var obj = jQuery.parseJSON(jqXHR.responseText);
                 per_build(obj,

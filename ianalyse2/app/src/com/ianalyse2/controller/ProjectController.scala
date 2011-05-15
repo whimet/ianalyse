@@ -5,16 +5,15 @@ import com.ianalyse2.util.LogHelper
 import com.ianalyse2.domain.Projects
 import org.springframework.web.bind.annotation.{PathVariable, RequestMethod, RequestMapping}
 import org.springframework.web.servlet.ModelAndView
-import java.util.HashMap
+import collection.JavaConversions
 
 @Controller
 @RequestMapping(Array("/project"))
 class ProjectController extends LogHelper {
   @RequestMapping(value = Array("/{project}.html"), method = Array(RequestMethod.GET))
   def index(@PathVariable project: String) = {
-    val data:HashMap[String, String] = new HashMap[String, String]();
-    data.put("project", project)
-    new ModelAndView("project/index", data)
+    new ModelAndView("project/index",
+      JavaConversions.asJavaMap(Map("project" -> Projects.find(project))))
   }
 
   @RequestMapping(value = Array("/{project}/commitors.json"), method = Array(RequestMethod.GET))
