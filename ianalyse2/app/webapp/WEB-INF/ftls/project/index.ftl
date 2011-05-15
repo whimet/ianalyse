@@ -14,6 +14,7 @@
     <script type="text/javascript" src="/ianalyse2/javascripts/highcharts.js"></script>
     <script type="text/javascript" src="/ianalyse2/javascripts/exporting.js"></script>
     <script type="text/javascript" src="/ianalyse2/javascripts/commitors.js"></script>
+    <script type="text/javascript" src="/ianalyse2/javascripts/per-build.js"></script>
 </head>
 <body>
     <div class="container" id="header">
@@ -24,7 +25,7 @@
 
 	<div class="container">
 		<h2>Passed and failed checkins for the commitors</h2>
-        <div id="projects-${project}">
+        <div id="per-commitor">
         </div>
         <script>
         jQuery(document).ready(function() {
@@ -37,6 +38,26 @@
         });
         })
         </script>
+	</div>
+	<div class="container">
+		<h2>something</h2>
+        <div id="per-build">
+        </div>
+        <script type="text/javascript">
+        jQuery(document).ready(function() {
+        $.ajax({
+          url: "/ianalyse2/project/${project}/perbuild.json",
+          success: function(data, textStatus, jqXHR){
+                var obj = jQuery.parseJSON(jqXHR.responseText);
+                per_build(obj,
+                "http://deadlock.netbeans.org/hudson/job/${project}/")
+          }
+        });
+        })
+
+
+        </script>
+
 	</div>
 
 	<br/>

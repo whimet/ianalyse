@@ -18,6 +18,9 @@ class Builds extends LogHelper {
     commitResults;
   }
 
+  def perBuild = {
+    new PerBuild(builds)
+  }
 
   def passRate = {
     if (length > 0) {

@@ -21,4 +21,9 @@ class ProjectController extends LogHelper {
   def commitors(@PathVariable project: String) = {
     new JsonView(Projects.find(project).commitorSummary.asJson);
   }
+
+  @RequestMapping(value = Array("/{project}/perbuild.json"), method = Array(RequestMethod.GET))
+  def perBuild(@PathVariable project: String) = {
+    new JsonView(Projects.find(project).perBuild.asJson);
+  }
 }

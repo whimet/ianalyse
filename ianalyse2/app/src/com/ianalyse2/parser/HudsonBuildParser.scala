@@ -2,12 +2,12 @@ package com.ianalyse2.parser
 
 
 import xml.{Elem, XML}
-import org.joda.time.DateTime
 import org.apache.commons.lang.{StringUtils}
 import java.io.{InputStream}
 import java.util.regex.{Matcher, Pattern}
 import com.ianalyse2.domain.{ProjectConfig, Builds, Build}
 import java.net.URL
+import org.joda.time.{DateTimeZone, DateTime}
 
 object HudonBuildParser {
 
@@ -33,7 +33,7 @@ object HudonBuildParser {
     val commitor = parseCommiter(elem)
     new Build(name((elem \ "url").text),
       (elem \ "number").text,
-      new DateTime(),
+      new DateTime((elem \ "timestamp").text.toLong, DateTimeZone.UTC),
       (elem \ "duration").text.toInt,
       result((elem \ "result").text),
       commitor);
@@ -44,7 +44,7 @@ object HudonBuildParser {
     val commitor = parseCommiter(elem)
     new Build(name((elem \ "url").text),
       (elem \ "number").text,
-      new DateTime(),
+      new DateTime((elem \ "timestamp").text.toLong, DateTimeZone.UTC),
       (elem \ "duration").text.toInt,
       result((elem \ "result").text),
       commitor);

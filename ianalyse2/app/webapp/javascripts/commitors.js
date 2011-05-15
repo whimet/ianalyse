@@ -1,7 +1,7 @@
-function render_commitors(json, id) {
+function render_commitors(json) {
         var chart = new Highcharts.Chart({
         chart: {
-            renderTo: id
+            renderTo: "per-commitor"
         },
         title: {
             text: ''

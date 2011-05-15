@@ -13,6 +13,10 @@ class Project(val config: ProjectConfig) {
     builds.commitResults
   }
 
+  def perBuild = {
+    builds.perBuild
+  }
+
   def length = {
     builds.length
   }
