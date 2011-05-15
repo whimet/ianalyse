@@ -3,8 +3,9 @@ package com.ianalyse2.domain
 import collection.mutable.LinkedHashMap
 import collection.JavaConversions
 import java.util.ArrayList
+import com.ianalyse2.util.LogHelper
 
-object Projects  {
+object Projects  extends LogHelper{
   var projects: LinkedHashMap[String, Project]
   = new LinkedHashMap[String, Project]();
 
@@ -33,6 +34,7 @@ object Projects  {
   }
 
   def find(name: String) = {
+    logger.info("name is " + name)
     projects(name)
   }
 
@@ -53,7 +55,7 @@ object Projects  {
   }
 
   def names = {
-    JavaConversions.asJavaList(List(projects.keys))
+    JavaConversions.asJavaList(projects.keys.toList)
   }
 
   @Override

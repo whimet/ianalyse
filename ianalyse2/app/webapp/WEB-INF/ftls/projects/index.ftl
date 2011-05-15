@@ -49,11 +49,12 @@
 				</thead>
 				<tbody>
 				    <#list projects.names() as name>
+				    <#assign project = projects.find(name)>
 					<tr>
 						<td>
 						    <input type="checkbox" disabled checked>
-						    <a href="/ianalyse2/project/${project.name()}.html">
-						        ${project.name()}
+						    <a href="/ianalyse2/project/${name}.html">
+						        ${name}
 						    </a>
 						</td>
 						<td class="build-success">${project.passCount()}</td>
