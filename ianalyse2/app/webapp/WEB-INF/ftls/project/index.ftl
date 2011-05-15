@@ -40,7 +40,7 @@
         </script>
 	</div>
 	<div class="container">
-		<h2>something</h2>
+		<h2>Date and Time of each build</h2>
         <div id="per-build">
         </div>
         <script type="text/javascript">
