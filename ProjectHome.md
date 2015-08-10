@@ -1,0 +1,1 @@
+analyse the log of CruiseControl and generates the reports
